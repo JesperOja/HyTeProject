@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         private BottomSheetBehavior sheetBehavior;
         private TextView bottomSheetDate;
         private ImageView bottomSheetImg;
+        private Button addButton;
         Date date = new Date();
         SimpleDateFormat thisday = new SimpleDateFormat("EEEE");
         String calendarDay;
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
             mBottomSheetLayout = findViewById(R.id.bottom_sheet_layout);
             sheetBehavior = BottomSheetBehavior.from(mBottomSheetLayout);
             bottomSheetImg = findViewById(R.id.bottomSheetImg);
+            addButton = findViewById(R.id.addButton);
             sheetBehavior.setExpandedOffset(80);
             calendar = findViewById(R.id.calendar);
             date_view = findViewById(R.id.date_view);

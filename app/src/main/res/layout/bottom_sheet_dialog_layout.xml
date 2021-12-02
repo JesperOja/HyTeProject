@@ -5,9 +5,9 @@
     android:id="@+id/bottom_sheet_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#9C27B0"
-    android:orientation="vertical"
+    android:background="#533883"
 
+    android:orientation="vertical"
     app:behavior_hideable="false"
     app:behavior_peekHeight="50dp"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
@@ -36,4 +36,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bottomSheetImg"
         app:layout_constraintVertical_bias="0.087" />
+
+    <Button
+        android:id="@+id/addButton"
+        android:layout_width="94dp"
+        android:layout_height="54dp"
+        android:text="Add"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/BottomSheetDate"
+        app:layout_constraintVertical_bias="0.599" />
 </androidx.constraintlayout.widget.ConstraintLayout>
