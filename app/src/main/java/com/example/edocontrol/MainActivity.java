@@ -2,6 +2,7 @@ package com.example.edocontrol;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.os.Bundle;
 
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -28,9 +30,10 @@ public class MainActivity extends AppCompatActivity {
         // and TextView type;
         CalendarView calendar;
         TextView date_view;
-        private LinearLayout mBottomSheetLayout;
+        private ConstraintLayout mBottomSheetLayout;
         private BottomSheetBehavior sheetBehavior;
-        private Button testi;
+        private TextView bottomSheetDate;
+        private ImageView bottomSheetImg;
         Date date = new Date();
         SimpleDateFormat thisday = new SimpleDateFormat("EEEE");
         String calendarDay;
@@ -40,12 +43,14 @@ public class MainActivity extends AppCompatActivity {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
 
+            bottomSheetDate = findViewById(R.id.BottomSheetDate);
             mBottomSheetLayout = findViewById(R.id.bottom_sheet_layout);
             sheetBehavior = BottomSheetBehavior.from(mBottomSheetLayout);
-
+            bottomSheetImg = findViewById(R.id.bottomSheetImg);
+            sheetBehavior.setExpandedOffset(80);
             calendar = findViewById(R.id.calendar);
             date_view = findViewById(R.id.date_view);
-            testi = findViewById(R.id.button);
+
             date_view.setText(thisday.format(date) + " " +date.getDate() + "." +date.getMonth() + "." + date.getYear());
 
             calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
@@ -56,10 +61,7 @@ public class MainActivity extends AppCompatActivity {
                         int year,
                         int month,
                         int dayOfMonth) {
-                    if(sheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED){
-                        sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                        Log.d("testi", "Täällä");
-                    }
+
 
                     Calendar calendar = Calendar.getInstance();
                     calendar.set(year,month,dayOfMonth);
@@ -77,7 +79,11 @@ public class MainActivity extends AppCompatActivity {
                     String Date
                             =  calendarDay + " " +dayOfMonth + "."
                             + (month + 1) + "." + year;
-
+                    if(sheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED){
+                        sheetBehavior.setHalfExpandedRatio((float) 0.35);
+                        sheetBehavior.setState(BottomSheetBehavior.STATE_HALF_EXPANDED);
+                        bottomSheetDate.setText(Date);
+                    }
                     // set this date in TextView for Display
                     date_view.setText(Date);
                 }
@@ -85,11 +91,12 @@ public class MainActivity extends AppCompatActivity {
             sheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
                 @Override
                 public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                    bottomSheetImg.setAlpha(255);
                 }
                 @Override
                 public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+                    bottomSheetImg.setAlpha(100);
 
-                    testi.setRotation(slideOffset * 180);
                 }
             });
         }
