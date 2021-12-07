@@ -90,24 +90,30 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
 
     @Override
     public void onItemClick(int position, LocalDate date) {
+
             CalendarUtils.selectedDate = date;
-            setMonthView();
-        if(sheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED){
-            sheetBehavior.setHalfExpandedRatio((float) 0.20);
-            sheetBehavior.setState(BottomSheetBehavior.STATE_HALF_EXPANDED);
-            bottomSheetDate.setText(date.getDayOfMonth() +" of " +monthYearFromDate(CalendarUtils.selectedDate));
-        }
+            if(date==null){
 
-        sheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-            @Override
-            public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                bottomSheetImg.setAlpha(255);
-            }
-            @Override
-            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-                bottomSheetImg.setAlpha(100);
+            }else {
+                setMonthView();
+                if (sheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
+                    sheetBehavior.setHalfExpandedRatio((float) 0.20);
+                    sheetBehavior.setState(BottomSheetBehavior.STATE_HALF_EXPANDED);
+                    bottomSheetDate.setText(date.getDayOfMonth() + " of " + monthYearFromDate(CalendarUtils.selectedDate));
+                }
 
+                sheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+                    @Override
+                    public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                        bottomSheetImg.setAlpha(255);
+                    }
+
+                    @Override
+                    public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+                        bottomSheetImg.setAlpha(100);
+
+                    }
+                });
             }
-        });
     }
 }
