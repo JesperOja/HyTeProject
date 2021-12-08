@@ -3,15 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Opiskelu/Digitaalinen Media Projekti/API_project/HyTeProject/app/src/main/res/drawable/btn_sign_in.xml" value="0.22135416666666666" />
-        <entry key="..\:/Opiskelu/Digitaalinen Media Projekti/API_project/HyTeProject/app/src/main/res/layout-w1240dp/activity_login.xml" value="0.22" />
-        <entry key="..\:/Opiskelu/Digitaalinen Media Projekti/API_project/HyTeProject/app/src/main/res/layout-w936dp/activity_login.xml" value="0.5" />
-        <entry key="..\:/Opiskelu/Digitaalinen Media Projekti/API_project/HyTeProject/app/src/main/res/layout-w936dp/register_window.xml" value="0.1" />
-        <entry key="..\:/Opiskelu/Digitaalinen Media Projekti/API_project/HyTeProject/app/src/main/res/layout/activity_login.xml" value="0.33" />
-        <entry key="..\:/Opiskelu/Digitaalinen Media Projekti/API_project/HyTeProject/app/src/main/res/layout/activity_main.xml" value="0.22" />
-        <entry key="..\:/Opiskelu/Digitaalinen Media Projekti/API_project/HyTeProject/app/src/main/res/layout/authorization_window.xml" value="0.20520833333333333" />
-        <entry key="..\:/Opiskelu/Digitaalinen Media Projekti/API_project/HyTeProject/app/src/main/res/layout/register_window.xml" value="0.20520833333333333" />
-        <entry key="..\:/Users/Jepsu/Documents/Koulu/Edocontrol/app/src/main/res/layout/activity_main.xml" value="0.3061594202898551" />
+        <entry key="..\:/Users/Jepsu/Documents/Koulu/Edocontrol/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Users/Jepsu/Documents/Koulu/Edocontrol/app/src/main/res/layout/bottom_sheet_dialog_layout.xml" value="0.5" />
         <entry key="..\:/Users/Jepsu/Documents/Koulu/Edocontrol/app/src/main/res/layout/calendar_cell.xml" value="0.22135416666666666" />
       </map>
