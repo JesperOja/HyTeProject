@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="45dp"
             app:menu="@menu/top_app_bar"
-            app:title="Edocontrol"
+            app:title="Endocontrol"
             android:textAlignment="center"/>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -139,7 +139,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/calendarRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="540dp"></androidx.recyclerview.widget.RecyclerView>
+            android:layout_height="400dp"></androidx.recyclerview.widget.RecyclerView>
 
 
     </LinearLayout>
