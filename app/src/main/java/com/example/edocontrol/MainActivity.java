@@ -24,34 +24,37 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+/**
+ * Mainactivity that show calendar and bottomsheet, which shows notes for that day
+ *
+ * @author Jesper Oja
+ * @version 1.0
+ */
 
 
-
-public class MainActivity extends AppCompatActivity implements CalendarAdapter.OnItemListener{
-
-
-        private RecyclerView calendarRecyclerView;
-        private TextView monthYear;
-        private ConstraintLayout mBottomSheetLayout;
-        private BottomSheetBehavior sheetBehavior;
-        private TextView bottomSheetDate;
-        private ImageView bottomSheetImg;
-        private Button addButton;
+public class MainActivity extends AppCompatActivity implements CalendarAdapter.OnItemListener {
 
 
+    private RecyclerView calendarRecyclerView;
+    private TextView monthYear;
+    private ConstraintLayout mBottomSheetLayout;
+    private BottomSheetBehavior sheetBehavior;
+    private TextView bottomSheetDate;
+    private ImageView bottomSheetImg;
+    private Button addButton;
 
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_main);
 
-            initWidget();
-            CalendarUtils.selectedDate = LocalDate.now();
-            setMonthView();
-            bottomSheetDate.setText(CalendarUtils.selectedDate.getDayOfWeek()+ " "+ CalendarUtils.selectedDate.getDayOfMonth() + " of " +monthYearFromDate(CalendarUtils.selectedDate));
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-        }
+        initWidget();
+        CalendarUtils.selectedDate = LocalDate.now();
+        setMonthView();
+        bottomSheetDate.setText(CalendarUtils.selectedDate.getDayOfWeek() + " " + CalendarUtils.selectedDate.getDayOfMonth() + " of " + monthYearFromDate(CalendarUtils.selectedDate));
 
+    }
 
 
     private void initWidget() {
@@ -64,8 +67,9 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         calendarRecyclerView = findViewById(R.id.calendarRecyclerView);
         monthYear = findViewById(R.id.monthYearTV);
     }
+
     private void setMonthView() {
-            monthYear.setText(monthYearFromDate(CalendarUtils.selectedDate));
+        monthYear.setText(monthYearFromDate(CalendarUtils.selectedDate));
         ArrayList<LocalDate> daysInMonth = daysInMonthArray(CalendarUtils.selectedDate);
 
         CalendarAdapter calendarAdapter = new CalendarAdapter(daysInMonth, this);
@@ -74,46 +78,59 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         calendarRecyclerView.setAdapter(calendarAdapter);
     }
 
-
-
-
+    /**
+     * Previous month button action
+     *
+     * @param view
+     */
     public void previousMonthAction(View view) {
 
         CalendarUtils.selectedDate = CalendarUtils.selectedDate.minusMonths(1);
-            setMonthView();
+        setMonthView();
     }
 
+    /**
+     * Next month button action
+     *
+     * @param view
+     */
     public void nextMonthAction(View view) {
         CalendarUtils.selectedDate = CalendarUtils.selectedDate.plusMonths(1);
-            setMonthView();
+        setMonthView();
     }
 
+    /**
+     * OnClick method for days in calendar
+     *
+     * @param position
+     * @param date
+     */
     @Override
     public void onItemClick(int position, LocalDate date) {
 
-            CalendarUtils.selectedDate = date;
-            if(date==null){
+        CalendarUtils.selectedDate = date;
+        if (date == null) {
 
-            }else {
-                setMonthView();
-                if (sheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
-                    sheetBehavior.setHalfExpandedRatio((float) 0.20);
-                    sheetBehavior.setState(BottomSheetBehavior.STATE_HALF_EXPANDED);
-                    bottomSheetDate.setText(date.getDayOfMonth() + " of " + monthYearFromDate(CalendarUtils.selectedDate));
+        } else {
+            setMonthView();
+            if (sheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
+                sheetBehavior.setHalfExpandedRatio((float) 0.20);
+                sheetBehavior.setState(BottomSheetBehavior.STATE_HALF_EXPANDED);
+                bottomSheetDate.setText(date.getDayOfMonth() + " of " + monthYearFromDate(CalendarUtils.selectedDate));
+            }
+
+            sheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+                @Override
+                public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                    bottomSheetImg.setAlpha(255);
                 }
 
-                sheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-                    @Override
-                    public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                        bottomSheetImg.setAlpha(255);
-                    }
+                @Override
+                public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+                    bottomSheetImg.setAlpha(100);
 
-                    @Override
-                    public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-                        bottomSheetImg.setAlpha(100);
-
-                    }
-                });
-            }
+                }
+            });
+        }
     }
 }

@@ -5,6 +5,11 @@ import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+/**
+ * Every calendar focused method that is used in various places
+ *
+ * @author Jesper Oja
+ */
 public class CalendarUtils {
     public static LocalDate selectedDate;
 
