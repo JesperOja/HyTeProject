@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "112903682099",
+    "project_id": "endocontrol-1a66b",
+    "storage_bucket": "endocontrol-1a66b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:112903682099:android:61f2522a6590b674a44b46",
+        "android_client_info": {
+          "package_name": "com.example.edocontrol"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "112903682099-hscvrecs48iiuc3v136dnacreqkoito2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.edocontrol",
+            "certificate_hash": "43c3695d7b3f142922021b5b8b5381d6948b0e80"
+          }
+        },
+        {
+          "client_id": "112903682099-5r1mc5bhmfitpo6ckjk1p4v2dfunndlv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMbLN_z-7S2APrTLvZkiOuSo2P1SwJVZc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "112903682099-5r1mc5bhmfitpo6ckjk1p4v2dfunndlv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
