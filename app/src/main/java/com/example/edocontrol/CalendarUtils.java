@@ -11,8 +11,18 @@ import java.util.ArrayList;
  * @author Jesper Oja
  */
 public class CalendarUtils {
+
+    /**
+     *
+     */
     public static LocalDate selectedDate;
 
+    /**
+     * ArrayList to hold every day in a month.
+     *
+     * @param date Gives date
+     * @return Full ArrayList that has dates of specific month
+     */
     public static ArrayList<LocalDate> daysInMonthArray(LocalDate date) {
         ArrayList<LocalDate> daysInMonthArray = new ArrayList<>();
         YearMonth yearMonth = YearMonth.from(date);
@@ -31,6 +41,13 @@ public class CalendarUtils {
         }
         return daysInMonthArray;
     }
+
+    /**
+     * Tells which month and year it iis
+     *
+     * @param date Gets specific date
+     * @return String - formatted from date
+     */
     public static String monthYearFromDate(LocalDate date){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yyyy");
         return date.format(formatter);
