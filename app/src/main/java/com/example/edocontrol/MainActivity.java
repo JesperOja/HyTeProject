@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         } else {
             setMonthView();
             if (sheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
-                sheetBehavior.setHalfExpandedRatio((float) 0.20);
+                sheetBehavior.setHalfExpandedRatio((float) 0.15);
                 sheetBehavior.setState(BottomSheetBehavior.STATE_HALF_EXPANDED);
                 bottomSheetDate.setText(date.getDayOfMonth() + " of " + monthYearFromDate(CalendarUtils.selectedDate));
             }
@@ -141,10 +141,12 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
             });
         }
     }
-
+/*
     public void addNewInfo(View view) {
         Intent intent = new Intent(this, InfoActivity.class);
 
 
     }
+
+ */
 }
