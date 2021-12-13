@@ -9,6 +9,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -42,7 +43,12 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     private TextView bottomSheetDate;
     private ImageView bottomSheetImg;
     private Button addButton;
-
+    public static final String EXTRA_DAY = "ClickedDay";
+    public static final String EXTRA_MONTH = "ClickedMonth";
+    public static final String EXTRA_YEAR = "ClickedYear";
+    private String thisDay;
+    private String thisMonth;
+    private String thisYear;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +113,9 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
      */
     @Override
     public void onItemClick(int position, LocalDate date) {
-
+        thisDay = Integer.toString(date.getDayOfMonth());
+        thisMonth = Integer.toString(date.getMonthValue());
+        thisYear = Integer.toString(date.getYear());
         CalendarUtils.selectedDate = date;
         if (date == null) {
 
@@ -132,5 +140,11 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
                 }
             });
         }
+    }
+
+    public void addNewInfo(View view) {
+        Intent intent = new Intent(this, InfoActivity.class);
+
+
     }
 }
