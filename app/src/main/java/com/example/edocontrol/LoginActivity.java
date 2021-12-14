@@ -76,19 +76,6 @@ public class LoginActivity extends AppCompatActivity {
                 dialogInterface.dismiss();
             }
         });
-        dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
-            @Override
-            public boolean onKey(DialogInterface dialogInterface, int keyCode, KeyEvent event) {
-                if(event.getAction()!=KeyEvent.ACTION_DOWN) {
-                    return false;
-                }
-                if(event.getAction()==KeyEvent.KEYCODE_BACK){
-                    dialogInterface.dismiss();
-                    return true;
-                }
-                return false;
-            }
-        });
 
         dialog.setPositiveButton("Login", new DialogInterface.OnClickListener() {
             @Override
@@ -145,51 +132,50 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         dialog.setPositiveButton("Add", new DialogInterface.OnClickListener() {
-            public void regInfo(DialogInterface dialogInterface, int which){
-                if(TextUtils.isEmpty(email.getText().toString())){
-                    Snackbar.make(root, "Enter email", Snackbar.LENGTH_LONG).show();
-                    return;
-                }
-                if(TextUtils.isEmpty(name.getText().toString())){
-                    Snackbar.make(root, "Enter name", Snackbar.LENGTH_LONG).show();
-                    return;
-                }
-                if(TextUtils.isEmpty(phone.getText().toString())){
-                    Snackbar.make(root, "Enter phone number", Snackbar.LENGTH_LONG).show();
-                    return;
-                }
-                if(pass.getText().toString().length() < 5){
-                    Snackbar.make(root, "Password is to short", Snackbar.LENGTH_LONG).show();
-                    return;
-                }
-
-                //User registration
-                auth.createUserWithEmailAndPassword(email.getText().toString(), pass.getText().toString()).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                    @Override
-                    public void onSuccess(AuthResult authResult) {
-                        User user = new User();
-                        user.setEmail(email.getText().toString());
-                        user.setName(name.getText().toString());
-                        user.setPassword(pass.getText().toString());
-                        user.setPhone(phone.getText().toString());
-
-                        users.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-                                Snackbar.make(root, "User added!", Snackbar.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Snackbar.make(root, "Registration Error. " + e.getMessage(), Snackbar.LENGTH_SHORT).show();
-                    }
-                });
-            }
             @Override
             public void onClick(DialogInterface dialogInterface, int which) {
-                regInfo(dialogInterface, which);
+                {
+                    if(TextUtils.isEmpty(email.getText().toString())){
+                        Snackbar.make(root, "Enter email", Snackbar.LENGTH_LONG).show();
+                        return;
+                    }
+                    if(TextUtils.isEmpty(name.getText().toString())){
+                        Snackbar.make(root, "Enter name", Snackbar.LENGTH_LONG).show();
+                        return;
+                    }
+                    if(TextUtils.isEmpty(phone.getText().toString())){
+                        Snackbar.make(root, "Enter phone number", Snackbar.LENGTH_LONG).show();
+                        return;
+                    }
+                    if(pass.getText().toString().length() < 5){
+                        Snackbar.make(root, "Password is to short", Snackbar.LENGTH_LONG).show();
+                        return;
+                    }
+
+                    //User registration
+                    auth.createUserWithEmailAndPassword(email.getText().toString(), pass.getText().toString()).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                        @Override
+                        public void onSuccess(AuthResult authResult) {
+                            User user = new User();
+                            user.setEmail(email.getText().toString());
+                            user.setName(name.getText().toString());
+                            user.setPassword(pass.getText().toString());
+                            user.setPhone(phone.getText().toString());
+
+                            users.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    Snackbar.make(root, "User added!", Snackbar.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Snackbar.make(root, "Registration Error. " + e.getMessage(), Snackbar.LENGTH_SHORT).show();
+                        }
+                    });
+                }
             }
         });
 
