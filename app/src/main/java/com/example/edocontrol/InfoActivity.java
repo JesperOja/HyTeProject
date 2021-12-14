@@ -164,7 +164,7 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
 
-            if (appontmentButton.isActivated()){
+            if (appontmentButton.isChecked()){
                 bool = true;
             }
 /*
