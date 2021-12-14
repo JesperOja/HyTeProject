@@ -4,27 +4,21 @@ import android.annotation.SuppressLint;
 import android.app.backup.BackupManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.database.sqlite.*;
 import android.widget.Toast;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatCheckBox;
 
 import java.time.LocalDate;
-import java.util.Locale;
 
 public class InfoActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher{
     private RadioGroup groupPeriodIntensity;
@@ -60,6 +54,7 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
     private Meds meds;
     private Appointment appointment;
     private String clickedDate;
+    private String notes;
 
 
 
@@ -208,11 +203,8 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
             }
 
             // Notes
-            if (editNotes.toString().isEmpty()){
-
-            }
-            else {
-                endoDB.addEntryDetails(editNotes.toString());
+            if (!editNotes.toString().isEmpty()){
+                notes = editNotes.toString();
             }
 
             // Pain
@@ -252,7 +244,7 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
                 meds = new Meds(3); // 3 = Herbal remedies
             }
 
-            endoDB.addEverything(period,pain,true,meds,clickedDate);
+            endoDB.addEverything(period,pain,true,meds,clickedDate,notes);
 
             // Shows on data save
             @SuppressLint("WrongConstant")

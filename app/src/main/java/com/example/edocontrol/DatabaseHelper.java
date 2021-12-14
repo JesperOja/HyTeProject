@@ -2,16 +2,12 @@ package com.example.edocontrol;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
+
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
-import java.net.PortUnreachableException;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -144,7 +140,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void addEverything(Period period, Pain pain, Boolean bool, Meds meds, String date){
+    public void addEverything(Period period, Pain pain, Boolean bool, Meds meds, String date, String note){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
@@ -154,6 +150,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_ENDO_APPOINTMENT,bool); //lääkärikäynti
         cv.put(COLUMN_ENDO_MEDS, meds.getMedType()); // Medication
         cv.put(COLUMN_ID, date);
+        cv.put(COLUMN_NOTES, note);
 
         db.insert(ENDO_TABLE, null, cv);
     }
