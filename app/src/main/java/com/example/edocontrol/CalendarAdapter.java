@@ -57,7 +57,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
         }else{
 
             Cursor cursor = MainActivity.db.rawQuery(queryString, null);
-            Log.d("Testaus", "Täällä");
+
         if(date == null)
             holder.dayOfMonth.setText("");
         else

@@ -43,7 +43,7 @@
         android:layout_height="54dp"
         android:text="Add"
         android:textSize="22sp"
-        android:onClick="AddEntry"
+        android:onClick="AddNotes"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

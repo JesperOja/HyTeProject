@@ -162,10 +162,13 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
             cursor.close();
     }
 
-    public void AddEntry(View view) {
-            Intent intent = new Intent(this, InfoActivity.class);
-            intent.putExtra(EXTRA_DATE,addNotesToDate);
 
-            startActivity(intent);
+}
+
+    public void AddNotes(View view) {
+        Intent intent = new Intent(this, InfoActivity.class);
+        intent.putExtra(EXTRA_DATE,addNotesToDate);
+
+        startActivity(intent);
     }
 }
