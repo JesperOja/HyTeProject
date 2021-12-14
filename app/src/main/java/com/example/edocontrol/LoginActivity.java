@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -20,8 +21,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
 import com.rengwuxian.materialedittext.MaterialEditText;
+
+/**
+ * This class helps to create new user or login into the app
+ */
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -57,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
+    //User signing in
     private void showSignInWindow() {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         dialog.setTitle("Login");
@@ -102,14 +106,14 @@ public class LoginActivity extends AppCompatActivity {
                         Snackbar.make(root, "Authorization Error. " + e.getMessage(), Snackbar.LENGTH_SHORT).show();
                     }
                 });
-                //User registration
+
             }
         });
 
         dialog.show();
 
     }
-
+    //User registration
     private void showRegisterWindow() {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         dialog.setTitle("Register");
@@ -134,46 +138,48 @@ public class LoginActivity extends AppCompatActivity {
         dialog.setPositiveButton("Add", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int which) {
-                if(TextUtils.isEmpty(email.getText().toString())){
-                    Snackbar.make(root, "Enter email", Snackbar.LENGTH_LONG).show();
-                    return;
-                }
-                if(TextUtils.isEmpty(name.getText().toString())){
-                    Snackbar.make(root, "Enter name", Snackbar.LENGTH_LONG).show();
-                    return;
-                }
-                if(TextUtils.isEmpty(phone.getText().toString())){
-                    Snackbar.make(root, "Enter phone number", Snackbar.LENGTH_LONG).show();
-                    return;
-                }
-                if(pass.getText().toString().length() < 5){
-                    Snackbar.make(root, "Password is to short", Snackbar.LENGTH_LONG).show();
-                    return;
-                }
-
-                //User registration
-                auth.createUserWithEmailAndPassword(email.getText().toString(), pass.getText().toString()).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                    @Override
-                    public void onSuccess(AuthResult authResult) {
-                        User user = new User();
-                        user.setEmail(email.getText().toString());
-                        user.setName(name.getText().toString());
-                        user.setPassword(pass.getText().toString());
-                        user.setPhone(phone.getText().toString());
-
-                        users.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-                                Snackbar.make(root, "User added!", Snackbar.LENGTH_SHORT).show();
-                            }
-                        });
+                {
+                    if(TextUtils.isEmpty(email.getText().toString())){
+                        Snackbar.make(root, "Enter email", Snackbar.LENGTH_LONG).show();
+                        return;
                     }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Snackbar.make(root, "Authorization Error. " + e.getMessage(), Snackbar.LENGTH_SHORT).show();
+                    if(TextUtils.isEmpty(name.getText().toString())){
+                        Snackbar.make(root, "Enter name", Snackbar.LENGTH_LONG).show();
+                        return;
                     }
-                });
+                    if(TextUtils.isEmpty(phone.getText().toString())){
+                        Snackbar.make(root, "Enter phone number", Snackbar.LENGTH_LONG).show();
+                        return;
+                    }
+                    if(pass.getText().toString().length() < 5){
+                        Snackbar.make(root, "Password is to short", Snackbar.LENGTH_LONG).show();
+                        return;
+                    }
+
+                    //User registration
+                    auth.createUserWithEmailAndPassword(email.getText().toString(), pass.getText().toString()).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                        @Override
+                        public void onSuccess(AuthResult authResult) {
+                            User user = new User();
+                            user.setEmail(email.getText().toString());
+                            user.setName(name.getText().toString());
+                            user.setPassword(pass.getText().toString());
+                            user.setPhone(phone.getText().toString());
+
+                            users.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    Snackbar.make(root, "User added!", Snackbar.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Snackbar.make(root, "Registration Error. " + e.getMessage(), Snackbar.LENGTH_SHORT).show();
+                        }
+                    });
+                }
             }
         });
 
