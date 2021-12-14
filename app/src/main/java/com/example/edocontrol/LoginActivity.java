@@ -23,6 +23,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+/**
+ * This class helps to create new user or login into the app
+ */
+
 public class LoginActivity extends AppCompatActivity {
 
     Button btnSignIn, btnRegister;
