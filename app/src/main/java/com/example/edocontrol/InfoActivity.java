@@ -1,5 +1,6 @@
 package com.example.edocontrol;
 
+import android.annotation.SuppressLint;
 import android.app.backup.BackupManager;
 import android.content.Context;
 import android.content.Intent;
@@ -8,21 +9,47 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.database.sqlite.*;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatCheckBox;
 
+import java.time.LocalDate;
 import java.util.Locale;
 
-public class InfoActivity extends MainActivity implements View.OnClickListener, TextWatcher {
+public class InfoActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher{
     private RadioButton buttonPeriodIntensity1;
     private RadioButton buttonPeriodIntensity2;
     private RadioButton buttonPeriodIntensity3;
     private RadioButton buttonPeriodIntensity4;
+    private RadioButton buttonPeriodYes;
+    private RadioButton buttonPeriodNo;
+    private RadioButton buttonPain1;
+    private RadioButton buttonPain2;
+    private RadioButton buttonPain3;
+    private RadioButton buttonPain4;
+    private RadioButton buttonPain5;
+    private CheckBox medsBox1;
+    private CheckBox medsBox2;
+    private CheckBox medsBox3;
+    private CheckBox medsBox4;
+    private Button saveButton;
+    private Switch appontmentButton;
+    private LocalDate localDate;
+    public DatabaseHelper endoDB;
+    public DatabaseHelper dateDB;
+    private TextView editNotes;
+    private Period period;
+    private Pain pain;
+
 
     /**
      * Aktiviteetti luodaan
@@ -31,213 +58,157 @@ public class InfoActivity extends MainActivity implements View.OnClickListener, 
     public void onCreate(Bundle savedInstanceState) {
         final Context context = getApplicationContext();
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_info);
-
+/*
         // Backbutton
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
-
+*/
         // Hae tiedot
         Intent intent = getIntent();
-        int year = intent.getIntExtra("year", 2000);
-        int month = intent.getIntExtra("month", 1);
-        int day = intent.getIntExtra("day", 1);
 
-        endo.db = new EndoDatabase(context);
-        endo.db.loadCalculatedData();
-        entry = endo.db.getEntryWithDetails(year, month, day);
+        localDate = LocalDate.now();
+
+        dateDB = new DatabaseHelper(InfoActivity.this);
+        endoDB = new DatabaseHelper(InfoActivity.this);
+        dateDB.addDate(localDate.toString());
 
         // Aseta vuoto
-        RadioButton buttonPeriodYes = findViewById(R.id.periodYes);
-        RadioButton buttonPeriodNo = findViewById(R.id.periodNo);
-        boolean intensityEnabled = false;
-
-        switch (entry.type) {
-            case PERIOD_START:
-            case PERIOD_CONFIRMED:
-                buttonPeriodYes.setChecked(true);
-                intensityEnabled = true;
-                break;
-            default:
-                buttonPeriodNo.setChecked(true);
-                // Default intensity for new period days
-                entry.intensity = 2;
-                break;
-        }
-
+        buttonPeriodYes = findViewById(R.id.periodYes);
+        buttonPeriodNo = findViewById(R.id.periodNo);
         buttonPeriodYes.setOnClickListener(this);
         buttonPeriodNo.setOnClickListener(this);
+
 
         // Set period intensity
         buttonPeriodIntensity1 = findViewById(R.id.periodIntensity1);
         buttonPeriodIntensity2 = findViewById(R.id.periodIntensity2);
         buttonPeriodIntensity3 = findViewById(R.id.periodIntensity3);
         buttonPeriodIntensity4 = findViewById(R.id.periodIntensity4);
-
-        switch (entry.intensity) {
-            case 1:
-                buttonPeriodIntensity1.setChecked(true);
-                break;
-            case 2:
-                buttonPeriodIntensity2.setChecked(true);
-                break;
-            case 3:
-                buttonPeriodIntensity3.setChecked(true);
-                break;
-            case 4:
-                buttonPeriodIntensity4.setChecked(true);
-                break;
-        }
-
-        buttonPeriodIntensity1.setEnabled(intensityEnabled);
-        buttonPeriodIntensity2.setEnabled(intensityEnabled);
-        buttonPeriodIntensity3.setEnabled(intensityEnabled);
-        buttonPeriodIntensity4.setEnabled(intensityEnabled);
         buttonPeriodIntensity1.setOnClickListener(this);
         buttonPeriodIntensity2.setOnClickListener(this);
         buttonPeriodIntensity3.setOnClickListener(this);
         buttonPeriodIntensity4.setOnClickListener(this);
+        buttonPeriodIntensity1.setEnabled(false);
+        buttonPeriodIntensity2.setEnabled(false);
+        buttonPeriodIntensity3.setEnabled(false);
+        buttonPeriodIntensity4.setEnabled(false);
+
+        // Pain
+        buttonPain1 = findViewById(R.id.pain1);
+        buttonPain2 = findViewById(R.id.pain2);
+        buttonPain3 = findViewById(R.id.pain3);
+        buttonPain4 = findViewById(R.id.pain4);
+        buttonPain5 = findViewById(R.id.pain5);
+        buttonPain1.setOnClickListener(this);
+        buttonPain2.setOnClickListener(this);
+        buttonPain3.setOnClickListener(this);
+        buttonPain4.setOnClickListener(this);
+        buttonPain5.setOnClickListener(this);
+
+        // Lääkärikäynti
+        appontmentButton = findViewById(R.id.appointmentButton);
+        appontmentButton.setOnClickListener(this);
+
 
         // Muistiinpanot
-        TextView editNotes = findViewById(R.id.editNotes);
-        editNotes.setText(entry.notes);
+        editNotes = findViewById(R.id.editNotes);
         editNotes.addTextChangedListener(this);
 
-        // Oireet ja tapahtumat
-        LinearLayout groupAppointments = findViewById(R.id.groupAppointments);
-        LinearLayout groupMeds = findViewById(R.id.groupMeds);
-        LinearLayout groupSymptoms = findViewById(R.id.groupSymptoms);
-        String packageName = getPackageName();
-        Resources resources = getResources();
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        int marginLeft = (int) (12 * Resources.getSystem().getDisplayMetrics().density);
-        int marginRight = (int) (12 * Resources.getSystem().getDisplayMetrics().density);
-        layoutParams.setMargins(marginLeft, 0, marginRight, 0);
-
-        // 0-1 taaphtumia, 2-6 lääkkeitä, 7-22 oireita
-        int eventIds[] = {
-                1,  // Doctor's appointment
-                2,  // Contraceptive pill
-                3,  // Pain medication
-                4,  // Herbal remedies
-                5,  // Heat pad
-                6,  // Other contraceptive method
-                7,  // Mild cramping
-                8,  // Medium cramping
-                9,  // Intense cramping
-                10, // Temperature fluctuations
-                11, // Spotting
-                12, // Intense bleeding off period
-                13, // Back pain
-                14, // Middle pain left
-                15, // Middle pain right
-                16, // Nausea
-                17, // Breast pain
-                18, // Headache
-                20, // Migraine
-                21, // Energized
-                22, // Sad
-                23, // Edgy
-                19, // Tired
-
-
-
-        };
-        int num = 0;
-        for (int eventId : eventIds) {
-            String resName = String.format(Locale.ENGLISH, "label_details_ev%d", eventId);
-            int resId = resources.getIdentifier(resName, "string", packageName);
-            if (resId != 0) {
-                AppCompatCheckBox option = new AppCompatCheckBox(this);
-                option.setLayoutParams(layoutParams);
-                option.setTextSize(18);
-                option.setText(resId);
-                option.setId(resId);
-                if (entry.symptoms.contains(eventId)) option.setChecked(true);
-                option.setOnClickListener(this);
-                if (num < 2) {
-                    groupAppointments.addView(option);
-                } else if(num > 1 && num < 7) {
-                    groupMeds.addView(option);
-                } else {
-                    groupSymptoms.addView(option);
-                }
-            }
-            num++;
-        }
+        // Tallennus
+        saveButton = findViewById(R.id.saveButton);
+        saveButton.setOnClickListener(this);
     }
 
 
     /**
-     * Listener for clicks on the radio buttons and checkboxes
+     * Listener radiobuttoneille ja checkboxeille
      */
     public void onClick(View v) {
-        int id = v.getId();
-        switch (id) {
-            case R.id.periodYes:
-                endo.db.addPeriod(entry.date);
-                entry.type = EndoDatabase.DayEntry.PERIOD_START;
-                databaseChanged();
-                buttonPeriodIntensity1.setEnabled(true);
-                buttonPeriodIntensity2.setEnabled(true);
-                buttonPeriodIntensity3.setEnabled(true);
-                buttonPeriodIntensity4.setEnabled(true);
-                break;
-            case R.id.periodNo:
-                endo.db.removePeriod(entry.date);
-                entry.type = EndoDatabase.DayEntry.EMPTY;
-                databaseChanged();
-                buttonPeriodIntensity1.setEnabled(false);
-                buttonPeriodIntensity2.setEnabled(false);
-                buttonPeriodIntensity3.setEnabled(false);
-                buttonPeriodIntensity4.setEnabled(false);
-                break;
-            case R.id.periodIntensity1:
-                entry.intensity = 1;
-                endoDB.addEntryDetails(entry);
-                databaseChanged();
-                break;
-            case R.id.periodIntensity2:
-                entry.intensity = 2;
-                endoDB.addEntryDetails(entry);
-                databaseChanged();
-                break;
-            case R.id.periodIntensity3:
-                entry.intensity = 3;
-                endoDB.addEntryDetails(entry);
-                databaseChanged();
-                break;
-            case R.id.periodIntensity4:
-                entry.intensity = 4;
-                endoDB.addEntryDetails(entry);
-                databaseChanged();
-                break;
-            default:
-                String packageName = getPackageName();
-                int resId;
-                entry.symptoms.clear();
-                int num = 1;
-                while (num < 24) {
-                    String resName = String.format(Locale.ENGLISH,"label_details_ev%d", num);
-                    resId = getResources().getIdentifier(resName, "string", packageName);
-                    if (resId != 0) {
-                        CheckBox option = findViewById(resId);
-                        if (option.isChecked()) entry.symptoms.add(num);
-                    }
-                    num++;
-                }
-                endoDB.addEntryDetails(entry);
-                databaseChanged();
-                break;
+
+        if (buttonPeriodYes.isChecked()){
+            buttonPeriodIntensity1.setEnabled(true);
+            buttonPeriodIntensity2.setEnabled(true);
+            buttonPeriodIntensity3.setEnabled(true);
+            buttonPeriodIntensity4.setEnabled(true);
         }
+        else {
+            buttonPeriodIntensity1.setSelected(false);
+            buttonPeriodIntensity2.setSelected(false);
+            buttonPeriodIntensity3.setSelected(false);
+            buttonPeriodIntensity4.setSelected(false);
+            buttonPeriodIntensity1.setEnabled(false);
+            buttonPeriodIntensity2.setEnabled(false);
+            buttonPeriodIntensity3.setEnabled(false);
+            buttonPeriodIntensity4.setEnabled(false);
+        }
+
+        if (buttonPeriodNo.isChecked()){
+            buttonPeriodIntensity1.setSelected(false);
+            buttonPeriodIntensity2.setSelected(false);
+            buttonPeriodIntensity3.setSelected(false);
+            buttonPeriodIntensity4.setSelected(false);
+        }
+
+        if (saveButton.isPressed()){
+            if (buttonPeriodYes.isChecked()){
+                if (buttonPeriodIntensity1.isChecked()){
+                    endoDB.addPeriod(new Period(true, 1));
+                }
+                else if (buttonPeriodIntensity2.isChecked()){
+                    endoDB.addPeriod(new Period( true, 2));
+                }
+                else if (buttonPeriodIntensity3.isChecked()){
+                    endoDB.addPeriod(new Period(true, 3));
+                }
+                else if (buttonPeriodIntensity4.isChecked()){
+                    endoDB.addPeriod(new Period(true, 4));
+                }
+            }
+
+            if (appontmentButton.isActivated()){
+                endoDB.addAppointment(1);
+            }
+
+            if (editNotes.toString().isEmpty()){
+
+            }
+            else {
+                endoDB.addEntryDetails(editNotes.toString());
+            }
+
+            if (buttonPain1.isChecked()){
+                endoDB.addPain(new Pain(1));
+            }
+            else if (buttonPain2.isChecked()){
+                endoDB.addPain(new Pain(2));
+            }
+            else if (buttonPain3.isChecked()){
+                endoDB.addPain(new Pain(3));
+            }
+            else if (buttonPain4.isChecked()){
+                endoDB.addPain(new Pain(4));
+            }
+            else if (buttonPain5.isChecked()){
+                endoDB.addPain(new Pain(5));
+            }
+
+            @SuppressLint("WrongConstant")
+            Toast toast = Toast.makeText(this, "Details saved!", 2);
+            toast.show();
+
+
+        }
+
+
+
+        /**/
+
     }
 
     /**
-     * Handler for text changes in edit fields
+     * Tekstikentän muutosten handler
      */
     @Override
     public void beforeTextChanged(CharSequence s, int start, int before, int count) {
@@ -249,13 +220,13 @@ public class InfoActivity extends MainActivity implements View.OnClickListener, 
 
     @Override
     public void afterTextChanged(Editable editable) {
-        entry.notes = ((TextView) findViewById(R.id.editNotes)).getText().toString();
-        endoDB.addEntryDetails(entry);
-        databaseChanged();
+        editNotes = findViewById(R.id.editNotes);
+        String notes = editNotes.getText().toString();
+        endoDB.addEntryDetails(notes);
     }
 
     /**
-     * Called when the activity is destroyed
+     * Kutsutaab, kun sovellus suljetaan
      */
     @Override
     protected void onDestroy() {
@@ -266,10 +237,9 @@ public class InfoActivity extends MainActivity implements View.OnClickListener, 
     }
 
     /**
-     * Helper to handle changes in the database
+     * Databasen muutosten handler
      */
     private void databaseChanged() {
-        endoDB.loadCalculatedData();
 
         BackupManager bm = new BackupManager(this);
         bm.dataChanged();
