@@ -21,7 +21,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 public class LoginActivity extends AppCompatActivity {
@@ -79,12 +78,12 @@ public class LoginActivity extends AppCompatActivity {
         });
         dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
             @Override
-            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+            public boolean onKey(DialogInterface dialogInterface, int keyCode, KeyEvent event) {
                 if(event.getAction()!=KeyEvent.ACTION_DOWN) {
                     return false;
                 }
-                if(event.getAction()==KeyEvent.KEYCODE_ENTER){
-
+                if(event.getAction()==KeyEvent.KEYCODE_BACK){
+                    dialogInterface.dismiss();
                     return true;
                 }
                 return false;
