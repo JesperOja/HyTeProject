@@ -21,10 +21,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_PERIOD_INTENSITY = "ENDO_INTENSITY";
     public static final String COLUMN_ENDO_MEDS = "ENDO_MEDS";
     public static final String COLUMN_ENDO_APPOINTMENT = "ENDO_APPOINTMENT";
+    public static final String COLUMN_PAIN = "ENDO_PAIN";
     public static final String ADD_DATE = "ADD_DATE";
     public static final String COLUMN_NOTES = "COLUMN_NOTES";
     public static final String DATE = "DATE";
-    public static final String COLUMN_PAIN = "ENDO_PAIN";
 
 
     public static final String COLUMN_ID = "ID";
@@ -40,9 +40,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String createDateTable = "CREATE TABLE " + TIME_TABLE + "(" + ADD_DATE + " STRING PRIMARY KEY)";
         db.execSQL(createDateTable);
 
-        String createTableStatement = "CREATE TABLE " + ENDO_TABLE + "(" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_ENDO_MEDS + " TEXT, " + COLUMN_PERIOD_INTENSITY + " INT, " + COLUMN_ACTIVE_PERIOD + " BOOL, " +
-                COLUMN_ENDO_APPOINTMENT + " INT, " + COLUMN_PAIN + " INT, " + COLUMN_NOTES + " STRING, CONSTRAINT " + DATE + " FOREIGN KEY (" + COLUMN_ID + ") " +
+        String createTableStatement = "CREATE TABLE " + ENDO_TABLE + "(" + COLUMN_ID + " TEXT PRIMARY KEY, " +
+                COLUMN_ENDO_MEDS + " TEXT, " + COLUMN_PERIOD_INTENSITY + " INTEGER, " + COLUMN_ACTIVE_PERIOD + " BOOL, " +
+                COLUMN_ENDO_APPOINTMENT + " BOOL, " + COLUMN_PAIN + " INTEGER, " + COLUMN_NOTES + " TEXT, CONSTRAINT " + DATE + " FOREIGN KEY (" + COLUMN_ID + ") " +
                 " REFERENCES " + TIME_TABLE + "(" + ADD_DATE + ") )";
 
         db.execSQL(createTableStatement);
@@ -130,5 +130,45 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public boolean addMeds(Meds meds){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(COLUMN_ENDO_MEDS, meds.getMedType()); // kipu
+
+        long insert = db.insert(ENDO_TABLE, null, cv);
+        if (insert == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public void addEverything(Period period, Pain pain, Boolean bool, Meds meds, String date){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(COLUMN_PAIN, pain.getPainLevel());
+        cv.put(COLUMN_ACTIVE_PERIOD, period.isPeriodActive()); //kuukautiset
+        cv.put(COLUMN_PERIOD_INTENSITY, period.getPeriodIntensity()); //intensiteetti
+        cv.put(COLUMN_ENDO_APPOINTMENT,bool); //lääkärikäynti
+        cv.put(COLUMN_ENDO_MEDS, meds.getMedType()); // Medication
+        cv.put(COLUMN_ID, date);
+
+        db.insert(ENDO_TABLE, null, cv);
+    }
+
+    public void clearDate(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.remove(COLUMN_PAIN);
+        cv.remove(COLUMN_ACTIVE_PERIOD);
+        cv.remove(COLUMN_PERIOD_INTENSITY);
+        cv.remove(COLUMN_ENDO_APPOINTMENT);
+        cv.remove(COLUMN_ENDO_MEDS);
+
+        db.insert(ENDO_TABLE, null, cv);
+    }
 
 }

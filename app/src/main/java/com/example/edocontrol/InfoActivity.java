@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.database.sqlite.*;
@@ -26,22 +27,29 @@ import java.time.LocalDate;
 import java.util.Locale;
 
 public class InfoActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher{
+    private RadioGroup groupPeriodIntensity;
+    private RadioGroup groupPeriod;
     private RadioButton buttonPeriodIntensity1;
     private RadioButton buttonPeriodIntensity2;
     private RadioButton buttonPeriodIntensity3;
     private RadioButton buttonPeriodIntensity4;
+    private RadioButton buttonNoIntensity;
     private RadioButton buttonPeriodYes;
     private RadioButton buttonPeriodNo;
-    private RadioButton buttonPain1;
-    private RadioButton buttonPain2;
-    private RadioButton buttonPain3;
-    private RadioButton buttonPain4;
-    private RadioButton buttonPain5;
+    private CheckBox painBox1;
+    private CheckBox painBox2;
+    private CheckBox painBox3;
+    private CheckBox painBox4;
+    private CheckBox painBox5;
+    private CheckBox painBox6;
+    private CheckBox painBox7;
+    private CheckBox painBox8;
     private CheckBox medsBox1;
     private CheckBox medsBox2;
     private CheckBox medsBox3;
-    private CheckBox medsBox4;
     private Button saveButton;
+    private Button backButton;
+    private Button clearButton;
     private Switch appontmentButton;
     private LocalDate localDate;
     public DatabaseHelper endoDB;
@@ -49,6 +57,10 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
     private TextView editNotes;
     private Period period;
     private Pain pain;
+    private Meds meds;
+    private Appointment appointment;
+    private String clickedDate;
+
 
 
     /**
@@ -59,33 +71,31 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
         final Context context = getApplicationContext();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info);
-/*
-        // Backbutton
-        ActionBar actionBar = getSupportActionBar();
-        assert actionBar != null;
-        actionBar.setDisplayHomeAsUpEnabled(true);
-*/
-        // Hae tiedot
-        Intent intent = getIntent();
 
-        localDate = LocalDate.now();
+
+        Bundle b = getIntent().getExtras();
+        clickedDate = b.getString(MainActivity.EXTRA_DATE,"0");
+
 
         dateDB = new DatabaseHelper(InfoActivity.this);
         endoDB = new DatabaseHelper(InfoActivity.this);
-        dateDB.addDate(localDate.toString());
+        dateDB.addDate(clickedDate);
 
-        // Aseta vuoto
+        // Period activation
+        groupPeriod = findViewById(R.id.periodGroup);
         buttonPeriodYes = findViewById(R.id.periodYes);
         buttonPeriodNo = findViewById(R.id.periodNo);
         buttonPeriodYes.setOnClickListener(this);
         buttonPeriodNo.setOnClickListener(this);
 
 
-        // Set period intensity
+        // Period intensity
+        groupPeriodIntensity = findViewById(R.id.intensityGroup);
         buttonPeriodIntensity1 = findViewById(R.id.periodIntensity1);
         buttonPeriodIntensity2 = findViewById(R.id.periodIntensity2);
         buttonPeriodIntensity3 = findViewById(R.id.periodIntensity3);
         buttonPeriodIntensity4 = findViewById(R.id.periodIntensity4);
+        buttonNoIntensity = findViewById(R.id.noIntensity);
         buttonPeriodIntensity1.setOnClickListener(this);
         buttonPeriodIntensity2.setOnClickListener(this);
         buttonPeriodIntensity3.setOnClickListener(this);
@@ -96,29 +106,50 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
         buttonPeriodIntensity4.setEnabled(false);
 
         // Pain
-        buttonPain1 = findViewById(R.id.pain1);
-        buttonPain2 = findViewById(R.id.pain2);
-        buttonPain3 = findViewById(R.id.pain3);
-        buttonPain4 = findViewById(R.id.pain4);
-        buttonPain5 = findViewById(R.id.pain5);
-        buttonPain1.setOnClickListener(this);
-        buttonPain2.setOnClickListener(this);
-        buttonPain3.setOnClickListener(this);
-        buttonPain4.setOnClickListener(this);
-        buttonPain5.setOnClickListener(this);
+        painBox1 = findViewById(R.id.pain1);
+        painBox2 = findViewById(R.id.pain2);
+        painBox3 = findViewById(R.id.pain3);
+        painBox4 = findViewById(R.id.pain4);
+        painBox5 = findViewById(R.id.pain5);
+        painBox6 = findViewById(R.id.pain6);
+        painBox7 = findViewById(R.id.pain7);
+        painBox8 = findViewById(R.id.pain8);
+        painBox1.setOnClickListener(this);
+        painBox2.setOnClickListener(this);
+        painBox3.setOnClickListener(this);
+        painBox4.setOnClickListener(this);
+        painBox5.setOnClickListener(this);
+        painBox6.setOnClickListener(this);
+        painBox7.setOnClickListener(this);
+        painBox8.setOnClickListener(this);
 
-        // Lääkärikäynti
+        // Meds
+        medsBox1 = findViewById(R.id.meds1);
+        medsBox2 = findViewById(R.id.meds2);
+        medsBox3 = findViewById(R.id.meds3);
+        medsBox1.setOnClickListener(this);
+        medsBox2.setOnClickListener(this);
+        medsBox3.setOnClickListener(this);
+
+        // Doctor's appontment
         appontmentButton = findViewById(R.id.appointmentButton);
         appontmentButton.setOnClickListener(this);
 
-
-        // Muistiinpanot
+        // Notes
         editNotes = findViewById(R.id.editNotes);
         editNotes.addTextChangedListener(this);
 
-        // Tallennus
+        // Save button
         saveButton = findViewById(R.id.saveButton);
         saveButton.setOnClickListener(this);
+
+        // Back button
+        backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(this);
+
+        // Clear button
+        clearButton = findViewById(R.id.clearButton);
+        clearButton.setOnClickListener(this);
     }
 
 
@@ -127,6 +158,7 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
      */
     public void onClick(View v) {
 
+        // Activating period intensity
         if (buttonPeriodYes.isChecked()){
             buttonPeriodIntensity1.setEnabled(true);
             buttonPeriodIntensity2.setEnabled(true);
@@ -151,26 +183,31 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
             buttonPeriodIntensity4.setSelected(false);
         }
 
+        // Saving selected data
         if (saveButton.isPressed()){
+
+            // Period and intensity
             if (buttonPeriodYes.isChecked()){
                 if (buttonPeriodIntensity1.isChecked()){
-                    endoDB.addPeriod(new Period(true, 1));
+                    period = new Period(true, 1);
                 }
                 else if (buttonPeriodIntensity2.isChecked()){
-                    endoDB.addPeriod(new Period( true, 2));
+                    period = new Period( true, 2);
                 }
                 else if (buttonPeriodIntensity3.isChecked()){
-                    endoDB.addPeriod(new Period(true, 3));
+                    period = new Period(true, 3);
                 }
                 else if (buttonPeriodIntensity4.isChecked()){
-                    endoDB.addPeriod(new Period(true, 4));
+                    period = new Period(true, 4);
                 }
             }
 
-            if (appontmentButton.isActivated()){
-                endoDB.addAppointment(1);
+            // Appointment
+            if (appontmentButton.isChecked()){
+                appointment = new Appointment(true);
             }
 
+            // Notes
             if (editNotes.toString().isEmpty()){
 
             }
@@ -178,32 +215,106 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
                 endoDB.addEntryDetails(editNotes.toString());
             }
 
-            if (buttonPain1.isChecked()){
-                endoDB.addPain(new Pain(1));
+            // Pain
+            if (painBox1.isChecked()){
+                pain = new Pain(1); // 1 = Lower abdomen pain
             }
-            else if (buttonPain2.isChecked()){
-                endoDB.addPain(new Pain(2));
+            else if (painBox2.isChecked()){
+                pain = new Pain(2); // 2 = Back pain
             }
-            else if (buttonPain3.isChecked()){
-                endoDB.addPain(new Pain(3));
+            else if (painBox3.isChecked()){
+                pain = new Pain(3); // 3 = Shoulder pain
             }
-            else if (buttonPain4.isChecked()){
-                endoDB.addPain(new Pain(4));
+            else if (painBox4.isChecked()){
+                pain = new Pain(4); // 4 = Chest pain
             }
-            else if (buttonPain5.isChecked()){
-                endoDB.addPain(new Pain(5));
+            else if (painBox5.isChecked()){
+                pain = new Pain(5); // 5 = Headache
+            }
+            else if (painBox6.isChecked()){
+                pain = new Pain(6); // 6 = Pain when urinating
+            }
+            else if (painBox7.isChecked()){
+                pain = new Pain(7); // 7 = Pain during bowel movement
+            }
+            else if (painBox8.isChecked()) {
+                pain = new Pain(8); // 8 = Pain during intercourse
             }
 
+            // Meds
+            if (medsBox1.isChecked()){
+                meds = new Meds(1); // 1 = Hormonal contraception
+            }
+            else if (medsBox2.isChecked()){
+                meds = new Meds(2); // 2 = Pain medication
+            }
+            else if (medsBox3.isChecked()){
+                meds = new Meds(3); // 3 = Herbal remedies
+            }
+
+            endoDB.addEverything(period,pain,true,meds,clickedDate);
+
+            // Shows on data save
             @SuppressLint("WrongConstant")
             Toast toast = Toast.makeText(this, "Details saved!", 2);
             toast.show();
 
-
         }
 
+        // Back button
+        if (backButton.isPressed()){
+            startActivity(new Intent(InfoActivity.this, MainActivity.class));
+        }
 
+        // Clear button
+        if (clearButton.isPressed()){
+            clearOptions();
+        }
 
-        /**/
+    }
+
+    //boolean state = false;
+    public void clearOptions () {
+
+        if (medsBox1.isChecked()) {
+            medsBox1.toggle();
+        }
+        if (medsBox2.isChecked()) {
+            medsBox2.toggle();
+        }
+        if (medsBox3.isChecked()) {
+            medsBox3.toggle();
+        }
+        if (painBox1.isChecked()) {
+            painBox1.toggle();
+        }
+        if (painBox2.isChecked()) {
+            painBox2.toggle();
+        }
+        if (painBox3.isChecked()) {
+            painBox3.toggle();
+        }
+        if (painBox4.isChecked()) {
+            painBox4.toggle();
+        }
+        if (painBox5.isChecked()) {
+            painBox5.toggle();
+        }
+        if (painBox6.isChecked()) {
+            painBox6.toggle();
+        }
+        if (painBox7.isChecked()) {
+            painBox7.toggle();
+        }
+        if (painBox8.isChecked()) {
+            painBox8.toggle();
+        }
+        if (appontmentButton.isChecked()) {
+            appontmentButton.toggle();
+        }
+        groupPeriod.clearCheck();
+        groupPeriodIntensity.clearCheck();
+        editNotes.setText("");
 
     }
 

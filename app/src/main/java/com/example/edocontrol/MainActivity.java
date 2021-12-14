@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         private TextView bottomSheetDate;
         private ImageView bottomSheetImg;
         private Button addButton;
+        private String addNotesToDate;
+        public static final String EXTRA_DATE = "ClickedDate";
 
 
 
@@ -92,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     @Override
     public void onItemClick(int position, LocalDate date) {
 
+            addNotesToDate = date.toString();
             CalendarUtils.selectedDate = date;
             if(date==null){
 
@@ -119,7 +122,9 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     }
 
     public void AddEntry(View view) {
-            Intent intent = new Intent(this, InfoActivity.class);
-            startActivity(intent);
+        Intent intent = new Intent(this, InfoActivity.class);
+        intent.putExtra(EXTRA_DATE,addNotesToDate);
+
+        startActivity(intent);
     }
 }
