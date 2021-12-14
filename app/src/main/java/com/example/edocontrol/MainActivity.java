@@ -19,7 +19,7 @@ import android.view.View;
 import android.widget.Button;
 
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+
 import android.widget.TextView;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -89,9 +89,6 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         calendarRecyclerView.setAdapter(calendarAdapter);
     }
 
-
-
-
     public void previousMonthAction(View view) {
 
         CalendarUtils.selectedDate = CalendarUtils.selectedDate.minusMonths(1);
@@ -108,7 +105,6 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
 
             addNotesToDate = date.toString();
             CalendarUtils.selectedDate = date;
-            if(date==null){
 
             String queryString = "SELECT * FROM " + DatabaseHelper.ENDO_TABLE;
             Cursor cursor = db.rawQuery(queryString, null);
@@ -128,7 +124,6 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
 
                         String day = cursor.getString(0);
 
-
                         if(day == null){
 
                         }
@@ -138,13 +133,10 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
                             int period = cursor.getInt(3);
 
 
-
                         }
                     }while(cursor.moveToNext());
 
-
                 }
-
 
                 sheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
                     @Override
@@ -162,8 +154,6 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
             cursor.close();
     }
 
-
-}
 
     public void AddNotes(View view) {
         Intent intent = new Intent(this, InfoActivity.class);

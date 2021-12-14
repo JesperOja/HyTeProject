@@ -43,20 +43,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
         String queryString = "SELECT * FROM " + DatabaseHelper.TIME_TABLE;
         final LocalDate date = daysOfMonth.get(position);
 
-
-        if(MainActivity.db == null){
-            if(date == null)
-                holder.dayOfMonth.setText("");
-            else
-            {
-                holder.dayOfMonth.setText(String.valueOf(date.getDayOfMonth()));
-
-                if(date.equals(CalendarUtils.selectedDate))
-                    holder.parentView.setBackgroundColor(Color.LTGRAY);
-            }
-        }else{
-
-            Cursor cursor = MainActivity.db.rawQuery(queryString, null);
+        Cursor cursor = MainActivity.db.rawQuery(queryString, null);
 
         if(date == null)
             holder.dayOfMonth.setText("");
@@ -80,7 +67,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
         }
         cursor.close();
         }
-    }
+
 
     @Override
     public int getItemCount() {
