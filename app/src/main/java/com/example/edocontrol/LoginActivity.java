@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -57,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
+    //User signing in
     private void showSignInWindow() {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         dialog.setTitle("Login");
@@ -74,6 +75,19 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int which) {
                 dialogInterface.dismiss();
+            }
+        });
+        dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                if(event.getAction()!=KeyEvent.ACTION_DOWN) {
+                    return false;
+                }
+                if(event.getAction()==KeyEvent.KEYCODE_ENTER){
+
+                    return true;
+                }
+                return false;
             }
         });
 
@@ -102,14 +116,14 @@ public class LoginActivity extends AppCompatActivity {
                         Snackbar.make(root, "Authorization Error. " + e.getMessage(), Snackbar.LENGTH_SHORT).show();
                     }
                 });
-                //User registration
+
             }
         });
 
         dialog.show();
 
     }
-
+    //User registration
     private void showRegisterWindow() {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         dialog.setTitle("Register");
@@ -132,8 +146,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         dialog.setPositiveButton("Add", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int which) {
+            public void regInfo(DialogInterface dialogInterface, int which){
                 if(TextUtils.isEmpty(email.getText().toString())){
                     Snackbar.make(root, "Enter email", Snackbar.LENGTH_LONG).show();
                     return;
@@ -171,9 +184,13 @@ public class LoginActivity extends AppCompatActivity {
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Snackbar.make(root, "Authorization Error. " + e.getMessage(), Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(root, "Registration Error. " + e.getMessage(), Snackbar.LENGTH_SHORT).show();
                     }
                 });
+            }
+            @Override
+            public void onClick(DialogInterface dialogInterface, int which) {
+                regInfo(dialogInterface, which);
             }
         });
 
