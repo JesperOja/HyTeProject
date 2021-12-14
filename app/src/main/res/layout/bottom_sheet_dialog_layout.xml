@@ -9,7 +9,7 @@
     android:padding="12dp"
     android:orientation="vertical"
     app:behavior_hideable="false"
-    app:behavior_peekHeight="60dp"
+    app:behavior_peekHeight="40dp"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
     <ImageView
@@ -35,7 +35,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bottomSheetImg"
-        app:layout_constraintVertical_bias="0.047" />
+        app:layout_constraintVertical_bias="0.056" />
 
     <Button
         android:id="@+id/addButton"
