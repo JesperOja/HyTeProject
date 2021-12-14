@@ -19,3 +19,12 @@ public class Pain extends InfoActivity {
         this.painLevel = painLevel;
     }
 }
+// VALUES AND THEIR MEANINGS
+// 1 = Lower abdomen pain
+// 2 = Back pain
+// 3 = Shoulder pain
+// 4 = Chest pain
+// 5 = Headache
+// 6 = Pain when urinating
+// 7 = Pain during bowel movement
+// 8 = Pain during intercourse
