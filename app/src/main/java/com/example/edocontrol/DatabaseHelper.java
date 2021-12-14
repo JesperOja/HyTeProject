@@ -42,9 +42,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(createDateTable);
         Log.d("Testaus", "Toimiiko?");
         String createTableStatement = "CREATE TABLE " + ENDO_TABLE + "(" + COLUMN_ID + " TEXT PRIMARY KEY, " +
-                COLUMN_ENDO_MEDS + " TEXT, " + COLUMN_PERIOD_INTENSITY + " INT, " + COLUMN_ACTIVE_PERIOD + " BOOL, " +
-                COLUMN_ENDO_APPOINTMENT + " INT, " + COLUMN_PAIN + " INT, " + COLUMN_NOTES + " TEXT,  CONSTRAINT " + DATE + " FOREIGN KEY (" + COLUMN_ID + ") " +
-                " REFERENCES " + TIME_TABLE + "(" + ADD_DATE + ") )";
+                COLUMN_ENDO_MEDS + " TEXT, " + COLUMN_PERIOD_INTENSITY + " INTEGER, " + COLUMN_ACTIVE_PERIOD + " BOOL, " +
+                COLUMN_ENDO_APPOINTMENT + " INTEGER, " + COLUMN_PAIN + " INTEGER, " + COLUMN_NOTES + " TEXT)";
 
         db.execSQL(createTableStatement);
 
@@ -56,7 +55,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean addPeriod(Period period) {
+    public void addPeriod(Period period) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -64,44 +63,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_ACTIVE_PERIOD, period.isPeriodActive()); //kuukautiset
         cv.put(COLUMN_PERIOD_INTENSITY, period.getPeriodIntensity()); //intensiteetti
 
-        long insert = db.insert(ENDO_TABLE, null, cv);
-        if (insert == -1) {
-            return false;
-        } else {
-            return true;
-        }
+        db.insert(ENDO_TABLE, null, cv);
+
 
     }
 
-    public boolean addAppointment(int i) {
+    public void addAppointment(Boolean bool) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
-        cv.put(COLUMN_ENDO_APPOINTMENT,i); //lääkärikäynti
+        cv.put(COLUMN_ENDO_APPOINTMENT,bool); //lääkärikäynti
 
-        long insert = db.insert(ENDO_TABLE, null, cv);
-        if (insert == -1) {
-            return false;
-        } else {
-            return true;
-        }
+        db.insert(ENDO_TABLE, null, cv);
+
 
     }
 
-    public boolean addDate(String date) {
+    public void addDate(String date) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cvdate = new ContentValues();
 
         cvdate.put(ADD_DATE, date); // päivämäärä
 
 
-        long insert = db.insert(TIME_TABLE, null, cvdate);
+        db.insert(TIME_TABLE, null, cvdate);
 
-        if (insert == -1) {
-            return false;
-        } else {
-            return true;
-        }
+
     }
 
     public void addID(String date){
@@ -128,19 +115,37 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public boolean addPain(Pain pain){
+    public void addPain(Pain pain){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
         cv.put(COLUMN_PAIN, pain.getPainLevel()); // kipu
 
-        long insert = db.insert(ENDO_TABLE, null, cv);
-        if (insert == -1) {
-            return false;
-        } else {
-            return true;
-        }
+        db.insert(ENDO_TABLE, null, cv);
+
     }
+     public void addEverything(Period period, Pain pain, Boolean bool, String date){
+         SQLiteDatabase db = this.getWritableDatabase();
+         ContentValues cv = new ContentValues();
 
+         cv.put(COLUMN_PAIN, pain.getPainLevel());
+         cv.put(COLUMN_ACTIVE_PERIOD, period.isPeriodActive()); //kuukautiset
+         cv.put(COLUMN_PERIOD_INTENSITY, period.getPeriodIntensity()); //intensiteetti
+         cv.put(COLUMN_ENDO_APPOINTMENT,bool); //lääkärikäynti
+         cv.put(COLUMN_ID, date);
 
+         db.insert(ENDO_TABLE, null, cv);
+     }
+
+    public void clearData(String date) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        String delete = "ID=?";
+        db.delete(ENDO_TABLE,delete,new String[]{date});
+        cv.remove(COLUMN_PAIN);
+        cv.remove(COLUMN_ACTIVE_PERIOD);
+        cv.remove(COLUMN_PERIOD_INTENSITY);
+
+        db.insert(ENDO_TABLE, null, cv);
+    }
 }

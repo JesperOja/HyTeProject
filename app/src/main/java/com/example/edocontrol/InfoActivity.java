@@ -49,7 +49,9 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
     private TextView editNotes;
     private Period period;
     private Pain pain;
-
+    private String clickedDate;
+    Boolean bool;
+    private Button clearButton;
 
     /**
      * Aktiviteetti luodaan
@@ -67,12 +69,12 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
 */
         // Hae tiedot
         Bundle b = getIntent().getExtras();
-        String clickedDate = b.getString(MainActivity.EXTRA_DATE,"0");
+        clickedDate = b.getString(MainActivity.EXTRA_DATE,"0");
 
         dateDB = new DatabaseHelper(InfoActivity.this);
         endoDB = new DatabaseHelper(InfoActivity.this);
         dateDB.addDate(clickedDate);
-        endoDB.addID(clickedDate);
+
 
         // Aseta vuoto
         buttonPeriodYes = findViewById(R.id.periodYes);
@@ -80,6 +82,7 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
         buttonPeriodYes.setOnClickListener(this);
         buttonPeriodNo.setOnClickListener(this);
 
+        clearButton = findViewById(R.id.clearButton);
 
         // Set period intensity
         buttonPeriodIntensity1 = findViewById(R.id.periodIntensity1);
@@ -134,10 +137,6 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
             buttonPeriodIntensity4.setEnabled(true);
         }
         else {
-            buttonPeriodIntensity1.setSelected(false);
-            buttonPeriodIntensity2.setSelected(false);
-            buttonPeriodIntensity3.setSelected(false);
-            buttonPeriodIntensity4.setSelected(false);
             buttonPeriodIntensity1.setEnabled(false);
             buttonPeriodIntensity2.setEnabled(false);
             buttonPeriodIntensity3.setEnabled(false);
@@ -145,30 +144,28 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         if (buttonPeriodNo.isChecked()){
-            buttonPeriodIntensity1.setSelected(false);
-            buttonPeriodIntensity2.setSelected(false);
-            buttonPeriodIntensity3.setSelected(false);
-            buttonPeriodIntensity4.setSelected(false);
+
         }
 
         if (saveButton.isPressed()){
+            //endoDB.addID(clickedDate);
             if (buttonPeriodYes.isChecked()){
                 if (buttonPeriodIntensity1.isChecked()){
-                    endoDB.addPeriod(new Period(true, 1));
+                   period = new Period(true, 1);
                 }
                 else if (buttonPeriodIntensity2.isChecked()){
-                    endoDB.addPeriod(new Period( true, 2));
+                    period = new Period(true, 2);
                 }
                 else if (buttonPeriodIntensity3.isChecked()){
-                    endoDB.addPeriod(new Period(true, 3));
+                    period = new Period(true, 3);
                 }
                 else if (buttonPeriodIntensity4.isChecked()){
-                    endoDB.addPeriod(new Period(true, 4));
+                    period = new Period(true, 4);
                 }
             }
 
             if (appontmentButton.isActivated()){
-                endoDB.addAppointment(1);
+                bool = true;
             }
 /*
             if (editNotes.toString().isEmpty()){
@@ -179,21 +176,22 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
             }
 */
             if (buttonPain1.isChecked()){
-                endoDB.addPain(new Pain(1));
+                pain = new Pain(1);
             }
             else if (buttonPain2.isChecked()){
-                endoDB.addPain(new Pain(2));
+                pain = new Pain(2);
             }
             else if (buttonPain3.isChecked()){
-                endoDB.addPain(new Pain(3));
+                pain = new Pain(3);
             }
             else if (buttonPain4.isChecked()){
-                endoDB.addPain(new Pain(4));
+                pain = new Pain(4);
             }
             else if (buttonPain5.isChecked()){
-                endoDB.addPain(new Pain(5));
+                pain = new Pain(5);
             }
 
+            endoDB.addEverything(period,pain,bool,clickedDate);
             @SuppressLint("WrongConstant")
             Toast toast = Toast.makeText(this, "Details saved!", 2);
             toast.show();
@@ -201,11 +199,15 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
 
         }
 
-
+        if(clearButton.isPressed()){
+            endoDB.clearData(clickedDate);
+        }
 
         /**/
 
     }
+
+
 
     /**
      * Tekstikentän muutosten handler
@@ -232,8 +234,10 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
     protected void onDestroy() {
         super.onDestroy();
 
-        if (endoDB != null)
+        if (endoDB != null && dateDB != null) {
             endoDB.close();
+            dateDB.close();
+        }
     }
 
     /**
@@ -243,6 +247,11 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
 
         BackupManager bm = new BackupManager(this);
         bm.dataChanged();
+    }
+
+    public void saveData(View view) {
+
+
     }
 }
 

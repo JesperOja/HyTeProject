@@ -63,7 +63,11 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
 
         }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        setMonthView();
+    }
 
     private void initWidget() {
         bottomSheetDate = findViewById(R.id.BottomSheetDate);
@@ -121,14 +125,19 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
                     do{
 
                         String day = cursor.getString(0);
-                        //Log.d("Päivä", day);
-                        /*
+
+
                         if(day == null){
-                            Log.d("Testi", "Ei ole päivämäärä");
+
                         }
                         else if(day.equalsIgnoreCase(CalendarUtils.selectedDate.toString())){
-                            Log.d("PÄIVÄ", "Ollaanko täällä");
-                        }*/
+                            int pain = cursor.getInt(5);
+                            int intensity = cursor.getInt(2);
+                            int period = cursor.getInt(3);
+
+
+
+                        }
                     }while(cursor.moveToNext());
 
 
