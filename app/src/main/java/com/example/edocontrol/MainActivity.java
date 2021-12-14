@@ -9,6 +9,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -115,5 +116,10 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
                     }
                 });
             }
+    }
+
+    public void AddEntry(View view) {
+            Intent intent = new Intent(this, InfoActivity.class);
+            startActivity(intent);
     }
 }
