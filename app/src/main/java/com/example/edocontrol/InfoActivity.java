@@ -8,6 +8,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -43,7 +44,6 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
     private CheckBox medsBox4;
     private Button saveButton;
     private Switch appontmentButton;
-    private LocalDate localDate;
     public DatabaseHelper endoDB;
     public DatabaseHelper dateDB;
     private TextView editNotes;
@@ -66,13 +66,13 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
         actionBar.setDisplayHomeAsUpEnabled(true);
 */
         // Hae tiedot
-        Intent intent = getIntent();
-
-        localDate = LocalDate.now();
+        Bundle b = getIntent().getExtras();
+        String clickedDate = b.getString(MainActivity.EXTRA_DATE,"0");
 
         dateDB = new DatabaseHelper(InfoActivity.this);
         endoDB = new DatabaseHelper(InfoActivity.this);
-        dateDB.addDate(localDate.toString());
+        dateDB.addDate(clickedDate);
+        endoDB.addID(clickedDate);
 
         // Aseta vuoto
         buttonPeriodYes = findViewById(R.id.periodYes);
@@ -170,14 +170,14 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
             if (appontmentButton.isActivated()){
                 endoDB.addAppointment(1);
             }
-
+/*
             if (editNotes.toString().isEmpty()){
 
             }
             else {
                 endoDB.addEntryDetails(editNotes.toString());
             }
-
+*/
             if (buttonPain1.isChecked()){
                 endoDB.addPain(new Pain(1));
             }

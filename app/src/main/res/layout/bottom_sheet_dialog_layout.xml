@@ -35,7 +35,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bottomSheetImg"
-        app:layout_constraintVertical_bias="0.087" />
+        app:layout_constraintVertical_bias="0.047" />
 
     <Button
         android:id="@+id/addButton"

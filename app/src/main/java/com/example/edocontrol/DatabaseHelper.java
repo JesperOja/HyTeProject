@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -37,12 +38,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        String createDateTable = "CREATE TABLE " + TIME_TABLE + "(" + ADD_DATE + " STRING PRIMARY KEY)";
+        String createDateTable = "CREATE TABLE " + TIME_TABLE + "(" + ADD_DATE + " TEXT PRIMARY KEY)";
         db.execSQL(createDateTable);
-
-        String createTableStatement = "CREATE TABLE " + ENDO_TABLE + "(" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+        Log.d("Testaus", "Toimiiko?");
+        String createTableStatement = "CREATE TABLE " + ENDO_TABLE + "(" + COLUMN_ID + " TEXT PRIMARY KEY, " +
                 COLUMN_ENDO_MEDS + " TEXT, " + COLUMN_PERIOD_INTENSITY + " INT, " + COLUMN_ACTIVE_PERIOD + " BOOL, " +
-                COLUMN_ENDO_APPOINTMENT + " INT, " + COLUMN_PAIN + " INT, " + COLUMN_NOTES + " STRING, CONSTRAINT " + DATE + " FOREIGN KEY (" + COLUMN_ID + ") " +
+                COLUMN_ENDO_APPOINTMENT + " INT, " + COLUMN_PAIN + " INT, " + COLUMN_NOTES + " TEXT,  CONSTRAINT " + DATE + " FOREIGN KEY (" + COLUMN_ID + ") " +
                 " REFERENCES " + TIME_TABLE + "(" + ADD_DATE + ") )";
 
         db.execSQL(createTableStatement);
@@ -93,13 +94,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         cvdate.put(ADD_DATE, date); // päivämäärä
 
+
         long insert = db.insert(TIME_TABLE, null, cvdate);
+
         if (insert == -1) {
             return false;
         } else {
             return true;
         }
+    }
 
+    public void addID(String date){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cvdate = new ContentValues();
+
+        cvdate.put(COLUMN_ID, date); // päivämäärä
+
+
+        db.insert(ENDO_TABLE, null, cvdate);
     }
 
     public boolean addEntryDetails(String notes){

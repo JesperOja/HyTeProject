@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -38,6 +40,10 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         private TextView bottomSheetDate;
         private ImageView bottomSheetImg;
         private Button addButton;
+        private String addNotesToDate;
+        public static final String EXTRA_DATE = "Extra date";
+        private DatabaseHelper helper;
+        public static SQLiteDatabase db;
 
 
 
@@ -45,6 +51,10 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
+
+
+            helper = new DatabaseHelper(MainActivity.this);
+            db = helper.getReadableDatabase();
 
             initWidget();
             CalendarUtils.selectedDate = LocalDate.now();
@@ -91,17 +101,39 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
 
     @Override
     public void onItemClick(int position, LocalDate date) {
-
+            addNotesToDate = date.toString();
             CalendarUtils.selectedDate = date;
-            if(date==null){
 
+            String queryString = "SELECT * FROM " + DatabaseHelper.ENDO_TABLE;
+            Cursor cursor = db.rawQuery(queryString, null);
+
+            if(date.toString().isEmpty()){
+                // Do not do anything if pushed calendar where there isn't day
             }else {
                 setMonthView();
                 if (sheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
-                    sheetBehavior.setHalfExpandedRatio((float) 0.20);
+                    sheetBehavior.setHalfExpandedRatio((float) 0.15);
                     sheetBehavior.setState(BottomSheetBehavior.STATE_HALF_EXPANDED);
                     bottomSheetDate.setText(date.getDayOfMonth() + " of " + monthYearFromDate(CalendarUtils.selectedDate));
                 }
+
+                if(cursor.moveToFirst()){
+                    do{
+
+                        String day = cursor.getString(0);
+                        //Log.d("Päivä", day);
+                        /*
+                        if(day == null){
+                            Log.d("Testi", "Ei ole päivämäärä");
+                        }
+                        else if(day.equalsIgnoreCase(CalendarUtils.selectedDate.toString())){
+                            Log.d("PÄIVÄ", "Ollaanko täällä");
+                        }*/
+                    }while(cursor.moveToNext());
+
+
+                }
+
 
                 sheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
                     @Override
@@ -116,10 +148,13 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
                     }
                 });
             }
+            cursor.close();
     }
 
     public void AddEntry(View view) {
             Intent intent = new Intent(this, InfoActivity.class);
+            intent.putExtra(EXTRA_DATE,addNotesToDate);
+
             startActivity(intent);
     }
 }
