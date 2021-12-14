@@ -6,15 +6,15 @@
     android:layout_height="match_parent">
 
     <RadioGroup
-        android:id="@+id/radioGroup"
-        android:layout_width="176dp"
-        android:layout_height="218dp"
-        app:layout_constraintBottom_toTopOf="@+id/radioGroup3"
+        android:id="@+id/intensityGroup"
+        android:layout_width="182dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="15dp"
+        app:layout_constraintBottom_toTopOf="@+id/pain2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.945"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.055">
+        app:layout_constraintTop_toTopOf="parent">
 
         <RadioButton
             android:id="@+id/periodIntensity1"
@@ -44,18 +44,24 @@
             android:minHeight="50dp"
             android:text="Spotting"
             tools:ignore="TouchTargetSizeCheck" />
+
+        <RadioButton
+            android:id="@+id/noIntensity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="RadioButton"
+            android:visibility="gone" />
     </RadioGroup>
 
     <RadioGroup
-        android:id="@+id/radioGroup2"
+        android:id="@+id/periodGroup"
         android:layout_width="187dp"
-        android:layout_height="147dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.056"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="11dp"
+        app:layout_constraintBottom_toBottomOf="@+id/intensityGroup"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.025">
+        app:layout_constraintTop_toBottomOf="@+id/appointmentButton">
 
         <RadioButton
             android:id="@+id/periodYes"
@@ -76,95 +82,165 @@
         android:id="@+id/editNotes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="224dp"
-        android:layout_marginTop="260dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="12dp"
         android:ems="10"
         android:hint="notes"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        app:layout_constraintStart_toStartOf="@+id/radioGroup2"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/meds3" />
 
     <Switch
         android:id="@+id/appointmentButton"
-        android:layout_width="222dp"
-        android:layout_height="68dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="490dp"
+        android:layout_width="0dp"
+        android:layout_height="61dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
         android:minHeight="48dp"
         android:text="Appointment day"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/intensityGroup"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup"
-        app:layout_constraintVertical_bias="0.25" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/saveButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="346dp"
+        android:layout_marginTop="16dp"
         android:text="Save"
-        android:onClick="saveData"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+        app:layout_constraintTop_toBottomOf="@+id/editNotes" />
 
-    <RadioGroup
-        android:id="@+id/radioGroup3"
-        android:layout_width="325dp"
-        android:layout_height="267dp"
-        android:layout_marginStart="78dp"
-        android:layout_marginEnd="78dp"
-        android:layout_marginBottom="8dp"
+    <CheckBox
+        android:id="@+id/pain1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:minHeight="48dp"
+        android:text="Pain in lower abdomen"
+        app:layout_constraintBaseline_toBaselineOf="@+id/pain2"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <CheckBox
+        android:id="@+id/pain2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="48dp"
+        android:minHeight="48dp"
+        android:text="Back pain"
+        app:layout_constraintBottom_toTopOf="@+id/pain7"
+        app:layout_constraintStart_toEndOf="@+id/pain1" />
+
+    <CheckBox
+        android:id="@+id/pain3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:minHeight="48dp"
+        android:text="Shoulder pain"
+        app:layout_constraintBaseline_toBaselineOf="@+id/pain4"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <CheckBox
+        android:id="@+id/pain4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:text="Chest pain"
+        app:layout_constraintStart_toEndOf="@+id/pain3"
+        app:layout_constraintTop_toBottomOf="@+id/pain1" />
+
+    <CheckBox
+        android:id="@+id/pain5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:text="Headache"
+        app:layout_constraintBaseline_toBaselineOf="@+id/pain4"
+        app:layout_constraintStart_toEndOf="@+id/pain4" />
+
+    <CheckBox
+        android:id="@+id/pain6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:minHeight="48dp"
+        android:text="Pain when urinating"
+        app:layout_constraintBaseline_toBaselineOf="@+id/pain7"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <CheckBox
+        android:id="@+id/pain7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="168dp"
+        android:minHeight="48dp"
+        android:text="Pain during bowel movement"
+        app:layout_constraintBottom_toTopOf="@+id/pain8"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <CheckBox
+        android:id="@+id/pain8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginBottom="279dp"
+        android:minHeight="48dp"
+        android:text="Pain during intercourse"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <RadioButton
-            android:id="@+id/pain1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            android:text="Pain 1" />
+    <CheckBox
+        android:id="@+id/meds1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="19dp"
+        android:minHeight="48dp"
+        android:text="Hormonal contraceptive"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pain8" />
 
-        <RadioButton
-            android:id="@+id/pain2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            android:text="Pain 2" />
+    <CheckBox
+        android:id="@+id/meds2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:minHeight="48dp"
+        android:text="Pain medication"
+        app:layout_constraintBaseline_toBaselineOf="@+id/meds3"
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <RadioButton
-            android:id="@+id/pain3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            android:text="Pain 3" />
+    <CheckBox
+        android:id="@+id/meds3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="148dp"
+        android:minHeight="48dp"
+        android:text="Herbal treatment"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/meds1" />
 
-        <RadioButton
-            android:id="@+id/pain4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            android:text="Pain 4" />
-
-        <RadioButton
-            android:id="@+id/pain5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            android:text="Pain 5" />
-    </RadioGroup>
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="33dp"
+        android:layout_marginBottom="39dp"
+        android:text="BACK"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/clearButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="clear"
-        app:layout_constraintBottom_toTopOf="@+id/radioGroup3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/saveButton" />
+        android:layout_marginEnd="49dp"
+        android:layout_marginBottom="16dp"
+        android:text="CLEAR"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

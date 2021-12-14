@@ -105,8 +105,10 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
 
     @Override
     public void onItemClick(int position, LocalDate date) {
+
             addNotesToDate = date.toString();
             CalendarUtils.selectedDate = date;
+            if(date==null){
 
             String queryString = "SELECT * FROM " + DatabaseHelper.ENDO_TABLE;
             Cursor cursor = db.rawQuery(queryString, null);

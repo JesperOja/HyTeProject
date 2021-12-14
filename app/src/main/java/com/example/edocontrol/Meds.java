@@ -18,9 +18,8 @@ public class Meds extends InfoActivity{
     public void setMedType(int medType) {
         this.medType = medType;
     }
-
-    // Medication type 1 = Pain medication
-    // Medication type 2 = Herbal remedies
-    // Medication type 3 = Hormonal contraceptive
 }
-
+// VALUES AND THEIR MEANINGS
+// 1 = Hormonal contraception
+// 2 = Pain medication
+// 3 = Herbal remedies
