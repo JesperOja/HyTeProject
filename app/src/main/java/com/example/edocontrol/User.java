@@ -1,17 +1,21 @@
 package com.example.edocontrol;
 
+import com.google.firebase.database.DatabaseReference;
+
 public class User {
 
     private String name, email, password, phone;
+    private DatabaseReference uid;
 
     public User() {
     }
 
-    public User(String name, String email, String password, String phone) {
+    public User(String name, String email, String password, String phone, DatabaseReference uid) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.phone = phone;
+        this.uid = uid;
     }
 
     public String getName() {
@@ -44,5 +48,13 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getUid() {
+        return uid.toString();
+    }
+
+    public void setUid(DatabaseReference uid) {
+        this.uid = uid;
     }
 }

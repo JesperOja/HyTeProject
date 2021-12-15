@@ -173,13 +173,8 @@ public class LoginActivity extends AppCompatActivity {
                         user.setName(name.getText().toString());
                         user.setPassword(pass.getText().toString());
                         user.setPhone(phone.getText().toString());
-
-                        users.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-                                Snackbar.make(root, "User added!", Snackbar.LENGTH_SHORT).show();
-                            }
-                        });
+                        user.setUid(users.child(FirebaseAuth.getInstance().getCurrentUser().getUid()));
+                        Snackbar.make(root, "User added!", Snackbar.LENGTH_SHORT).show();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
