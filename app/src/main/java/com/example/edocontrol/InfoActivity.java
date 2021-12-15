@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -57,7 +58,7 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
     private String notes;
     private String allUsedMeds;
     private String allPains;
-
+    private Singleton user;
 
     /**
      * Aktiviteetti luodaan
@@ -68,10 +69,9 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info);
 
-
+        user = Singleton.getInstance();
         Bundle b = getIntent().getExtras();
         clickedDate = b.getString(MainActivity.EXTRA_DATE,"0");
-
 
 
         endoDB = new DatabaseHelper(InfoActivity.this);
@@ -260,8 +260,10 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
                 allUsedMeds += "," +meds.getMedType();
             }
 
-            endoDB.addEverything(period,allPains,appointment.isAppointment(),allUsedMeds,clickedDate,notes);
-
+            String userID = LoginActivity.EMAIL;
+            Log.d("MikäOlet", userID);
+            endoDB.addEverything(period,allPains,appointment.isAppointment(),allUsedMeds,clickedDate,notes,userID);
+            endoDB.updateData(period,allPains,appointment.isAppointment(),allUsedMeds,clickedDate,notes,userID);
             // Shows on data save
             @SuppressLint("WrongConstant")
             Toast toast = Toast.makeText(this, "Details saved!", 2);

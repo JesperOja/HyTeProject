@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     private TextView notes;
     private ImageView bottomSheetImg;
     private Button addButton;
-
+    private Singleton user;
     private String addNotesToDate;
     public static final String EXTRA_DATE = "Extra date";
     private DatabaseHelper helper;
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
 
         helper = new DatabaseHelper(MainActivity.this);
         db = helper.getReadableDatabase();
-
+        user = Singleton.getInstance();
         initWidget();
         CalendarUtils.selectedDate = LocalDate.now();
         setMonthView();
@@ -98,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         period.setVisibility(View.INVISIBLE);
         notes.setVisibility(View.INVISIBLE);
 
+        addButton.setText("ADD INFO");
         String queryString = "SELECT * FROM " + DatabaseHelper.ENDO_TABLE;
         Cursor cursor = db.rawQuery(queryString, null);
 
@@ -221,9 +222,9 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     @Override
     public void onItemClick(int position, LocalDate date) {
 
+        addButton.setText("ADD INFO");
         addNotesToDate = date.toString();
         CalendarUtils.selectedDate = date;
-        addButton.setVisibility(View.VISIBLE);
         meds.setVisibility(View.INVISIBLE);
         pain.setVisibility(View.INVISIBLE);
         intensity.setVisibility(View.INVISIBLE);
@@ -332,7 +333,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
                             notes.setVisibility(View.VISIBLE);
                             notes.setText(notesWritten);
                         }
-                        addButton.setVisibility(View.INVISIBLE);
+                        addButton.setText("EDIT");
 
                     }
                 } while (cursor.moveToNext());

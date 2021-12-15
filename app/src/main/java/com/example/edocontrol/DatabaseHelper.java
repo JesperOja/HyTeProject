@@ -20,7 +20,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_PAIN = "ENDO_PAIN";
     public static final String ADD_DATE = "ADD_DATE";
     public static final String COLUMN_NOTES = "COLUMN_NOTES";
-
+    public static final String USED_ID = "USER_ID";
     public static final String COLUMN_ID = "ID";
 
     public DatabaseHelper(@Nullable Context context) {
@@ -32,7 +32,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String createTableStatement = "CREATE TABLE " + ENDO_TABLE + "(" + COLUMN_ID + " TEXT PRIMARY KEY, " +
                 COLUMN_ENDO_MEDS + " TEXT, " + COLUMN_PERIOD_INTENSITY + " INTEGER, " + COLUMN_ACTIVE_PERIOD + " INTEGER, " +
-                COLUMN_ENDO_APPOINTMENT + " INTEGER, " + COLUMN_PAIN + " TEXT, " + COLUMN_NOTES + " TEXT)";
+                COLUMN_ENDO_APPOINTMENT + " INTEGER, " + COLUMN_PAIN + " TEXT, " + COLUMN_NOTES + " TEXT, " + USED_ID + " TEXT)";
 
         db.execSQL(createTableStatement);
 
@@ -133,10 +133,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void addEverything(Period period, String pain, int appointment, String meds, String date, String note){
+    public void addEverything(Period period, String pain, int appointment, String meds, String date, String note, String userID){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
+        cv.put(USED_ID, userID);
         cv.put(COLUMN_PAIN, pain);
         cv.put(COLUMN_ACTIVE_PERIOD, period.isPeriodActive()); //kuukautiset
         cv.put(COLUMN_PERIOD_INTENSITY, period.getPeriodIntensity()); //intensiteetti
@@ -148,17 +149,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert(ENDO_TABLE, null, cv);
     }
 
-    public void clearDate(){
+    public void updateData(Period period, String pain, int appointment, String meds, String date, String note, String userID){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
-        cv.remove(COLUMN_PAIN);
-        cv.remove(COLUMN_ACTIVE_PERIOD);
-        cv.remove(COLUMN_PERIOD_INTENSITY);
-        cv.remove(COLUMN_ENDO_APPOINTMENT);
-        cv.remove(COLUMN_ENDO_MEDS);
+        cv.put(USED_ID, userID);
+        cv.put(COLUMN_PAIN, pain);
+        cv.put(COLUMN_ACTIVE_PERIOD, period.isPeriodActive()); //kuukautiset
+        cv.put(COLUMN_PERIOD_INTENSITY, period.getPeriodIntensity()); //intensiteetti
+        cv.put(COLUMN_ENDO_APPOINTMENT,appointment); //lääkärikäynti
+        cv.put(COLUMN_ENDO_MEDS, meds); // Medication
+        cv.put(COLUMN_ID, date);
+        cv.put(COLUMN_NOTES, note);
 
-        db.insert(ENDO_TABLE, null, cv);
+        db.replace(ENDO_TABLE, null, cv);
+
     }
 
 }

@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,13 +26,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 public class LoginActivity extends AppCompatActivity {
-
+    public static String EMAIL;
     Button btnSignIn, btnRegister;
     FirebaseAuth auth;
     FirebaseDatabase db;
     DatabaseReference users;
     RelativeLayout root;
-
+    Singleton user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         btnRegister = findViewById(R.id.btnRegister);
 
         root = findViewById(R.id.root_element);
-
+        user = Singleton.getInstance();
         auth = FirebaseAuth.getInstance();
         db = FirebaseDatabase.getInstance();
         users = db.getReference("Users");
@@ -106,6 +107,7 @@ public class LoginActivity extends AppCompatActivity {
                 auth.signInWithEmailAndPassword(email.getText().toString(),pass.getText().toString()).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
+                        EMAIL = email.getText().toString();
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         FirebaseDatabase.getInstance().getReference().push().setValue(email.getText().toString(),FirebaseAuth.getInstance().getCurrentUser().getUid());
                         finish();
@@ -168,12 +170,8 @@ public class LoginActivity extends AppCompatActivity {
                 auth.createUserWithEmailAndPassword(email.getText().toString(), pass.getText().toString()).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
-                        User user = new User();
-                        user.setEmail(email.getText().toString());
-                        user.setName(name.getText().toString());
-                        user.setPassword(pass.getText().toString());
-                        user.setPhone(phone.getText().toString());
-                        user.setUid(users.child(FirebaseAuth.getInstance().getCurrentUser().getUid()));
+
+                        user.setUser(pass.getText().toString(),phone.getText().toString(),email.getText().toString(),name.getText().toString(),users.child(FirebaseAuth.getInstance().getCurrentUser().getUid()));
                         Snackbar.make(root, "User added!", Snackbar.LENGTH_SHORT).show();
                     }
                 }).addOnFailureListener(new OnFailureListener() {

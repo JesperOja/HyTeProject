@@ -17,7 +17,8 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
 
     private final ArrayList<LocalDate> daysOfMonth;
     private final OnItemListener onItemListener;
-
+    private Singleton user;
+    String userID;
 
     public CalendarAdapter(ArrayList<LocalDate> daysOfMonth, OnItemListener onItemListener) {
         this.daysOfMonth = daysOfMonth;
@@ -38,9 +39,9 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull CalendarViewHolder holder, int position) {
-        String queryString = "SELECT ID FROM " + DatabaseHelper.ENDO_TABLE;
+        String queryString = "SELECT * FROM " + DatabaseHelper.ENDO_TABLE;
         final LocalDate date = daysOfMonth.get(position);
-
+        user = Singleton.getInstance();
         Cursor cursor = MainActivity.db.rawQuery(queryString, null);
 
         if(date == null)
@@ -53,7 +54,10 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
                     LocalDate addToCalendar = LocalDate.of(CalendarUtils.selectedDate.getYear(),CalendarUtils.selectedDate.getMonth(), date.getDayOfMonth());
                     String day = cursor.getString(0);
 
-                    if(day != null && day.equals(addToCalendar.toString())){
+                    userID = cursor.getString(7);
+
+
+                    if(day != null && day.equals(addToCalendar.toString()) && userID.equals(LoginActivity.EMAIL)){
                         holder.dayOfMonth.setCompoundDrawablesWithIntrinsicBounds(0,0,0,R.drawable.pink_event_marker);
                     }
 
