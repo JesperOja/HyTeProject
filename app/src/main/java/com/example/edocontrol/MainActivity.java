@@ -2,11 +2,13 @@ package com.example.edocontrol;
 
 import static com.example.edocontrol.CalendarUtils.daysInMonthArray;
 import static com.example.edocontrol.CalendarUtils.monthYearFromDate;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -17,8 +19,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.auth.FirebaseAuth;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -39,13 +43,11 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     private TextView notes;
     private ImageView bottomSheetImg;
     private Button addButton;
-    private Singleton user;
     private String addNotesToDate;
     public static final String EXTRA_DATE = "Extra date";
     private DatabaseHelper helper;
     public static SQLiteDatabase db;
-    FirebaseAuth auth;
-
+    private FirebaseAuth auth;
 
 
     @Override
@@ -80,12 +82,14 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         intensity = findViewById(R.id.intensity);
         meds = findViewById(R.id.meds);
 
-        CalendarUtils.selectedDate = LocalDate.now();
+
         helper = new DatabaseHelper(MainActivity.this);
         db = helper.getReadableDatabase();
-        user = Singleton.getInstance();
         auth = FirebaseAuth.getInstance();
+
+        CalendarUtils.selectedDate = LocalDate.now();
         addNotesToDate = LocalDate.now().toString();
+
         updateBottomSheet(CalendarUtils.selectedDate);
 
         meds.setVisibility(View.INVISIBLE);
@@ -177,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         startActivity(logout);
     }
 
-    public void updateBottomSheet(LocalDate date){
+    public void updateBottomSheet(LocalDate date) {
         bottomSheetDate.setText(CalendarUtils.selectedDate.getDayOfWeek() + " " + CalendarUtils.selectedDate.getDayOfMonth() + " of " + monthYearFromDate(CalendarUtils.selectedDate));
         addButton.setText("ADD INFO");
         String queryString = "SELECT * FROM " + DatabaseHelper.ENDO_TABLE;
@@ -185,10 +189,9 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
 
         if (cursor.moveToFirst()) {
             do {
-
                 String day = cursor.getString(0);
 
-                    if (day == null) {
+                if (day == null) {
 
                 } else if (day.equalsIgnoreCase(date.toString())) {
                     String painLvl = cursor.getString(5);
@@ -252,31 +255,32 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
                         period.setVisibility(View.VISIBLE);
                         period.setText("I am bleeding today");
 
-                            if(intensityLvl == 1){
-                                intensity.setText("(mild bleeding)");
-                            }else if(intensityLvl == 2){
-                                intensity.setText("(regular bleeding)");
-                            }else if(intensityLvl == 3){
-                                intensity.setText("(heavy bleeding)");
-                            }else{
-                                intensity.setText("(spotting)");
-                            }
+                        if (intensityLvl == 1) {
+                            intensity.setText("(mild bleeding)");
+                        } else if (intensityLvl == 2) {
+                            intensity.setText("(regular bleeding)");
+                        } else if (intensityLvl == 3) {
+                            intensity.setText("(heavy bleeding)");
+                        } else {
+                            intensity.setText("(spotting)");
+                        }
 
                     }
 
-                        if(appointmentYes == 1) {
-                            appointment.setVisibility(View.VISIBLE);
-                            appointment.setText("I'm having an appointment today.");
-                        }
-                        if(notesWritten != null) {
-                            notesText.setVisibility(View.VISIBLE);
-                            notes.setVisibility(View.VISIBLE);
-                            notes.setText(notesWritten);
-                        }
-                        addButton.setText("EDIT");
+                    if (appointmentYes == 1) {
+                        appointment.setVisibility(View.VISIBLE);
+                        appointment.setText("I'm having an appointment today.");
+                    }
+                    if (notesWritten != null) {
+                        notesText.setVisibility(View.VISIBLE);
+                        notes.setVisibility(View.VISIBLE);
+                        notes.setText(notesWritten);
+                    }
+                    addButton.setText("EDIT");
 
                 }
             } while (cursor.moveToNext());
+            cursor.close();
         }
     }
 }

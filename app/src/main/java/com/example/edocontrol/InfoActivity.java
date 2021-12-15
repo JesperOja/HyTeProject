@@ -205,6 +205,8 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }else if(buttonPeriodNo.isChecked()){
                 period = new Period();
+            }else{
+                period = new Period();
             }
 
             // Appointment
@@ -268,7 +270,6 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
             }
 
             String userID = LoginActivity.EMAIL;
-            Log.d("MikäOlet", userID);
             endoDB.addEverything(period,allPains,appointment.isAppointment(),allUsedMeds,clickedDate,notes,userID);
             endoDB.updateData(period,allPains,appointment.isAppointment(),allUsedMeds,clickedDate,notes,userID);
             // Shows on data save

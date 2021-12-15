@@ -6,10 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -17,8 +15,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
 
     private final ArrayList<LocalDate> daysOfMonth;
     private final OnItemListener onItemListener;
-    private Singleton user;
-    String userID;
+    private String userID;
 
     public CalendarAdapter(ArrayList<LocalDate> daysOfMonth, OnItemListener onItemListener) {
         this.daysOfMonth = daysOfMonth;
@@ -41,7 +38,6 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
     public void onBindViewHolder(@NonNull CalendarViewHolder holder, int position) {
         String queryString = "SELECT * FROM " + DatabaseHelper.ENDO_TABLE;
         final LocalDate date = daysOfMonth.get(position);
-        user = Singleton.getInstance();
         Cursor cursor = MainActivity.db.rawQuery(queryString, null);
 
         if(date == null)
