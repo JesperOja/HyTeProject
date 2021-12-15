@@ -55,8 +55,6 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
 
         initWidget();
         setMonthView();
-
-
     }
 
     @Override
@@ -97,8 +95,6 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         period.setVisibility(View.INVISIBLE);
         notesText.setVisibility(View.INVISIBLE);
         notes.setVisibility(View.INVISIBLE);
-
-
     }
 
     private void setMonthView() {
@@ -217,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
                                 pills += "Herbal remedies";
                             }
                         }
-                        meds.setText("Using medication: \n" + pills);
+                        meds.setText("Today's remedies: \n" + pills);
                     }
                     if (painLvl != null) {
                         pain.setVisibility(View.VISIBLE);
@@ -249,12 +245,12 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
                                 painLvl += "Pain during intercourse";
                             }
                         }
-                        pain.setText("What kind of pains I'm feeling: \n" + painLvl);
+                        pain.setText("I am experiencing: \n" + painLvl);
                     }
                     if (periodYes == 1) {
                         intensity.setVisibility(View.VISIBLE);
                         period.setVisibility(View.VISIBLE);
-                        period.setText("Yes, I have period");
+                        period.setText("I am bleeding today");
 
                             if(intensityLvl == 1){
                                 intensity.setText("(mild bleeding)");
@@ -282,22 +278,5 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
                 }
             } while (cursor.moveToNext());
         }
-    }
-}
-
-
-    public void AddNotes(View view) {
-        Intent intent = new Intent(this, InfoActivity.class);
-        intent.putExtra(EXTRA_DATE, addNotesToDate);
-
-        startActivity(intent);
-    }
-
-    public void Logout(MenuItem item) {
-        auth.getInstance().signOut();
-        Intent logout = new Intent(this, LoginActivity.class);
-
-        finishAffinity();
-        startActivity(logout);
     }
 }

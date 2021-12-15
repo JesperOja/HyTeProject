@@ -58,7 +58,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
 
 
                     if(day != null && day.equals(addToCalendar.toString()) && userID.equals(LoginActivity.EMAIL)){
-                        holder.dayOfMonth.setCompoundDrawablesWithIntrinsicBounds(0,0,0,R.drawable.pink_event_marker);
+                        holder.dayOfMonth.setCompoundDrawablesWithIntrinsicBounds(0,0,0,R.drawable.calpointsmall);
                     }
 
                 }while(cursor.moveToNext());
