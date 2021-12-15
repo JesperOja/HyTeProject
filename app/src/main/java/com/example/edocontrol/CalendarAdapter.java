@@ -1,7 +1,6 @@
 package com.example.edocontrol;
 
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,7 +17,6 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
 
     private final ArrayList<LocalDate> daysOfMonth;
     private final OnItemListener onItemListener;
-
 
 
     public CalendarAdapter(ArrayList<LocalDate> daysOfMonth, OnItemListener onItemListener) {
@@ -40,7 +38,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull CalendarViewHolder holder, int position) {
-        String queryString = "SELECT * FROM " + DatabaseHelper.ENDO_TABLE;
+        String queryString = "SELECT ID FROM " + DatabaseHelper.ENDO_TABLE;
         final LocalDate date = daysOfMonth.get(position);
 
         Cursor cursor = MainActivity.db.rawQuery(queryString, null);

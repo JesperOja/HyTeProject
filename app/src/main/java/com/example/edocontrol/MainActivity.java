@@ -97,6 +97,104 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         appointment.setVisibility(View.INVISIBLE);
         period.setVisibility(View.INVISIBLE);
         notes.setVisibility(View.INVISIBLE);
+
+        String queryString = "SELECT * FROM " + DatabaseHelper.ENDO_TABLE;
+        Cursor cursor = db.rawQuery(queryString, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+
+                String day = cursor.getString(0);
+
+                if (day == null) {
+
+                } else if (day.equalsIgnoreCase(addNotesToDate)) {
+                    String painLvl = cursor.getString(5);
+                    String pills = cursor.getString(1);
+                    int intensityLvl = cursor.getInt(2);
+                    int periodYes = cursor.getInt(3);
+                    int appointmentYes = cursor.getInt(4);
+                    String notesWritten = cursor.getString(6);
+
+                    if (pills != null) {
+                        meds.setVisibility(View.VISIBLE);
+                        String[] medsUsed = pills.split(",");
+                        pills = "";
+                        for (int i = 0; i < medsUsed.length; i++) {
+                            if (medsUsed[i].equals("1")) {
+                                pills += "Hormonal contraception\n";
+                            }
+                            if (medsUsed[i].equals("2")) {
+                                pills += "Pain medication\n";
+                            }
+                            if (medsUsed[i].equals("3")) {
+                                pills += "Herbal remedies";
+                            }
+                        }
+                        meds.setText("Using medication: \n" + pills);
+                    }
+                    if (painLvl != null) {
+                        pain.setVisibility(View.VISIBLE);
+                        String[] whereItHurts = painLvl.split(",");
+                        painLvl = "";
+                        for (int i = 0; i < whereItHurts.length; i++) {
+                            if (whereItHurts[i].equals("1")) {
+                                painLvl += "Lower abdomen pain\n";
+                            }
+                            if (whereItHurts[i].equals("2")) {
+                                painLvl += "Back pain\n";
+                            }
+                            if (whereItHurts[i].equals("3")) {
+                                painLvl += "Shoulder pain\n";
+                            }
+                            if (whereItHurts[i].equals("4")) {
+                                painLvl += "Chest pain\n";
+                            }
+                            if (whereItHurts[i].equals("5")) {
+                                painLvl += "Headache\n";
+                            }
+                            if (whereItHurts[i].equals("6")) {
+                                painLvl += "Pain when urinating\n";
+                            }
+                            if (whereItHurts[i].equals("7")) {
+                                painLvl += "Pain during bowel movement\n";
+                            }
+                            if (whereItHurts[i].equals("8")) {
+                                painLvl += "Pain during intercourse";
+                            }
+                        }
+                        pain.setText("What kind of pains I'm feeling: \n" + painLvl);
+                    }
+                    if (periodYes == 1) {
+                        intensity.setVisibility(View.VISIBLE);
+                        period.setVisibility(View.VISIBLE);
+                        period.setText("Yes, I have period");
+
+                        if (intensityLvl == 1) {
+                            intensity.setText("Period intensity is mild");
+                        } else if (intensityLvl == 2) {
+                            intensity.setText("Period intensity is medium");
+                        } else if (intensityLvl == 3) {
+                            intensity.setText("Period intensity is heavy");
+                        } else {
+                            intensity.setText("Period intensity is spotting");
+                        }
+
+                    }
+
+                    if (appointmentYes == 1) {
+                        appointment.setVisibility(View.VISIBLE);
+                        appointment.setText("I have appointment!");
+                    }
+                    if (notesWritten != null) {
+                        notes.setVisibility(View.VISIBLE);
+                        notes.setText(notesWritten);
+                    }
+                    addButton.setVisibility(View.INVISIBLE);
+
+                }
+            } while (cursor.moveToNext());
+        }
     }
 
     private void setMonthView() {
