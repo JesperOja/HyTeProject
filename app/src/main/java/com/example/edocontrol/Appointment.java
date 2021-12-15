@@ -7,8 +7,12 @@ public class Appointment {
         this.appointment = appointment;
     }
 
-    public boolean isAppointment() {
-        return appointment;
+    public int isAppointment() {
+        if(appointment)
+            return 1;
+        else
+            return 0;
+
     }
 
     public void setAppointment(boolean appointment) {

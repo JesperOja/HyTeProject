@@ -45,9 +45,9 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
     private Button backButton;
     private Button clearButton;
     private Switch appontmentButton;
-    private LocalDate localDate;
+
     public DatabaseHelper endoDB;
-    public DatabaseHelper dateDB;
+
     private TextView editNotes;
     private Period period;
     private Pain pain;
@@ -55,7 +55,8 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
     private Appointment appointment;
     private String clickedDate;
     private String notes;
-
+    private String allUsedMeds;
+    private String allPains;
 
 
     /**
@@ -72,9 +73,9 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
         clickedDate = b.getString(MainActivity.EXTRA_DATE,"0");
 
 
-        dateDB = new DatabaseHelper(InfoActivity.this);
+
         endoDB = new DatabaseHelper(InfoActivity.this);
-        dateDB.addDate(clickedDate);
+
 
         // Period activation
         groupPeriod = findViewById(R.id.periodGroup);
@@ -195,56 +196,71 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
                 else if (buttonPeriodIntensity4.isChecked()){
                     period = new Period(true, 4);
                 }
+            }else if(buttonPeriodNo.isChecked()){
+                period = new Period();
             }
 
             // Appointment
             if (appontmentButton.isChecked()){
                 appointment = new Appointment(true);
+            }else{
+                appointment = new Appointment(false);
             }
 
             // Notes
             if (!editNotes.toString().isEmpty()){
-                notes = editNotes.toString();
+                notes = editNotes.getText().toString();
             }
 
             // Pain
             if (painBox1.isChecked()){
                 pain = new Pain(1); // 1 = Lower abdomen pain
+                allPains += "," + pain.getPainLevel();
             }
-            else if (painBox2.isChecked()){
+            if (painBox2.isChecked()){
                 pain = new Pain(2); // 2 = Back pain
+                allPains += "," + pain.getPainLevel();
             }
-            else if (painBox3.isChecked()){
+            if (painBox3.isChecked()){
                 pain = new Pain(3); // 3 = Shoulder pain
+                allPains += "," + pain.getPainLevel();
             }
-            else if (painBox4.isChecked()){
+            if (painBox4.isChecked()){
                 pain = new Pain(4); // 4 = Chest pain
+                allPains += "," + pain.getPainLevel();
             }
-            else if (painBox5.isChecked()){
+            if (painBox5.isChecked()){
                 pain = new Pain(5); // 5 = Headache
+                allPains += "," + pain.getPainLevel();
             }
-            else if (painBox6.isChecked()){
+            if (painBox6.isChecked()){
                 pain = new Pain(6); // 6 = Pain when urinating
+                allPains += "," + pain.getPainLevel();
             }
-            else if (painBox7.isChecked()){
+            if (painBox7.isChecked()){
                 pain = new Pain(7); // 7 = Pain during bowel movement
+                allPains += "," + pain.getPainLevel();
             }
-            else if (painBox8.isChecked()) {
+            if (painBox8.isChecked()) {
                 pain = new Pain(8); // 8 = Pain during intercourse
+                allPains += "," + pain.getPainLevel();
             }
 
             // Meds
             if (medsBox1.isChecked()){
                 meds = new Meds(1); // 1 = Hormonal contraception
+                allUsedMeds += "," +meds.getMedType();
             }
-            else if (medsBox2.isChecked()){
+            if (medsBox2.isChecked()){
                 meds = new Meds(2); // 2 = Pain medication
+                allUsedMeds += "," +meds.getMedType();
             }
-            else if (medsBox3.isChecked()){
+            if (medsBox3.isChecked()){
                 meds = new Meds(3); // 3 = Herbal remedies
+                allUsedMeds += "," +meds.getMedType();
             }
 
-            endoDB.addEverything(period,pain,true,meds,clickedDate,notes);
+            endoDB.addEverything(period,allPains,appointment.isAppointment(),allUsedMeds,clickedDate,notes);
 
             // Shows on data save
             @SuppressLint("WrongConstant")

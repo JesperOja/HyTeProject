@@ -40,7 +40,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull CalendarViewHolder holder, int position) {
-        String queryString = "SELECT * FROM " + DatabaseHelper.TIME_TABLE;
+        String queryString = "SELECT * FROM " + DatabaseHelper.ENDO_TABLE;
         final LocalDate date = daysOfMonth.get(position);
 
         Cursor cursor = MainActivity.db.rawQuery(queryString, null);
@@ -55,7 +55,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
                     LocalDate addToCalendar = LocalDate.of(CalendarUtils.selectedDate.getYear(),CalendarUtils.selectedDate.getMonth(), date.getDayOfMonth());
                     String day = cursor.getString(0);
 
-                    if(day.equals(addToCalendar.toString())){
+                    if(day != null && day.equals(addToCalendar.toString())){
                         holder.dayOfMonth.setCompoundDrawablesWithIntrinsicBounds(0,0,0,R.drawable.pink_event_marker);
                     }
 

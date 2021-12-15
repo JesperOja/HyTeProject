@@ -14,8 +14,11 @@ public class Period extends InfoActivity {
         this.periodIntensity = periodIntensity;
     }
 
-    public boolean isPeriodActive() {
-        return periodActive;
+    public int isPeriodActive() {
+        if(periodActive)
+            return 1;
+        else
+            return 0;
     }
 
     public int getPeriodIntensity() {
