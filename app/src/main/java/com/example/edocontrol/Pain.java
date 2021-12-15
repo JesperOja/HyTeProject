@@ -1,6 +1,6 @@
 package com.example.edocontrol;
 /**
- * Kivun määritykseen tarkoitettu luokka.
+ * Class to define the type of pain.
  *
  * @author      Jenni Tynkkynen
  */
@@ -8,8 +8,8 @@ public class Pain extends InfoActivity {
     private int painType;
 
     /**
-     * Luokan konstruktori
-     * @param painType, int, asettaa kivun tyypin
+     * Class constructor for the pain type
+     * @param painType, int, defines a pain type
      */
 
     public Pain(int painType) {
@@ -17,8 +17,8 @@ public class Pain extends InfoActivity {
     }
 
     /**
-     *
-     * @return palauttaa kivun tyypin
+     * Getter for pain type
+     * @return returns a pain type as an integer
      */
     public int getPainType() {
         return painType;
