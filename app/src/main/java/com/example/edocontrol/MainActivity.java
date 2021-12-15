@@ -2,37 +2,28 @@ package com.example.edocontrol;
 
 import static com.example.edocontrol.CalendarUtils.daysInMonthArray;
 import static com.example.edocontrol.CalendarUtils.monthYearFromDate;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-
 import android.widget.ImageView;
-
 import android.widget.TextView;
-
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity implements CalendarAdapter.OnItemListener {
-
 
     private RecyclerView calendarRecyclerView;
     private TextView monthYear;
@@ -53,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     private DatabaseHelper helper;
     public static SQLiteDatabase db;
     FirebaseAuth auth;
-    FirebaseDatabase fbd;
+
 
 
     @Override
@@ -61,12 +52,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        helper = new DatabaseHelper(MainActivity.this);
-        db = helper.getReadableDatabase();
-        user = Singleton.getInstance();
         initWidget();
-        CalendarUtils.selectedDate = LocalDate.now();
         setMonthView();
         bottomSheetDate.setText(CalendarUtils.selectedDate.getDayOfWeek() + " " + CalendarUtils.selectedDate.getDayOfMonth() + " of " + monthYearFromDate(CalendarUtils.selectedDate));
 
@@ -94,8 +80,11 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         intensity = findViewById(R.id.intensity);
         meds = findViewById(R.id.meds);
 
+        CalendarUtils.selectedDate = LocalDate.now();
+        helper = new DatabaseHelper(MainActivity.this);
+        db = helper.getReadableDatabase();
+        user = Singleton.getInstance();
         auth = FirebaseAuth.getInstance();
-        fbd = FirebaseDatabase.getInstance();
         addNotesToDate = LocalDate.now().toString();
 
         meds.setVisibility(View.INVISIBLE);
@@ -198,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
                         notes.setVisibility(View.VISIBLE);
                         notes.setText(notesWritten);
                     }
-                    addButton.setVisibility(View.INVISIBLE);
+                    addButton.setText("EDIT");
 
                 }
             } while (cursor.moveToNext());
