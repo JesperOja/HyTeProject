@@ -9,11 +9,25 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class CalendarViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+/**
+ * CalendarViewHolder class for creating onClick listener for calendar days
+ *
+ * @author Jesper Oja
+ * @version 1.0
+ */
+public class CalendarViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     private final ArrayList<LocalDate> daysOfMonth;
     public final View parentView;
     public final TextView dayOfMonth;
     private final CalendarAdapter.OnItemListener onItemListener;
+
+    /**
+     * CalendarViewHolder constructor
+     *
+     * @param itemView View
+     * @param onItemListener onItemListener - Using CalendarAdapter's itemListener
+     * @param daysOfMonth   ArrayList - Dates of the month in single array
+     */
     public CalendarViewHolder(@NonNull View itemView, CalendarAdapter.OnItemListener onItemListener, ArrayList<LocalDate> daysOfMonth) {
         super(itemView);
         this.daysOfMonth = daysOfMonth;
@@ -23,8 +37,13 @@ public class CalendarViewHolder extends RecyclerView.ViewHolder implements View.
         itemView.setOnClickListener(this);
     }
 
+    /**
+     * onClick for calendar
+     *
+     * @param v View - To tell which day was pressed
+     */
     @Override
     public void onClick(View v) {
-        onItemListener.onItemClick(getAdapterPosition(),daysOfMonth.get(getAdapterPosition()));
+        onItemListener.onItemClick(getAdapterPosition(), daysOfMonth.get(getAdapterPosition()));
     }
 }
