@@ -167,12 +167,11 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 //User registration
+                Snackbar.make(root, "User added!", Snackbar.LENGTH_SHORT).show();
                 auth.createUserWithEmailAndPassword(email.getText().toString(), pass.getText().toString()).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
-
                         user.setUser(pass.getText().toString(),phone.getText().toString(),email.getText().toString(),name.getText().toString(),users.child(FirebaseAuth.getInstance().getCurrentUser().getUid()));
-                        Snackbar.make(root, "User added!", Snackbar.LENGTH_SHORT).show();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
