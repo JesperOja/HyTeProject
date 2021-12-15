@@ -1,23 +1,29 @@
 package com.example.edocontrol;
-
+/**
+ * Kivun määritykseen tarkoitettu luokka.
+ *
+ * @author      Jenni Tynkkynen
+ */
 public class Pain extends InfoActivity {
-    private int painLevel;
+    private int painType;
 
-    public Pain(int painLevel) {
-        this.painLevel = painLevel;
+    /**
+     * Luokan konstruktori
+     * @param painType, int, asettaa kivun tyypin
+     */
+
+    public Pain(int painType) {
+        this.painType = painType;
     }
 
-    public Pain (){
-        this.painLevel = 0;
-    }
-
+    /**
+     *
+     * @return palauttaa kivun tyypin
+     */
     public int getPainLevel() {
-        return painLevel;
+        return painType;
     }
 
-    public void setPainLevel(int painLevel) {
-        this.painLevel = painLevel;
-    }
 }
 // VALUES AND THEIR MEANINGS
 // 1 = Lower abdomen pain

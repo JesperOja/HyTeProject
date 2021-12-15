@@ -25,13 +25,6 @@ public class Period extends InfoActivity {
         return periodIntensity;
     }
 
-    public void setPeriodActive(boolean periodActive) {
-        this.periodActive = periodActive;
-    }
-
-    public void setPeriodIntensity(int periodIntensity) {
-        this.periodIntensity = periodIntensity;
-    }
 
 }
 
