@@ -7,14 +7,15 @@
 
     <RadioGroup
         android:id="@+id/intensityGroup"
-        android:layout_width="182dp"
-        android:layout_height="0dp"
+        android:layout_width="180dp"
+        android:layout_height="228dp"
         android:layout_marginTop="3dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="4dp"
         android:layout_marginBottom="15dp"
         app:layout_constraintBottom_toTopOf="@+id/pain2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.529">
 
         <RadioButton
             android:id="@+id/periodIntensity1"
@@ -55,13 +56,14 @@
 
     <RadioGroup
         android:id="@+id/periodGroup"
-        android:layout_width="187dp"
-        android:layout_height="0dp"
+        android:layout_width="184dp"
+        android:layout_height="124dp"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="11dp"
         app:layout_constraintBottom_toBottomOf="@+id/intensityGroup"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appointmentButton">
+        app:layout_constraintTop_toBottomOf="@+id/appointmentButton"
+        app:layout_constraintVertical_bias="0.0">
 
         <RadioButton
             android:id="@+id/periodYes"
@@ -94,11 +96,13 @@
     <Switch
         android:id="@+id/appointmentButton"
         android:layout_width="0dp"
-        android:layout_height="61dp"
+        android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
+        android:layout_marginBottom="163dp"
         android:minHeight="48dp"
         android:text="Appointment day"
+        app:layout_constraintBottom_toTopOf="@+id/experienceText"
         app:layout_constraintEnd_toStartOf="@+id/intensityGroup"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -107,9 +111,10 @@
         android:id="@+id/saveButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="Save"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.445"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editNotes" />
 
@@ -185,8 +190,8 @@
         android:id="@+id/pain8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginBottom="279dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="272dp"
         android:minHeight="48dp"
         android:text="Pain during intercourse"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -237,10 +242,32 @@
         android:id="@+id/clearButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="49dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="68dp"
+        android:layout_marginBottom="40dp"
         android:text="CLEAR"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/experienceText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="204dp"
+        android:text="I'm experiencing..."
+        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appointmentButton" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="253dp"
+        android:text="Today I've used..."
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/experienceText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

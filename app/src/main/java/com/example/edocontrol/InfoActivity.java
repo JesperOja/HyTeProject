@@ -20,6 +20,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.time.LocalDate;
 
+/**
+ *
+ */
 public class InfoActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher{
     private RadioGroup groupPeriodIntensity;
     private RadioGroup groupPeriod;
@@ -45,9 +48,7 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
     private Button backButton;
     private Button clearButton;
     private Switch appontmentButton;
-
     public DatabaseHelper endoDB;
-
     private TextView editNotes;
     private Period period;
     private Pain pain;
@@ -61,6 +62,7 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
 
     /**
      * Aktiviteetti luodaan
+     * @param savedInstanceState
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -150,7 +152,7 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
 
 
     /**
-     * Listener radiobuttoneille ja checkboxeille
+     * Kuuntelija aktiviteetin radiobuttoneille ja checkboxeille
      */
     public void onClick(View v) {
 
@@ -281,7 +283,9 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    //boolean state = false;
+    /**
+     * Metodi, joka nollaa valitut arvot aktiviteetista
+     */
     public void clearOptions () {
 
         if (medsBox1.isChecked()) {
@@ -327,8 +331,16 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     /**
-     * Tekstikentän muutosten handler
+     * Metodi, jota kutsutaan, kun sovellus suljetaan
      */
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (endoDB != null)
+            endoDB.close();
+    }
+
     @Override
     public void beforeTextChanged(CharSequence s, int start, int before, int count) {
     }
@@ -339,29 +351,13 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void afterTextChanged(Editable editable) {
-        editNotes = findViewById(R.id.editNotes);
-        String notes = editNotes.getText().toString();
-        endoDB.addEntryDetails(notes);
+
     }
 
-    /**
-     * Kutsutaab, kun sovellus suljetaan
-     */
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        if (endoDB != null)
-            endoDB.close();
-    }
-
-    /**
-     * Databasen muutosten handler
-     */
-    private void databaseChanged() {
+    /*private void databaseChanged() {
 
         BackupManager bm = new BackupManager(this);
         bm.dataChanged();
-    }
+    }*/
 }
 
