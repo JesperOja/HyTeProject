@@ -49,14 +49,21 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
                 do{
                     LocalDate addToCalendar = LocalDate.of(CalendarUtils.selectedDate.getYear(),CalendarUtils.selectedDate.getMonth(), date.getDayOfMonth());
                     String day = cursor.getString(0);
-
+                    String painLvl = cursor.getString(5);
+                    String pills = cursor.getString(1);
+                    int intensityLvl = cursor.getInt(2);
+                    int periodYes = cursor.getInt(3);
+                    int appointmentYes = cursor.getInt(4);
+                    String notesWritten = cursor.getString(6);
                     userID = cursor.getString(7);
 
-
-                    if(day != null && day.equals(addToCalendar.toString()) && userID.equals(LoginActivity.EMAIL)){
-                        holder.dayOfMonth.setCompoundDrawablesWithIntrinsicBounds(0,0,0,R.drawable.calpointsmall);
+                    if(intensityLvl == 0 && periodYes == 0 && appointmentYes == 0 && painLvl == null && pills == null && notesWritten.equals("")){
+                        holder.dayOfMonth.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                    }else {
+                        if (day != null && day.equals(addToCalendar.toString()) && userID.equals(LoginActivity.EMAIL)) {
+                            holder.dayOfMonth.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.calpointsmall);
+                        }
                     }
-
                 }while(cursor.moveToNext());
             }
 

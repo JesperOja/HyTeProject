@@ -201,6 +201,9 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
                     int appointmentYes = cursor.getInt(4);
                     String notesWritten = cursor.getString(6);
 
+                    if(intensityLvl == 0 && periodYes == 0 && appointmentYes == 0 && painLvl == null && pills == null && notesWritten.equals("")){
+
+                    }else{
                     if (pills != null) {
                         meds.setVisibility(View.VISIBLE);
                         String[] medsUsed = pills.split(",");
@@ -279,7 +282,9 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
                     addButton.setText("EDIT");
 
                 }
-            } while (cursor.moveToNext());
+            }
+
+        }while (cursor.moveToNext());
             cursor.close();
         }
     }
