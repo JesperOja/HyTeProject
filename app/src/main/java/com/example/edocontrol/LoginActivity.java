@@ -8,8 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +23,12 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+/**
+ * This activity helps to add new user to the
+ * FireBase database and login into the application
+ * @author Anatolii Subbotin
+ * @version 1.0 build 12.2021
+ */
 public class LoginActivity extends AppCompatActivity {
     public static String EMAIL;
     Button btnSignIn, btnRegister;
@@ -34,6 +38,10 @@ public class LoginActivity extends AppCompatActivity {
     RelativeLayout root;
     Singleton user;
 
+    /**
+     * Setting the LoginActivity to the Screen view and starts the programme
+     * @param savedInstanceState saving the instance state into Bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,18 +55,30 @@ public class LoginActivity extends AppCompatActivity {
         db = FirebaseDatabase.getInstance();
         users = db.getReference("Users");
         btnRegister.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Called when a "Register" button has been clicked.
+             * @param v gets the button "Register"
+             */
             @Override
             public void onClick(View v) {
                 showRegisterWindow();
             }
         });
         btnSignIn.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Called when a "Sign in" button has been clicked.
+             * @param v gets the button "Sign in"
+             */
             @Override
             public void onClick(View v) {
                 showSignInWindow();
             }
         });
     }
+
+    /**
+     * Opens new layout where user inserts email and password to enter the application
+     */
     //User signing in
     private void showSignInWindow() {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
@@ -73,26 +93,23 @@ public class LoginActivity extends AppCompatActivity {
         final MaterialEditText pass = sign_in_win.findViewById(R.id.passField);
 
         dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            /**
+             * Closes the "Sing in" layout
+             * @param dialogInterface the dialog that received the click
+             * @param which The button that was clicked ("Cancel")
+             */
             @Override
             public void onClick(DialogInterface dialogInterface, int which) {
                 dialogInterface.dismiss();
             }
         });
-        dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
-            @Override
-            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-                if(event.getAction()!=KeyEvent.ACTION_DOWN) {
-                    return false;
-                }
-                if(event.getAction()==KeyEvent.KEYCODE_ENTER){
-
-                    return true;
-                }
-                return false;
-            }
-        });
 
         dialog.setPositiveButton("Login", new DialogInterface.OnClickListener() {
+            /**
+             * Tries to enter the application
+             * @param dialogInterface the dialog that received the click
+             * @param which The button that was clicked ("Login")
+             */
             @Override
             public void onClick(DialogInterface dialogInterface, int which) {
                 if(TextUtils.isEmpty(email.getText().toString())){
@@ -105,6 +122,10 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 auth.signInWithEmailAndPassword(email.getText().toString(),pass.getText().toString()).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                    /**
+                     * If user inserts login information correctly, starts MainActivity and set the Email variable
+                     * @param authResult gets a succeeded task from FireBase
+                     */
                     @Override
                     public void onSuccess(AuthResult authResult) {
                         EMAIL = email.getText().toString();
@@ -113,6 +134,10 @@ public class LoginActivity extends AppCompatActivity {
                         finish();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
+                    /**
+                     * Gives information to the user, that login attempt is not succeeded
+                     * @param e gets an exception code
+                     */
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Snackbar.make(root, "Authorization Error. " + e.getMessage(), Snackbar.LENGTH_SHORT).show();
@@ -125,6 +150,10 @@ public class LoginActivity extends AppCompatActivity {
         dialog.show();
 
     }
+
+    /**
+     * Opens new layout where user inserts information needed for registration
+     */
     //User registration
     private void showRegisterWindow() {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
@@ -141,14 +170,26 @@ public class LoginActivity extends AppCompatActivity {
         final MaterialEditText phone = reg_win.findViewById(R.id.phoneField);
 
         dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            /**
+             * Closes the "Register" layout
+             * @param dialogInterface the dialog that received the click
+             * @param which The button that was clicked ("Cancel")
+             */
             @Override
             public void onClick(DialogInterface dialogInterface, int which) {
                 dialogInterface.dismiss();
             }
         });
-
         dialog.setPositiveButton("Add", new DialogInterface.OnClickListener() {
-            public void regInfo(DialogInterface dialogInterface, int which){
+            /**
+             * Checks if inserted information is valid.
+             * If yes, creates new user.
+             * If not, throws the exception error.
+             * @param dialogInterface the dialog that received the click
+             * @param which The button that was clicked ("Add")
+             */
+            @Override
+            public void onClick(DialogInterface dialogInterface, int which) {
                 if(TextUtils.isEmpty(email.getText().toString())){
                     Snackbar.make(root, "Enter email", Snackbar.LENGTH_LONG).show();
                     return;
@@ -165,24 +206,27 @@ public class LoginActivity extends AppCompatActivity {
                     Snackbar.make(root, "Password is to short", Snackbar.LENGTH_LONG).show();
                     return;
                 }
-
                 //User registration
                 Snackbar.make(root, "User added!", Snackbar.LENGTH_SHORT).show();
                 auth.createUserWithEmailAndPassword(email.getText().toString(), pass.getText().toString()).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                    /**
+                     * Loads the information to the FireBase server
+                     * @param authResult gets a succeeded task from FireBase
+                     */
                     @Override
                     public void onSuccess(AuthResult authResult) {
                         user.setUser(pass.getText().toString(),phone.getText().toString(),email.getText().toString(),name.getText().toString(),users.child(FirebaseAuth.getInstance().getCurrentUser().getUid()));
                     }
                 }).addOnFailureListener(new OnFailureListener() {
+                    /**
+                     * Gives information to the user, that account creation attempt is not succeeded
+                     * @param e gets an exception code
+                     */
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Snackbar.make(root, "Registration Error. " + e.getMessage(), Snackbar.LENGTH_SHORT).show();
                     }
                 });
-            }
-            @Override
-            public void onClick(DialogInterface dialogInterface, int which) {
-                regInfo(dialogInterface, which);
             }
         });
 
