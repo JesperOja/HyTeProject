@@ -26,6 +26,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+/**
+ * MainActivity which holds calendar and BottomSheet which show information
+ *
+ * @author Jesper Oja
+ * @version 1.0
+ */
 
 public class MainActivity extends AppCompatActivity implements CalendarAdapter.OnItemListener {
 
@@ -59,6 +65,9 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         setMonthView();
     }
 
+    /**
+     * onResume will refresh calendar
+     */
     @Override
     public void onResume() {
         super.onResume();
@@ -81,7 +90,6 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         period = findViewById(R.id.period);
         intensity = findViewById(R.id.intensity);
         meds = findViewById(R.id.meds);
-
 
         helper = new DatabaseHelper(MainActivity.this);
         db = helper.getReadableDatabase();
@@ -111,17 +119,33 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         calendarRecyclerView.setAdapter(calendarAdapter);
     }
 
+    /**
+     * onClickAction for calendar previous month
+     *
+     * @param view View
+     */
     public void previousMonthAction(View view) {
 
         CalendarUtils.selectedDate = CalendarUtils.selectedDate.minusMonths(1);
         setMonthView();
     }
 
+    /**
+     * onClickAction for calendar next month
+     *
+     * @param view View
+     */
     public void nextMonthAction(View view) {
         CalendarUtils.selectedDate = CalendarUtils.selectedDate.plusMonths(1);
         setMonthView();
     }
 
+    /**
+     * onItemClick method for calendar days
+     *
+     * @param position int - Which day was pressed
+     * @param date LocalDate - Date of that pressed day
+     */
     @Override
     public void onItemClick(int position, LocalDate date) {
 
@@ -165,7 +189,11 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         cursor.close();
     }
 
-
+    /**
+     * onClick method for moving to InfoActivity
+     *
+     * @param view View
+     */
     public void AddNotes(View view) {
         Intent intent = new Intent(this, InfoActivity.class);
         intent.putExtra(EXTRA_DATE, addNotesToDate);
@@ -173,6 +201,11 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         startActivity(intent);
     }
 
+    /**
+     * onClick method to log user out back to login screen
+     *
+     * @param item MenuItem
+     */
     public void Logout(MenuItem item) {
         auth.getInstance().signOut();
         Intent logout = new Intent(this, LoginActivity.class);
@@ -181,6 +214,11 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         startActivity(logout);
     }
 
+    /**
+     * Updating BottomSheets view depending on are there info for that day in database or not
+     *
+     * @param date LocalDate - Which day is selected
+     */
     public void updateBottomSheet(LocalDate date) {
         bottomSheetDate.setText(CalendarUtils.selectedDate.getDayOfWeek() + " " + CalendarUtils.selectedDate.getDayOfMonth() + " of " + monthYearFromDate(CalendarUtils.selectedDate));
         addButton.setText("ADD INFO");
