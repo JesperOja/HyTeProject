@@ -15,6 +15,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -23,6 +24,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -49,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     public static final String EXTRA_DATE = "Extra date";
     private DatabaseHelper helper;
     public static SQLiteDatabase db;
+    FirebaseAuth auth;
+    FirebaseDatabase fbd;
 
 
     @Override
@@ -89,6 +94,8 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         intensity = findViewById(R.id.intensity);
         meds = findViewById(R.id.meds);
 
+        auth = FirebaseAuth.getInstance();
+        fbd = FirebaseDatabase.getInstance();
         addNotesToDate = LocalDate.now().toString();
 
         meds.setVisibility(View.INVISIBLE);
@@ -362,5 +369,13 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         intent.putExtra(EXTRA_DATE, addNotesToDate);
 
         startActivity(intent);
+    }
+
+    public void Logout(MenuItem item) {
+        auth.getInstance().signOut();
+        Intent logout = new Intent(this, LoginActivity.class);
+
+        finishAffinity();
+        startActivity(logout);
     }
 }

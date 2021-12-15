@@ -15,8 +15,8 @@
 
     <item
         android:id="@+id/more"
-        android:title="something"
-
+        android:title="Logout"
+        android:onClick="Logout"
         app:showAsAction="never" />
 
 </menu>
