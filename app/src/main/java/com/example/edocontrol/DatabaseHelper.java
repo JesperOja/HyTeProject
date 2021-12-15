@@ -8,7 +8,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
-
+/**
+ * Class to define the basis of the SQLite database used to store user input from InfoActivity.
+ * Extends to SQLite Open Helper
+ *
+ * @author      Jenni Tynkkynen
+ */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String ENDO_TABLE = "ENDO_TABLE";
@@ -23,11 +28,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String USED_ID = "USER_ID";
     public static final String COLUMN_ID = "ID";
 
+    /**
+     * Constructor of the class
+     * @param context
+     */
     public DatabaseHelper(@Nullable Context context) {
         super(context, "endoDB", null, 1);
     }
 
-    // kutsutaan, kun databaseen mennään ensimmäisen kerran
+    /**
+     * Called when the database is created
+     * @param db SQLiteDatabase, the created database
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         String createTableStatement = "CREATE TABLE " + ENDO_TABLE + "(" + COLUMN_ID + " TEXT PRIMARY KEY, " +
@@ -38,60 +50,72 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    //kutsutaan, mikäli databasen versionumero muuttuu
+    /**
+     * Called in case the version number of the database changes
+     * @param db SQLiteDatabase, the used database
+     * @param oldVersion int, old version number
+     * @param newVersion int, new version number
+     */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         onCreate(db);
     }
 
-    public boolean addPeriod(Period period) {
-
+    /**
+     * Method to add details from the selected date to the database
+     * @param period Period, adds the period status and intensity to its rightful column
+     * @param pain Pain, adds pain types to their rightful column
+     * @param appointment int, adds appointment status to its rightful column
+     * @param meds String, adds medication types to their rightful column
+     * @param date String, adds the selected date to its rightful column
+     * @param note String, adds user notes to their rightful column
+     * @param userID String, adds user ID to its rightful column
+     */
+    public void addEverything(Period period, String pain, int appointment, String meds, String date, String note, String userID){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
+        cv.put(USED_ID, userID);
+        cv.put(COLUMN_PAIN, pain);
         cv.put(COLUMN_ACTIVE_PERIOD, period.isPeriodActive()); //kuukautiset
         cv.put(COLUMN_PERIOD_INTENSITY, period.getPeriodIntensity()); //intensiteetti
+        cv.put(COLUMN_ENDO_APPOINTMENT,appointment); //lääkärikäynti
+        cv.put(COLUMN_ENDO_MEDS, meds); // Medication
+        cv.put(COLUMN_ID, date);
+        cv.put(COLUMN_NOTES, note);
 
-        long insert = db.insert(ENDO_TABLE, null, cv);
-        if (insert == -1) {
-            return false;
-        } else {
-            return true;
-        }
-
+        db.insert(ENDO_TABLE, null, cv);
     }
 
-    public boolean addAppointment(int i) {
+    /**
+     * Updates data for the selected date to the database
+     * @param period adds the period status and intensity to its rightful column
+     * @param pain adds pain types to their rightful column
+     * @param appointment adds appointment status to its rightful column
+     * @param meds adds medication types to their rightful column
+     * @param date adds the selected date to its rightful column
+     * @param note adds user notes to their rightful column
+     * @param userID adds user ID to its rightful column
+     */
+    public void updateData(Period period, String pain, int appointment, String meds, String date, String note, String userID){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
-        cv.put(COLUMN_ENDO_APPOINTMENT,i); //lääkärikäynti
+        cv.put(USED_ID, userID);
+        cv.put(COLUMN_PAIN, pain);
+        cv.put(COLUMN_ACTIVE_PERIOD, period.isPeriodActive()); //kuukautiset
+        cv.put(COLUMN_PERIOD_INTENSITY, period.getPeriodIntensity()); //intensiteetti
+        cv.put(COLUMN_ENDO_APPOINTMENT,appointment); //lääkärikäynti
+        cv.put(COLUMN_ENDO_MEDS, meds); // Medication
+        cv.put(COLUMN_ID, date);
+        cv.put(COLUMN_NOTES, note);
 
-        long insert = db.insert(ENDO_TABLE, null, cv);
-        if (insert == -1) {
-            return false;
-        } else {
-            return true;
-        }
-
-    }
-
-    public boolean addDate(String date) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cvdate = new ContentValues();
-
-        cvdate.put(ADD_DATE, date); // päivämäärä
-
-        long insert = db.insert(TIME_TABLE, null, cvdate);
-        if (insert == -1) {
-            return false;
-        } else {
-            return true;
-        }
+        db.replace(ENDO_TABLE, null, cv);
 
     }
 
-    public boolean addEntryDetails(String notes){
+    // Code for future development, not to be added to the final evaluation
+    /*public boolean addEntryDetails(String notes){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
@@ -131,39 +155,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } else {
             return true;
         }
-    }
-
-    public void addEverything(Period period, String pain, int appointment, String meds, String date, String note, String userID){
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-
-        cv.put(USED_ID, userID);
-        cv.put(COLUMN_PAIN, pain);
-        cv.put(COLUMN_ACTIVE_PERIOD, period.isPeriodActive()); //kuukautiset
-        cv.put(COLUMN_PERIOD_INTENSITY, period.getPeriodIntensity()); //intensiteetti
-        cv.put(COLUMN_ENDO_APPOINTMENT,appointment); //lääkärikäynti
-        cv.put(COLUMN_ENDO_MEDS, meds); // Medication
-        cv.put(COLUMN_ID, date);
-        cv.put(COLUMN_NOTES, note);
-
-        db.insert(ENDO_TABLE, null, cv);
-    }
-
-    public void updateData(Period period, String pain, int appointment, String meds, String date, String note, String userID){
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-
-        cv.put(USED_ID, userID);
-        cv.put(COLUMN_PAIN, pain);
-        cv.put(COLUMN_ACTIVE_PERIOD, period.isPeriodActive()); //kuukautiset
-        cv.put(COLUMN_PERIOD_INTENSITY, period.getPeriodIntensity()); //intensiteetti
-        cv.put(COLUMN_ENDO_APPOINTMENT,appointment); //lääkärikäynti
-        cv.put(COLUMN_ENDO_MEDS, meds); // Medication
-        cv.put(COLUMN_ID, date);
-        cv.put(COLUMN_NOTES, note);
-
-        db.replace(ENDO_TABLE, null, cv);
-
-    }
+    }*/
 
 }

@@ -1,5 +1,10 @@
 package com.example.edocontrol;
 
+/**
+ * Class to define an appointment.
+ *
+ * @author      Jenni Tynkkynen
+ */
 public class Appointment {
     public boolean appointment;
 
