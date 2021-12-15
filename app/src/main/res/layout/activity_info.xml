@@ -1,266 +1,366 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
 
-    <RadioGroup
-        android:id="@+id/intensityGroup"
-        android:layout_width="182dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="15dp"
-        app:layout_constraintBottom_toTopOf="@+id/pain2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:background="#abb1a3"
+        tools:context=".InfoActivity"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="-7dp">
 
-        <RadioButton
-            android:id="@+id/periodIntensity1"
-            android:layout_width="match_parent"
+        <RadioGroup
+            android:id="@+id/intensityGroup"
+            android:layout_width="149dp"
+            android:layout_height="205dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <RadioButton
+                android:id="@+id/periodIntensity1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/comfortaa"
+                android:minHeight="48dp"
+                android:text="Mild " />
+
+            <RadioButton
+                android:id="@+id/periodIntensity2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/comfortaa"
+                android:minHeight="48dp"
+                android:text="Medium" />
+
+            <RadioButton
+                android:id="@+id/periodIntensity3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/comfortaa"
+                android:minHeight="48dp"
+                android:text="Heavy" />
+
+            <RadioButton
+                android:id="@+id/periodIntensity4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/comfortaa"
+                android:minHeight="50dp"
+                android:text="Spotting"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <RadioButton
+                android:id="@+id/noIntensity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/comfortaa"
+                android:text="RadioButton"
+                android:visibility="gone" />
+        </RadioGroup>
+
+        <RadioGroup
+            android:id="@+id/periodGroup"
+            android:layout_width="167dp"
+            android:layout_height="105dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/experienceText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/todayText"
+            app:layout_constraintVertical_bias="0.886">
+
+            <RadioButton
+                android:id="@+id/periodYes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/comfortaa"
+                android:minHeight="48dp"
+                android:text="Bleeding"
+                android:textSize="16sp" />
+
+            <RadioButton
+                android:id="@+id/periodNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/comfortaa"
+                android:minHeight="48dp"
+                android:text="Not bleeding"
+                android:textSize="16sp" />
+
+        </RadioGroup>
+
+        <EditText
+            android:id="@+id/editNotes"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="72dp"
+            android:ems="10"
+            android:fontFamily="@font/comfortaa"
+            android:hint="notes"
+            android:inputType="textPersonName"
             android:minHeight="48dp"
-            android:text="Mild " />
+            app:layout_constraintBottom_toTopOf="@+id/clearButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.877"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/meds3" />
 
-        <RadioButton
-            android:id="@+id/periodIntensity2"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/saveButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginBottom="32dp"
+            android:fontFamily="@font/comfortaa"
+            android:text="SAVE"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/clearButton"
+            app:layout_constraintStart_toEndOf="@+id/backButton"
+            app:layout_constraintTop_toBottomOf="@+id/editNotes" />
+
+        <Button
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:fontFamily="@font/comfortaa"
+            android:text="BACK"
+            app:layout_constraintBaseline_toBaselineOf="@+id/saveButton"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/clearButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:fontFamily="@font/comfortaa"
+            android:text="CLEAR"
+            app:layout_constraintBaseline_toBaselineOf="@+id/saveButton"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+
+        <CheckBox
+            android:id="@+id/meds1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/comfortaa"
             android:minHeight="48dp"
-            android:text="Medium" />
+            android:text="Hormonal contraceptive"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
-        <RadioButton
-            android:id="@+id/periodIntensity3"
-            android:layout_width="match_parent"
+        <CheckBox
+            android:id="@+id/meds2"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/comfortaa"
             android:minHeight="48dp"
-            android:text="Heavy" />
+            android:text="Pain medication"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/meds1" />
 
-        <RadioButton
-            android:id="@+id/periodIntensity4"
-            android:layout_width="match_parent"
+        <CheckBox
+            android:id="@+id/meds3"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minHeight="50dp"
-            android:text="Spotting"
-            tools:ignore="TouchTargetSizeCheck" />
-
-        <RadioButton
-            android:id="@+id/noIntensity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="RadioButton"
-            android:visibility="gone" />
-    </RadioGroup>
-
-    <RadioGroup
-        android:id="@+id/periodGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="11dp"
-        app:layout_constraintBottom_toBottomOf="@+id/intensityGroup"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appointmentButton">
-
-        <RadioButton
-            android:id="@+id/periodYes"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:fontFamily="@font/comfortaa"
             android:minHeight="48dp"
-            android:text="Period" />
+            android:text="Herbal treatment"
+            app:layout_constraintBaseline_toBaselineOf="@+id/meds2"
+            app:layout_constraintStart_toEndOf="@+id/meds2" />
 
-        <RadioButton
-            android:id="@+id/periodNo"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/bleedingText"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/comfortaa"
+            android:text="Today I'm..."
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/periodGroup"
+            app:layout_constraintEnd_toStartOf="@+id/intensityGroup"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/todayText"
+            app:layout_constraintVertical_bias="0.466" />
+
+        <TextView
+            android:id="@+id/experienceText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="270dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/comfortaa"
+            android:text="I'm experiencing..."
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/pain1"
+            app:layout_constraintEnd_toStartOf="@+id/intensityGroup"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <CheckBox
+            android:id="@+id/pain8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/comfortaa"
             android:minHeight="48dp"
-            android:text="No period" />
-    </RadioGroup>
+            android:text="Pain during intercourse"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pain7" />
 
-    <EditText
-        android:id="@+id/editNotes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="13dp"
-        android:layout_marginEnd="12dp"
-        android:ems="10"
-        android:hint="notes"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/meds3" />
+        <CheckBox
+            android:id="@+id/pain7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/comfortaa"
+            android:minHeight="48dp"
+            android:text="Bowel movement pain"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pain6" />
 
-    <Switch
-        android:id="@+id/appointmentButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
-        android:minHeight="48dp"
-        android:text="Appointment day"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <CheckBox
+            android:id="@+id/pain6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/comfortaa"
+            android:minHeight="48dp"
+            android:text="Pain when urinating"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pain3" />
 
-    <Button
-        android:id="@+id/saveButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Save"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editNotes" />
+        <CheckBox
+            android:id="@+id/pain3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/comfortaa"
+            android:minHeight="48dp"
+            android:text="Shoulder pain"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pain5" />
 
-    <CheckBox
-        android:id="@+id/pain1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:minHeight="48dp"
-        android:text="Pain in lower abdomen"
-        app:layout_constraintBaseline_toBaselineOf="@+id/pain2"
-        app:layout_constraintStart_toStartOf="parent" />
+        <CheckBox
+            android:id="@+id/pain4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:fontFamily="@font/comfortaa"
+            android:minHeight="48dp"
+            android:text="Chest pain"
+            app:layout_constraintBaseline_toBaselineOf="@+id/pain3"
+            app:layout_constraintStart_toEndOf="@+id/pain3" />
 
-    <CheckBox
-        android:id="@+id/pain2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="48dp"
-        android:minHeight="48dp"
-        android:text="Back pain"
-        app:layout_constraintBottom_toTopOf="@+id/pain7"
-        app:layout_constraintStart_toEndOf="@+id/pain1" />
+        <CheckBox
+            android:id="@+id/pain5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:fontFamily="@font/comfortaa"
+            android:minHeight="48dp"
+            android:text="Headache"
+            app:layout_constraintBaseline_toBaselineOf="@+id/pain2"
+            app:layout_constraintStart_toEndOf="@+id/pain2" />
 
-    <CheckBox
-        android:id="@+id/pain3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:minHeight="48dp"
-        android:text="Shoulder pain"
-        app:layout_constraintBaseline_toBaselineOf="@+id/pain4"
-        app:layout_constraintStart_toStartOf="parent" />
+        <CheckBox
+            android:id="@+id/pain2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/comfortaa"
+            android:minHeight="48dp"
+            android:text="Back pain"
+            app:layout_constraintBottom_toTopOf="@+id/pain3"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    <CheckBox
-        android:id="@+id/pain4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:minHeight="48dp"
-        android:text="Chest pain"
-        app:layout_constraintStart_toEndOf="@+id/pain3"
-        app:layout_constraintTop_toBottomOf="@+id/pain1" />
+        <CheckBox
+            android:id="@+id/pain1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/comfortaa"
+            android:minHeight="48dp"
+            android:text="Pain in lower abdomen"
+            app:layout_constraintBottom_toTopOf="@+id/pain2"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    <CheckBox
-        android:id="@+id/pain5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:minHeight="48dp"
-        android:text="Headache"
-        app:layout_constraintBaseline_toBaselineOf="@+id/pain4"
-        app:layout_constraintStart_toEndOf="@+id/pain4" />
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="36dp"
+            android:fontFamily="@font/comfortaa"
+            android:text="Today I've used..."
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pain8" />
 
-    <CheckBox
-        android:id="@+id/pain6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:minHeight="48dp"
-        android:text="Pain when urinating"
-        app:layout_constraintBaseline_toBaselineOf="@+id/pain7"
-        app:layout_constraintStart_toStartOf="parent" />
+        <TextView
+            android:id="@+id/todayText"
+            android:layout_width="216dp"
+            android:layout_height="46dp"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/comfortaa"
+            android:text="TextView"
+            android:textStyle="bold"
+            android:textColor="#ccdbd4"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.082"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <CheckBox
-        android:id="@+id/pain7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="168dp"
-        android:minHeight="48dp"
-        android:text="Pain during bowel movement"
-        app:layout_constraintBottom_toTopOf="@+id/pain8"
-        app:layout_constraintStart_toStartOf="parent" />
+        <Switch
+            android:id="@+id/appointmentButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/textView3"
+            app:layout_constraintEnd_toStartOf="@+id/editNotes"
+            app:layout_constraintStart_toEndOf="@+id/textView3" />
 
-    <CheckBox
-        android:id="@+id/pain8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginBottom="279dp"
-        android:minHeight="48dp"
-        android:text="Pain during intercourse"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="125dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:fontFamily="@font/comfortaa"
+            android:text="Appointment"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/meds2" />
 
-    <CheckBox
-        android:id="@+id/meds1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="19dp"
-        android:minHeight="48dp"
-        android:text="Hormonal contraceptive"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pain8" />
-
-    <CheckBox
-        android:id="@+id/meds2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:minHeight="48dp"
-        android:text="Pain medication"
-        app:layout_constraintBaseline_toBaselineOf="@+id/meds3"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <CheckBox
-        android:id="@+id/meds3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="148dp"
-        android:minHeight="48dp"
-        android:text="Herbal treatment"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/meds1" />
-
-    <Button
-        android:id="@+id/backButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="33dp"
-        android:layout_marginBottom="39dp"
-        android:text="BACK"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/clearButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="68dp"
-        android:layout_marginBottom="40dp"
-        android:text="CLEAR"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <TextView
-        android:id="@+id/experienceText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="204dp"
-        android:text="I'm experiencing..."
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appointmentButton" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="253dp"
-        android:text="Today I've used..."
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/experienceText" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

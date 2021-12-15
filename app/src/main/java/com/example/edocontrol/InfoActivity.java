@@ -50,6 +50,7 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
     private Button clearButton;
     private Switch appontmentButton;
     public DatabaseHelper endoDB;
+    private TextView todayText;
     private TextView editNotes;
     private Period period;
     private Pain pain;
@@ -148,6 +149,10 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
         // Clear button
         clearButton = findViewById(R.id.clearButton);
         clearButton.setOnClickListener(this);
+
+        //Date
+        todayText = findViewById(R.id.todayText);
+        todayText.setText(clickedDate);
     }
 
 
@@ -217,35 +222,35 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
             // Pain
             if (painBox1.isChecked()){
                 pain = new Pain(1); // 1 = Lower abdomen pain
-                allPains += "," + pain.getPainLevel();
+                allPains += "," + pain.getPainType();
             }
             if (painBox2.isChecked()){
                 pain = new Pain(2); // 2 = Back pain
-                allPains += "," + pain.getPainLevel();
+                allPains += "," + pain.getPainType();
             }
             if (painBox3.isChecked()){
                 pain = new Pain(3); // 3 = Shoulder pain
-                allPains += "," + pain.getPainLevel();
+                allPains += "," + pain.getPainType();
             }
             if (painBox4.isChecked()){
                 pain = new Pain(4); // 4 = Chest pain
-                allPains += "," + pain.getPainLevel();
+                allPains += "," + pain.getPainType();
             }
             if (painBox5.isChecked()){
                 pain = new Pain(5); // 5 = Headache
-                allPains += "," + pain.getPainLevel();
+                allPains += "," + pain.getPainType();
             }
             if (painBox6.isChecked()){
                 pain = new Pain(6); // 6 = Pain when urinating
-                allPains += "," + pain.getPainLevel();
+                allPains += "," + pain.getPainType();
             }
             if (painBox7.isChecked()){
                 pain = new Pain(7); // 7 = Pain during bowel movement
-                allPains += "," + pain.getPainLevel();
+                allPains += "," + pain.getPainType();
             }
             if (painBox8.isChecked()) {
                 pain = new Pain(8); // 8 = Pain during intercourse
-                allPains += "," + pain.getPainLevel();
+                allPains += "," + pain.getPainType();
             }
 
             // Meds

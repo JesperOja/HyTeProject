@@ -109,7 +109,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
-        cv.put(COLUMN_PAIN, pain.getPainLevel()); // kipu
+        cv.put(COLUMN_PAIN, pain.getPainType()); // kipu
 
         long insert = db.insert(ENDO_TABLE, null, cv);
         if (insert == -1) {

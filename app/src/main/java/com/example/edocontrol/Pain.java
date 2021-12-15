@@ -20,7 +20,7 @@ public class Pain extends InfoActivity {
      *
      * @return palauttaa kivun tyypin
      */
-    public int getPainLevel() {
+    public int getPainType() {
         return painType;
     }
 

@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     private TextView intensity;
     private TextView pain;
     private TextView meds;
+    private TextView notesText;
     private TextView notes;
     private ImageView bottomSheetImg;
     private Button addButton;
@@ -73,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         sheetBehavior.setExpandedOffset(80);
         calendarRecyclerView = findViewById(R.id.calendarRecyclerView);
         monthYear = findViewById(R.id.monthYearTV);
+        notesText = findViewById(R.id.notesText);
         notes = findViewById(R.id.notes);
         pain = findViewById(R.id.pain);
         appointment = findViewById(R.id.appointment);
@@ -93,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         intensity.setVisibility(View.INVISIBLE);
         appointment.setVisibility(View.INVISIBLE);
         period.setVisibility(View.INVISIBLE);
+        notesText.setVisibility(View.INVISIBLE);
         notes.setVisibility(View.INVISIBLE);
 
 
@@ -130,6 +133,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         intensity.setVisibility(View.INVISIBLE);
         appointment.setVisibility(View.INVISIBLE);
         period.setVisibility(View.INVISIBLE);
+        notesText.setVisibility(View.INVISIBLE);
         notes.setVisibility(View.INVISIBLE);
         String queryString = "SELECT * FROM " + DatabaseHelper.ENDO_TABLE;
         Cursor cursor = db.rawQuery(queryString, null);
@@ -188,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
 
                 String day = cursor.getString(0);
 
-                if (day == null) {
+                    if (day == null) {
 
                 } else if (day.equalsIgnoreCase(date.toString())) {
                     String painLvl = cursor.getString(5);
@@ -252,27 +256,28 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
                         period.setVisibility(View.VISIBLE);
                         period.setText("Yes, I have period");
 
-                        if (intensityLvl == 1) {
-                            intensity.setText("Period intensity is mild");
-                        } else if (intensityLvl == 2) {
-                            intensity.setText("Period intensity is medium");
-                        } else if (intensityLvl == 3) {
-                            intensity.setText("Period intensity is heavy");
-                        } else {
-                            intensity.setText("Period intensity is spotting");
+                            if(intensityLvl == 1){
+                                intensity.setText("(mild bleeding)");
+                            }else if(intensityLvl == 2){
+                                intensity.setText("(regular bleeding)");
+                            }else if(intensityLvl == 3){
+                                intensity.setText("(heavy bleeding)");
+                            }else{
+                                intensity.setText("(spotting)");
+                            }
+
+                    }
+
+                        if(appointmentYes == 1) {
+                            appointment.setVisibility(View.VISIBLE);
+                            appointment.setText("I'm having an appointment today.");
                         }
-
-                    }
-
-                    if (appointmentYes == 1) {
-                        appointment.setVisibility(View.VISIBLE);
-                        appointment.setText("I have appointment!");
-                    }
-                    if (notesWritten != null) {
-                        notes.setVisibility(View.VISIBLE);
-                        notes.setText(notesWritten);
-                    }
-                    addButton.setText("EDIT");
+                        if(notesWritten != null) {
+                            notesText.setVisibility(View.VISIBLE);
+                            notes.setVisibility(View.VISIBLE);
+                            notes.setText(notesWritten);
+                        }
+                        addButton.setText("EDIT");
 
                 }
             } while (cursor.moveToNext());
@@ -280,3 +285,19 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     }
 }
 
+
+    public void AddNotes(View view) {
+        Intent intent = new Intent(this, InfoActivity.class);
+        intent.putExtra(EXTRA_DATE, addNotesToDate);
+
+        startActivity(intent);
+    }
+
+    public void Logout(MenuItem item) {
+        auth.getInstance().signOut();
+        Intent logout = new Intent(this, LoginActivity.class);
+
+        finishAffinity();
+        startActivity(logout);
+    }
+}
