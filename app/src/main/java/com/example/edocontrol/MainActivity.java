@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     private TextView intensity;
     private TextView pain;
     private TextView meds;
+    private TextView notesText;
     private TextView notes;
     private ImageView bottomSheetImg;
     private Button addButton;
@@ -73,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         sheetBehavior.setExpandedOffset(80);
         calendarRecyclerView = findViewById(R.id.calendarRecyclerView);
         monthYear = findViewById(R.id.monthYearTV);
+        notesText = findViewById(R.id.notesText);
         notes = findViewById(R.id.notes);
         pain = findViewById(R.id.pain);
         appointment = findViewById(R.id.appointment);
@@ -92,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         intensity.setVisibility(View.INVISIBLE);
         appointment.setVisibility(View.INVISIBLE);
         period.setVisibility(View.INVISIBLE);
+        notesText.setVisibility(View.INVISIBLE);
         notes.setVisibility(View.INVISIBLE);
 
         addButton.setText("ADD INFO");
@@ -128,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
                                 pills += "Herbal remedies";
                             }
                         }
-                        meds.setText("Using medication: \n" + pills);
+                        meds.setText("Today's remedies: \n" + pills);
                     }
                     if (painLvl != null) {
                         pain.setVisibility(View.VISIBLE);
@@ -160,30 +163,31 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
                                 painLvl += "Pain during intercourse";
                             }
                         }
-                        pain.setText("What kind of pains I'm feeling: \n" + painLvl);
+                        pain.setText("I am experiencing: \n" + painLvl);
                     }
                     if (periodYes == 1) {
                         intensity.setVisibility(View.VISIBLE);
                         period.setVisibility(View.VISIBLE);
-                        period.setText("Yes, I have period");
+                        period.setText("I'm bleeding today");
 
                         if (intensityLvl == 1) {
-                            intensity.setText("Period intensity is mild");
+                            intensity.setText("(mild bleeding)");
                         } else if (intensityLvl == 2) {
-                            intensity.setText("Period intensity is medium");
+                            intensity.setText("(regular bleeding)");
                         } else if (intensityLvl == 3) {
-                            intensity.setText("Period intensity is heavy");
+                            intensity.setText("(heavy bleeding)");
                         } else {
-                            intensity.setText("Period intensity is spotting");
+                            intensity.setText("(spotting)");
                         }
 
                     }
 
                     if (appointmentYes == 1) {
                         appointment.setVisibility(View.VISIBLE);
-                        appointment.setText("I have appointment!");
+                        appointment.setText("I'm having an appointment today.");
                     }
                     if (notesWritten != null) {
+                        notesText.setVisibility(View.VISIBLE);
                         notes.setVisibility(View.VISIBLE);
                         notes.setText(notesWritten);
                     }
@@ -226,6 +230,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         intensity.setVisibility(View.INVISIBLE);
         appointment.setVisibility(View.INVISIBLE);
         period.setVisibility(View.INVISIBLE);
+        notesText.setVisibility(View.INVISIBLE);
         notes.setVisibility(View.INVISIBLE);
         String queryString = "SELECT * FROM " + DatabaseHelper.ENDO_TABLE;
         Cursor cursor = db.rawQuery(queryString, null);
@@ -270,7 +275,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
                                     pills += "Herbal remedies";
                                 }
                             }
-                            meds.setText("Using medication: \n"+ pills);
+                            meds.setText("Today's remedies: \n"+ pills);
                         }
                         if(painLvl != null) {
                             pain.setVisibility(View.VISIBLE);
@@ -302,30 +307,31 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
                                     painLvl += "Pain during intercourse";
                                 }
                             }
-                            pain.setText("What kind of pains I'm feeling: \n" +painLvl);
+                            pain.setText("I am experiencing: \n" +painLvl);
                         }
                         if(periodYes == 1){
                             intensity.setVisibility(View.VISIBLE);
                             period.setVisibility(View.VISIBLE);
-                            period.setText("Yes, I have period");
+                            period.setText("I'm bleeding today");
 
                             if(intensityLvl == 1){
-                                intensity.setText("Period intensity is mild");
+                                intensity.setText("(mild bleeding)");
                             }else if(intensityLvl == 2){
-                                intensity.setText("Period intensity is medium");
+                                intensity.setText("(regular bleeding)");
                             }else if(intensityLvl == 3){
-                                intensity.setText("Period intensity is heavy");
+                                intensity.setText("(heavy bleeding)");
                             }else{
-                                intensity.setText("Period intensity is spotting");
+                                intensity.setText("(spotting)");
                             }
 
                         }
 
                         if(appointmentYes == 1) {
                             appointment.setVisibility(View.VISIBLE);
-                            appointment.setText("I have appointment!");
+                            appointment.setText("I'm having an appointment today.");
                         }
                         if(notesWritten != null) {
+                            notesText.setVisibility(View.VISIBLE);
                             notes.setVisibility(View.VISIBLE);
                             notes.setText(notesWritten);
                         }

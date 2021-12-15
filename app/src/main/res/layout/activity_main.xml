@@ -15,14 +15,16 @@
             android:id="@+id/topAppBar"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            app:menu="@menu/top_app_bar"
-            app:title="Endocontrol"
-            android:textAlignment="center"/>
+            android:background="#ccdcd4"
+            android:fontFamily="@font/comfortaa"
+            android:textAlignment="center"
+            app:menu="@menu/top_app_bar" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/calbg"
         android:orientation="vertical">
 
         <LinearLayout
@@ -37,9 +39,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@null"
+                android:fontFamily="@font/comfortaa"
                 android:onClick="previousMonthAction"
                 android:text="@string/previous"
-                android:textColor="@color/blue"
+                android:textColor="#9a907d"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -48,6 +51,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
+                android:fontFamily="@font/comfortaa"
                 android:text="SEE"
                 android:textAlignment="center"
                 android:textColor="@color/black"
@@ -58,9 +62,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@null"
+                android:fontFamily="@font/comfortaa"
                 android:onClick="nextMonthAction"
                 android:text="@string/next"
-                android:textColor="@color/blue"
+                android:textColor="#9a907d"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -76,63 +81,70 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:fontFamily="@font/comfortaa"
                 android:text="Sun"
                 android:textAlignment="center"
-                android:textColor="@color/grey"
+                android:textColor="#647563"
                 android:textSize="16sp" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:fontFamily="@font/comfortaa"
                 android:text="Mon"
                 android:textAlignment="center"
-                android:textColor="@color/grey"
+                android:textColor="#647563"
                 android:textSize="16sp" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:fontFamily="@font/comfortaa"
                 android:text="Tue"
                 android:textAlignment="center"
-                android:textColor="@color/grey"
+                android:textColor="#647563"
                 android:textSize="16sp" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:fontFamily="@font/comfortaa"
                 android:text="Wed"
                 android:textAlignment="center"
-                android:textColor="@color/grey"
+                android:textColor="#647563"
                 android:textSize="16sp" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:fontFamily="@font/comfortaa"
                 android:text="Thur"
                 android:textAlignment="center"
-                android:textColor="@color/grey"
+                android:textColor="#647563"
                 android:textSize="16sp" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:fontFamily="@font/comfortaa"
                 android:text="Fri"
                 android:textAlignment="center"
-                android:textColor="@color/grey"
+                android:textColor="#647563"
                 android:textSize="16sp" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:fontFamily="@font/comfortaa"
                 android:text="Sat"
                 android:textAlignment="center"
-                android:textColor="@color/grey"
+                android:textColor="#647563"
                 android:textSize="16sp" />
         </LinearLayout>
 
