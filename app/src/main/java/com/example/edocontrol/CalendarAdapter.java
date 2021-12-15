@@ -6,22 +6,43 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+/**
+ * CalendarAdapter class to for creating calendar and maintaining it
+ *
+ * @author Jesper Oja
+ * @version 1.0
+ */
 public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
 
     private final ArrayList<LocalDate> daysOfMonth;
     private final OnItemListener onItemListener;
     private String userID;
 
+    /**
+     * CalendarAdapter constructor
+     *
+     * @param daysOfMonth   ArrayList - day numbers for month
+     * @param onItemListener    onClickListener - which listener will be used for calendar
+     */
     public CalendarAdapter(ArrayList<LocalDate> daysOfMonth, OnItemListener onItemListener) {
         this.daysOfMonth = daysOfMonth;
         this.onItemListener = onItemListener;
     }
 
+    /**
+     * Creating calendar layout
+     *
+     * @param parent
+     * @param viewType int -
+     * @return CalendarViewHolder
+     */
     @NonNull
     @Override
     public CalendarViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -34,20 +55,25 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
         return new CalendarViewHolder(view, onItemListener, daysOfMonth);
     }
 
+    /**
+     * Creating calendar with day numbers and adds point if database has something for that day
+     *
+     * @param holder    CalendarViewHolder - Which month we are looking at
+     * @param position  int - Where in our calendar days of month goes to
+     */
     @Override
     public void onBindViewHolder(@NonNull CalendarViewHolder holder, int position) {
         String queryString = "SELECT * FROM " + DatabaseHelper.ENDO_TABLE;
         final LocalDate date = daysOfMonth.get(position);
         Cursor cursor = MainActivity.db.rawQuery(queryString, null);
 
-        if(date == null)
+        if (date == null)
             holder.dayOfMonth.setText("");
-        else
-        {
+        else {
             holder.dayOfMonth.setText(String.valueOf(date.getDayOfMonth()));
-            if(cursor.moveToFirst()){
-                do{
-                    LocalDate addToCalendar = LocalDate.of(CalendarUtils.selectedDate.getYear(),CalendarUtils.selectedDate.getMonth(), date.getDayOfMonth());
+            if (cursor.moveToFirst()) {
+                do {
+                    LocalDate addToCalendar = LocalDate.of(CalendarUtils.selectedDate.getYear(), CalendarUtils.selectedDate.getMonth(), date.getDayOfMonth());
                     String day = cursor.getString(0);
                     String painLvl = cursor.getString(5);
                     String pills = cursor.getString(1);
@@ -57,29 +83,36 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
                     String notesWritten = cursor.getString(6);
                     userID = cursor.getString(7);
 
-                    if(intensityLvl == 0 && periodYes == 0 && appointmentYes == 0 && painLvl == null && pills == null && notesWritten.equals("")){
+                    if (intensityLvl == 0 && periodYes == 0 && appointmentYes == 0 && painLvl == null && pills == null && notesWritten.equals("")) {
                         holder.dayOfMonth.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-                    }else {
+                    } else {
                         if (day != null && day.equals(addToCalendar.toString()) && userID.equals(LoginActivity.EMAIL)) {
                             holder.dayOfMonth.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.calpointsmall);
                         }
                     }
-                }while(cursor.moveToNext());
+                } while (cursor.moveToNext());
             }
 
-            if(date.equals(CalendarUtils.selectedDate))
+            if (date.equals(CalendarUtils.selectedDate))
                 holder.parentView.setBackgroundColor(Color.LTGRAY);
         }
         cursor.close();
-        }
+    }
 
-
+    /**
+     * How many days are in month
+     *
+     * @return int
+     */
     @Override
     public int getItemCount() {
         return daysOfMonth.size();
     }
 
-    public interface OnItemListener{
+    /**
+     * OnItemListener Interface for calendar so we can tell which day was pressed
+     */
+    public interface OnItemListener {
         void onItemClick(int position, LocalDate date);
     }
 }

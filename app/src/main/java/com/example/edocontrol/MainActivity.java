@@ -26,6 +26,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+/**
+ * MainActivity which holds calendar and BottomSheet which show information
+ *
+ * @author Jesper Oja
+ * @version 1.0
+ */
 
 public class MainActivity extends AppCompatActivity implements CalendarAdapter.OnItemListener {
 
@@ -59,6 +65,9 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         setMonthView();
     }
 
+    /**
+     * onResume will refresh calendar
+     */
     @Override
     public void onResume() {
         super.onResume();
@@ -81,7 +90,6 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         period = findViewById(R.id.period);
         intensity = findViewById(R.id.intensity);
         meds = findViewById(R.id.meds);
-
 
         helper = new DatabaseHelper(MainActivity.this);
         db = helper.getReadableDatabase();
@@ -111,17 +119,33 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         calendarRecyclerView.setAdapter(calendarAdapter);
     }
 
+    /**
+     * onClickAction for calendar previous month
+     *
+     * @param view View
+     */
     public void previousMonthAction(View view) {
 
         CalendarUtils.selectedDate = CalendarUtils.selectedDate.minusMonths(1);
         setMonthView();
     }
 
+    /**
+     * onClickAction for calendar next month
+     *
+     * @param view View
+     */
     public void nextMonthAction(View view) {
         CalendarUtils.selectedDate = CalendarUtils.selectedDate.plusMonths(1);
         setMonthView();
     }
 
+    /**
+     * onItemClick method for calendar days
+     *
+     * @param position int - Which day was pressed
+     * @param date LocalDate - Date of that pressed day
+     */
     @Override
     public void onItemClick(int position, LocalDate date) {
 
@@ -165,7 +189,11 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         cursor.close();
     }
 
-
+    /**
+     * onClick method for moving to InfoActivity
+     *
+     * @param view View
+     */
     public void AddNotes(View view) {
         Intent intent = new Intent(this, InfoActivity.class);
         intent.putExtra(EXTRA_DATE, addNotesToDate);
@@ -173,6 +201,11 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         startActivity(intent);
     }
 
+    /**
+     * onClick method to log user out back to login screen
+     *
+     * @param item MenuItem
+     */
     public void Logout(MenuItem item) {
         auth.getInstance().signOut();
         Intent logout = new Intent(this, LoginActivity.class);
@@ -181,6 +214,11 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         startActivity(logout);
     }
 
+    /**
+     * Updating BottomSheets view depending on are there info for that day in database or not
+     *
+     * @param date LocalDate - Which day is selected
+     */
     public void updateBottomSheet(LocalDate date) {
         bottomSheetDate.setText(CalendarUtils.selectedDate.getDayOfWeek() + " " + CalendarUtils.selectedDate.getDayOfMonth() + " of " + monthYearFromDate(CalendarUtils.selectedDate));
         addButton.setText("ADD INFO");
@@ -201,90 +239,90 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
                     int appointmentYes = cursor.getInt(4);
                     String notesWritten = cursor.getString(6);
 
-                    if(intensityLvl == 0 && periodYes == 0 && appointmentYes == 0 && painLvl == null && pills == null && notesWritten.equals("")){
+                    if (intensityLvl == 0 && periodYes == 0 && appointmentYes == 0 && painLvl == null && pills == null && notesWritten.equals("")) {
 
-                    }else{
-                    if (pills != null) {
-                        meds.setVisibility(View.VISIBLE);
-                        String[] medsUsed = pills.split(",");
-                        pills = "";
-                        for (int i = 0; i < medsUsed.length; i++) {
-                            if (medsUsed[i].equals("1")) {
-                                pills += "Hormonal contraception\n";
+                    } else {
+                        if (pills != null) {
+                            meds.setVisibility(View.VISIBLE);
+                            String[] medsUsed = pills.split(",");
+                            pills = "";
+                            for (int i = 0; i < medsUsed.length; i++) {
+                                if (medsUsed[i].equals("1")) {
+                                    pills += "Hormonal contraception\n";
+                                }
+                                if (medsUsed[i].equals("2")) {
+                                    pills += "Pain medication\n";
+                                }
+                                if (medsUsed[i].equals("3")) {
+                                    pills += "Herbal remedies";
+                                }
                             }
-                            if (medsUsed[i].equals("2")) {
-                                pills += "Pain medication\n";
-                            }
-                            if (medsUsed[i].equals("3")) {
-                                pills += "Herbal remedies";
-                            }
+                            meds.setText("Today's remedies: \n" + pills);
                         }
-                        meds.setText("Today's remedies: \n" + pills);
-                    }
-                    if (painLvl != null) {
-                        pain.setVisibility(View.VISIBLE);
-                        String[] whereItHurts = painLvl.split(",");
-                        painLvl = "";
-                        for (int i = 0; i < whereItHurts.length; i++) {
-                            if (whereItHurts[i].equals("1")) {
-                                painLvl += "Lower abdomen pain\n";
+                        if (painLvl != null) {
+                            pain.setVisibility(View.VISIBLE);
+                            String[] whereItHurts = painLvl.split(",");
+                            painLvl = "";
+                            for (int i = 0; i < whereItHurts.length; i++) {
+                                if (whereItHurts[i].equals("1")) {
+                                    painLvl += "Lower abdomen pain\n";
+                                }
+                                if (whereItHurts[i].equals("2")) {
+                                    painLvl += "Back pain\n";
+                                }
+                                if (whereItHurts[i].equals("3")) {
+                                    painLvl += "Shoulder pain\n";
+                                }
+                                if (whereItHurts[i].equals("4")) {
+                                    painLvl += "Chest pain\n";
+                                }
+                                if (whereItHurts[i].equals("5")) {
+                                    painLvl += "Headache\n";
+                                }
+                                if (whereItHurts[i].equals("6")) {
+                                    painLvl += "Pain when urinating\n";
+                                }
+                                if (whereItHurts[i].equals("7")) {
+                                    painLvl += "Pain during bowel movement\n";
+                                }
+                                if (whereItHurts[i].equals("8")) {
+                                    painLvl += "Pain during intercourse";
+                                }
                             }
-                            if (whereItHurts[i].equals("2")) {
-                                painLvl += "Back pain\n";
-                            }
-                            if (whereItHurts[i].equals("3")) {
-                                painLvl += "Shoulder pain\n";
-                            }
-                            if (whereItHurts[i].equals("4")) {
-                                painLvl += "Chest pain\n";
-                            }
-                            if (whereItHurts[i].equals("5")) {
-                                painLvl += "Headache\n";
-                            }
-                            if (whereItHurts[i].equals("6")) {
-                                painLvl += "Pain when urinating\n";
-                            }
-                            if (whereItHurts[i].equals("7")) {
-                                painLvl += "Pain during bowel movement\n";
-                            }
-                            if (whereItHurts[i].equals("8")) {
-                                painLvl += "Pain during intercourse";
-                            }
+                            pain.setText("I am experiencing: \n" + painLvl);
                         }
-                        pain.setText("I am experiencing: \n" + painLvl);
-                    }
-                    if (periodYes == 1) {
-                        intensity.setVisibility(View.VISIBLE);
-                        period.setVisibility(View.VISIBLE);
-                        period.setText("I am bleeding today");
+                        if (periodYes == 1) {
+                            intensity.setVisibility(View.VISIBLE);
+                            period.setVisibility(View.VISIBLE);
+                            period.setText("I am bleeding today");
 
-                        if (intensityLvl == 1) {
-                            intensity.setText("(mild bleeding)");
-                        } else if (intensityLvl == 2) {
-                            intensity.setText("(regular bleeding)");
-                        } else if (intensityLvl == 3) {
-                            intensity.setText("(heavy bleeding)");
-                        } else {
-                            intensity.setText("(spotting)");
+                            if (intensityLvl == 1) {
+                                intensity.setText("(mild bleeding)");
+                            } else if (intensityLvl == 2) {
+                                intensity.setText("(regular bleeding)");
+                            } else if (intensityLvl == 3) {
+                                intensity.setText("(heavy bleeding)");
+                            } else {
+                                intensity.setText("(spotting)");
+                            }
+
                         }
 
-                    }
+                        if (appointmentYes == 1) {
+                            appointment.setVisibility(View.VISIBLE);
+                            appointment.setText("I'm having an appointment today.");
+                        }
+                        if (notesWritten != null) {
+                            notesText.setVisibility(View.VISIBLE);
+                            notes.setVisibility(View.VISIBLE);
+                            notes.setText(notesWritten);
+                        }
+                        addButton.setText("EDIT");
 
-                    if (appointmentYes == 1) {
-                        appointment.setVisibility(View.VISIBLE);
-                        appointment.setText("I'm having an appointment today.");
                     }
-                    if (notesWritten != null) {
-                        notesText.setVisibility(View.VISIBLE);
-                        notes.setVisibility(View.VISIBLE);
-                        notes.setText(notesWritten);
-                    }
-                    addButton.setText("EDIT");
-
                 }
-            }
 
-        }while (cursor.moveToNext());
+            } while (cursor.moveToNext());
             cursor.close();
         }
     }
