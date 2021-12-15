@@ -16,6 +16,7 @@ public class User {
     }
 
     /**
+     * Constructor for the class
      * @param name user name
      * @param email user email
      * @param password use password
@@ -32,7 +33,7 @@ public class User {
 
     /**
      * Gives user name
-     * @return returns users name
+     * @return returns user name
      */
     public String getName() {
         return name;
@@ -56,7 +57,10 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
-
+    /**
+     * Gives user password
+     * @return returns user password
+     */
     public String getPassword() {
         return password;
     }
@@ -67,7 +71,10 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-
+    /**
+     * Gives user phone number
+     * @return returns user phone number
+     */
     public String getPhone() {
         return phone;
     }
@@ -78,7 +85,10 @@ public class User {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-
+    /**
+     * Gives user id from FireBase server
+     * @return returns user id from FireBase server
+     */
     public String getUid() {
         return uid.toString();
     }
