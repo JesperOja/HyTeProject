@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 
 /**
- * Class to define the basis of the SQLite database used to store user input from InfoActivity.
+ * Class to define and create the basis of the SQLite database used to store user input from InfoActivity.
  * Extends to SQLite Open Helper
  *
  * @author      Jenni Tynkkynen
@@ -17,13 +17,11 @@ import androidx.annotation.Nullable;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String ENDO_TABLE = "ENDO_TABLE";
-    public static final String TIME_TABLE = "TIME_TABLE";
     public static final String COLUMN_ACTIVE_PERIOD = "ACTIVE_PERIOD";
     public static final String COLUMN_PERIOD_INTENSITY = "ENDO_INTENSITY";
     public static final String COLUMN_ENDO_MEDS = "ENDO_MEDS";
     public static final String COLUMN_ENDO_APPOINTMENT = "ENDO_APPOINTMENT";
     public static final String COLUMN_PAIN = "ENDO_PAIN";
-    public static final String ADD_DATE = "ADD_DATE";
     public static final String COLUMN_NOTES = "COLUMN_NOTES";
     public static final String USED_ID = "USER_ID";
     public static final String COLUMN_ID = "ID";

@@ -1,13 +1,11 @@
 package com.example.edocontrol;
 
 import android.annotation.SuppressLint;
-import android.app.backup.BackupManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -19,10 +17,13 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.time.LocalDate;
 
 /**
+ * Class to define and create an activity where the user can save their input data to a database
  *
+ * Extends to AppCompatActivity
+ *
+ * @author      Jenni Tynkkynen
  */
 public class InfoActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher{
     private RadioGroup groupPeriodIntensity;
@@ -63,8 +64,8 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
     private Singleton user;
 
     /**
-     * Aktiviteetti luodaan
-     * @param savedInstanceState
+     * Called when the activity is first created
+     * @param savedInstanceState Bundle, saves the instanced state to a bundle
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -157,7 +158,7 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
 
 
     /**
-     * Kuuntelija aktiviteetin radiobuttoneille ja checkboxeille
+     * Listener for the all buttons in InfoActivity, called when a button is clicked or un-clicked
      */
     public void onClick(View v) {
 
@@ -292,7 +293,7 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     /**
-     * Metodi, joka nollaa valitut arvot aktiviteetista
+     * Method to clear all selected values from the activity
      */
     public void clearOptions () {
 
@@ -339,7 +340,7 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     /**
-     * Metodi, jota kutsutaan, kun sovellus suljetaan
+     * Method that is called when the application is destroyed
      */
     @Override
     protected void onDestroy() {
@@ -349,23 +350,36 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
             endoDB.close();
     }
 
+    /**
+     * Handler for text changes
+     * @param s CharSequence
+     * @param start int
+     * @param before int
+     * @param count count
+     */
     @Override
     public void beforeTextChanged(CharSequence s, int start, int before, int count) {
     }
 
+    /**
+     * Handler for text changes
+     * @param s CharSequence
+     * @param start int
+     * @param before int
+     * @param count count
+     */
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
     }
 
+    /**
+     * Handler for text changes
+     * @param editable Editable
+     */
     @Override
     public void afterTextChanged(Editable editable) {
 
     }
 
-    /*private void databaseChanged() {
-
-        BackupManager bm = new BackupManager(this);
-        bm.dataChanged();
-    }*/
 }
 
