@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
 
         initWidget();
         setMonthView();
-        bottomSheetDate.setText(CalendarUtils.selectedDate.getDayOfWeek() + " " + CalendarUtils.selectedDate.getDayOfMonth() + " of " + monthYearFromDate(CalendarUtils.selectedDate));
+
 
     }
 
@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         user = Singleton.getInstance();
         auth = FirebaseAuth.getInstance();
         addNotesToDate = LocalDate.now().toString();
+        updateBottomSheet(CalendarUtils.selectedDate);
 
         meds.setVisibility(View.INVISIBLE);
         pain.setVisibility(View.INVISIBLE);
@@ -94,6 +95,90 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         period.setVisibility(View.INVISIBLE);
         notes.setVisibility(View.INVISIBLE);
 
+
+    }
+
+    private void setMonthView() {
+        monthYear.setText(monthYearFromDate(CalendarUtils.selectedDate));
+        ArrayList<LocalDate> daysInMonth = daysInMonthArray(CalendarUtils.selectedDate);
+
+        CalendarAdapter calendarAdapter = new CalendarAdapter(daysInMonth, this);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 7);
+        calendarRecyclerView.setLayoutManager(layoutManager);
+        calendarRecyclerView.setAdapter(calendarAdapter);
+    }
+
+    public void previousMonthAction(View view) {
+
+        CalendarUtils.selectedDate = CalendarUtils.selectedDate.minusMonths(1);
+        setMonthView();
+    }
+
+    public void nextMonthAction(View view) {
+        CalendarUtils.selectedDate = CalendarUtils.selectedDate.plusMonths(1);
+        setMonthView();
+    }
+
+    @Override
+    public void onItemClick(int position, LocalDate date) {
+
+        addButton.setText("ADD INFO");
+        addNotesToDate = date.toString();
+        CalendarUtils.selectedDate = date;
+        meds.setVisibility(View.INVISIBLE);
+        pain.setVisibility(View.INVISIBLE);
+        intensity.setVisibility(View.INVISIBLE);
+        appointment.setVisibility(View.INVISIBLE);
+        period.setVisibility(View.INVISIBLE);
+        notes.setVisibility(View.INVISIBLE);
+        String queryString = "SELECT * FROM " + DatabaseHelper.ENDO_TABLE;
+        Cursor cursor = db.rawQuery(queryString, null);
+
+        if (date.toString().isEmpty()) {
+            // Do not do anything if pushed calendar where there isn't day
+        } else {
+            setMonthView();
+            if (sheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
+                sheetBehavior.setHalfExpandedRatio((float) 0.15);
+                sheetBehavior.setState(BottomSheetBehavior.STATE_HALF_EXPANDED);
+                bottomSheetDate.setText(date.getDayOfMonth() + " of " + monthYearFromDate(CalendarUtils.selectedDate));
+            }
+            updateBottomSheet(CalendarUtils.selectedDate);
+
+            sheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+                @Override
+                public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                    bottomSheetImg.setAlpha(255);
+                }
+
+                @Override
+                public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+                    bottomSheetImg.setAlpha(100);
+
+                }
+            });
+        }
+        cursor.close();
+    }
+
+
+    public void AddNotes(View view) {
+        Intent intent = new Intent(this, InfoActivity.class);
+        intent.putExtra(EXTRA_DATE, addNotesToDate);
+
+        startActivity(intent);
+    }
+
+    public void Logout(MenuItem item) {
+        auth.getInstance().signOut();
+        Intent logout = new Intent(this, LoginActivity.class);
+
+        finishAffinity();
+        startActivity(logout);
+    }
+
+    public void updateBottomSheet(LocalDate date){
+        bottomSheetDate.setText(CalendarUtils.selectedDate.getDayOfWeek() + " " + CalendarUtils.selectedDate.getDayOfMonth() + " of " + monthYearFromDate(CalendarUtils.selectedDate));
         addButton.setText("ADD INFO");
         String queryString = "SELECT * FROM " + DatabaseHelper.ENDO_TABLE;
         Cursor cursor = db.rawQuery(queryString, null);
@@ -105,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
 
                 if (day == null) {
 
-                } else if (day.equalsIgnoreCase(addNotesToDate)) {
+                } else if (day.equalsIgnoreCase(date.toString())) {
                     String painLvl = cursor.getString(5);
                     String pills = cursor.getString(1);
                     int intensityLvl = cursor.getInt(2);
@@ -193,178 +278,5 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
             } while (cursor.moveToNext());
         }
     }
-
-    private void setMonthView() {
-        monthYear.setText(monthYearFromDate(CalendarUtils.selectedDate));
-        ArrayList<LocalDate> daysInMonth = daysInMonthArray(CalendarUtils.selectedDate);
-
-        CalendarAdapter calendarAdapter = new CalendarAdapter(daysInMonth, this);
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 7);
-        calendarRecyclerView.setLayoutManager(layoutManager);
-        calendarRecyclerView.setAdapter(calendarAdapter);
-    }
-
-    public void previousMonthAction(View view) {
-
-        CalendarUtils.selectedDate = CalendarUtils.selectedDate.minusMonths(1);
-        setMonthView();
-    }
-
-    public void nextMonthAction(View view) {
-        CalendarUtils.selectedDate = CalendarUtils.selectedDate.plusMonths(1);
-        setMonthView();
-    }
-
-    @Override
-    public void onItemClick(int position, LocalDate date) {
-
-        addButton.setText("ADD INFO");
-        addNotesToDate = date.toString();
-        CalendarUtils.selectedDate = date;
-        meds.setVisibility(View.INVISIBLE);
-        pain.setVisibility(View.INVISIBLE);
-        intensity.setVisibility(View.INVISIBLE);
-        appointment.setVisibility(View.INVISIBLE);
-        period.setVisibility(View.INVISIBLE);
-        notes.setVisibility(View.INVISIBLE);
-        String queryString = "SELECT * FROM " + DatabaseHelper.ENDO_TABLE;
-        Cursor cursor = db.rawQuery(queryString, null);
-
-        if (date.toString().isEmpty()) {
-            // Do not do anything if pushed calendar where there isn't day
-        } else {
-            setMonthView();
-            if (sheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
-                sheetBehavior.setHalfExpandedRatio((float) 0.15);
-                sheetBehavior.setState(BottomSheetBehavior.STATE_HALF_EXPANDED);
-                bottomSheetDate.setText(date.getDayOfMonth() + " of " + monthYearFromDate(CalendarUtils.selectedDate));
-            }
-
-            if (cursor.moveToFirst()) {
-                do {
-
-                    String day = cursor.getString(0);
-
-                    if (day == null) {
-
-                    } else if (day.equalsIgnoreCase(CalendarUtils.selectedDate.toString())) {
-                        String painLvl = cursor.getString(5);
-                        String pills = cursor.getString(1);
-                        int intensityLvl = cursor.getInt(2);
-                        int periodYes = cursor.getInt(3);
-                        int appointmentYes = cursor.getInt(4);
-                        String notesWritten = cursor.getString(6);
-
-                        if(pills != null) {
-                            meds.setVisibility(View.VISIBLE);
-                            String[] medsUsed = pills.split(",");
-                            pills = "";
-                            for(int i = 0; i<medsUsed.length; i++){
-                                if(medsUsed[i].equals("1")){
-                                    pills += "Hormonal contraception\n";
-                                }
-                                if(medsUsed[i].equals("2")){
-                                    pills += "Pain medication\n";
-                                }
-                                if(medsUsed[i].equals("3")){
-                                    pills += "Herbal remedies";
-                                }
-                            }
-                            meds.setText("Using medication: \n"+ pills);
-                        }
-                        if(painLvl != null) {
-                            pain.setVisibility(View.VISIBLE);
-                            String[] whereItHurts = painLvl.split(",");
-                            painLvl = "";
-                            for(int i = 0; i < whereItHurts.length; i++){
-                                if(whereItHurts[i].equals("1")){
-                                    painLvl += "Lower abdomen pain\n";
-                                }
-                                if(whereItHurts[i].equals("2")){
-                                    painLvl += "Back pain\n";
-                                }
-                                if(whereItHurts[i].equals("3")){
-                                    painLvl += "Shoulder pain\n";
-                                }
-                                if(whereItHurts[i].equals("4")){
-                                    painLvl += "Chest pain\n";
-                                }
-                                if(whereItHurts[i].equals("5")){
-                                    painLvl += "Headache\n";
-                                }
-                                if(whereItHurts[i].equals("6")){
-                                    painLvl += "Pain when urinating\n";
-                                }
-                                if(whereItHurts[i].equals("7")){
-                                    painLvl += "Pain during bowel movement\n";
-                                }
-                                if(whereItHurts[i].equals("8")){
-                                    painLvl += "Pain during intercourse";
-                                }
-                            }
-                            pain.setText("What kind of pains I'm feeling: \n" +painLvl);
-                        }
-                        if(periodYes == 1){
-                            intensity.setVisibility(View.VISIBLE);
-                            period.setVisibility(View.VISIBLE);
-                            period.setText("Yes, I have period");
-
-                            if(intensityLvl == 1){
-                                intensity.setText("Period intensity is mild");
-                            }else if(intensityLvl == 2){
-                                intensity.setText("Period intensity is medium");
-                            }else if(intensityLvl == 3){
-                                intensity.setText("Period intensity is heavy");
-                            }else{
-                                intensity.setText("Period intensity is spotting");
-                            }
-
-                        }
-
-                        if(appointmentYes == 1) {
-                            appointment.setVisibility(View.VISIBLE);
-                            appointment.setText("I have appointment!");
-                        }
-                        if(notesWritten != null) {
-                            notes.setVisibility(View.VISIBLE);
-                            notes.setText(notesWritten);
-                        }
-                        addButton.setText("EDIT");
-
-                    }
-                } while (cursor.moveToNext());
-
-            }
-
-            sheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-                @Override
-                public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                    bottomSheetImg.setAlpha(255);
-                }
-
-                @Override
-                public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-                    bottomSheetImg.setAlpha(100);
-
-                }
-            });
-        }
-        cursor.close();
-    }
-
-
-    public void AddNotes(View view) {
-        Intent intent = new Intent(this, InfoActivity.class);
-        intent.putExtra(EXTRA_DATE, addNotesToDate);
-
-        startActivity(intent);
-    }
-
-    public void Logout(MenuItem item) {
-        auth.getInstance().signOut();
-        Intent logout = new Intent(this, LoginActivity.class);
-
-        finishAffinity();
-        startActivity(logout);
-    }
 }
+
