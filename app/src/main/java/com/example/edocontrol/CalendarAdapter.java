@@ -28,8 +28,8 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
     /**
      * CalendarAdapter constructor
      *
-     * @param daysOfMonth   ArrayList - day numbers for month
-     * @param onItemListener    onClickListener - which listener will be used for calendar
+     * @param daysOfMonth    ArrayList - day numbers for month
+     * @param onItemListener onClickListener - which listener will be used for calendar
      */
     public CalendarAdapter(ArrayList<LocalDate> daysOfMonth, OnItemListener onItemListener) {
         this.daysOfMonth = daysOfMonth;
@@ -58,8 +58,8 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
     /**
      * Creating calendar with day numbers and adds point if database has something for that day
      *
-     * @param holder    CalendarViewHolder - Which month we are looking at
-     * @param position  int - Where in our calendar days of month goes to
+     * @param holder   CalendarViewHolder - Which month we are looking at
+     * @param position int - Where in our calendar days of month goes to
      */
     @Override
     public void onBindViewHolder(@NonNull CalendarViewHolder holder, int position) {
@@ -83,7 +83,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
                     String notesWritten = cursor.getString(6);
                     userID = cursor.getString(7);
 
-                    if (intensityLvl == 0 && periodYes == 0 && appointmentYes == 0 && painLvl == null && pills == null && notesWritten.equals("")) {
+                    if (intensityLvl == 0 && periodYes == 0 && appointmentYes == 0 && painLvl == null && pills == null && notesWritten.equals("") && day.equals(addToCalendar.toString())) {
                         holder.dayOfMonth.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                     } else {
                         if (day != null && day.equals(addToCalendar.toString()) && userID.equals(LoginActivity.EMAIL)) {
