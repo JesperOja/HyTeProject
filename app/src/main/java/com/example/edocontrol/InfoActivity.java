@@ -203,6 +203,8 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 else if (buttonPeriodIntensity4.isChecked()){
                     period = new Period(true, 4);
+                }else{
+                    period = new Period(true,0);
                 }
             }else if(buttonPeriodNo.isChecked()){
                 period = new Period();

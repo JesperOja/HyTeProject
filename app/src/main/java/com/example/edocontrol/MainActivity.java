@@ -302,8 +302,10 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
                                 intensity.setText("(regular bleeding)");
                             } else if (intensityLvl == 3) {
                                 intensity.setText("(heavy bleeding)");
-                            } else {
+                            } else if (intensityLvl == 4){
                                 intensity.setText("(spotting)");
+                            }else{
+                                intensity.setVisibility(View.INVISIBLE);
                             }
 
                         }
