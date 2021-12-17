@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     public static SQLiteDatabase db;
     private FirebaseAuth auth;
 
-
+    //onCreate will
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         setMonthView();
     }
 
+    // Initializing all widget we are using in MainActivity
     private void initWidget() {
         bottomSheetDate = findViewById(R.id.BottomSheetDate);
         mBottomSheetLayout = findViewById(R.id.bottom_sheet_layout);
@@ -109,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         notes.setVisibility(View.INVISIBLE);
     }
 
+    //Update month view on calendar
     private void setMonthView() {
         monthYear.setText(monthYearFromDate(CalendarUtils.selectedDate));
         ArrayList<LocalDate> daysInMonth = daysInMonthArray(CalendarUtils.selectedDate);
@@ -144,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
      * onItemClick method for calendar days
      *
      * @param position int - Which day was pressed
-     * @param date LocalDate - Date of that pressed day
+     * @param date     LocalDate - Date of that pressed day
      */
     @Override
     public void onItemClick(int position, LocalDate date) {
@@ -302,9 +304,9 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
                                 intensity.setText("(regular bleeding)");
                             } else if (intensityLvl == 3) {
                                 intensity.setText("(heavy bleeding)");
-                            } else if (intensityLvl == 4){
+                            } else if (intensityLvl == 4) {
                                 intensity.setText("(spotting)");
-                            }else{
+                            } else {
                                 intensity.setVisibility(View.INVISIBLE);
                             }
 

@@ -12,7 +12,8 @@ import androidx.annotation.Nullable;
  * Class to define and create the basis of the SQLite database used to store user input from InfoActivity.
  * Extends to SQLite Open Helper
  *
- * @author      Jenni Tynkkynen
+ * @author Jenni Tynkkynen
+ * @author Jesper Oja
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -28,6 +29,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     /**
      * Constructor of the class
+     *
      * @param context
      */
     public DatabaseHelper(@Nullable Context context) {
@@ -36,6 +38,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     /**
      * Called when the database is created
+     *
      * @param db SQLiteDatabase, the created database
      */
     @Override
@@ -50,7 +53,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     /**
      * Called in case the version number of the database changes
-     * @param db SQLiteDatabase, the used database
+     *
+     * @param db         SQLiteDatabase, the used database
      * @param oldVersion int, old version number
      * @param newVersion int, new version number
      */
@@ -61,15 +65,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     /**
      * Method to add details from the selected date to the database
-     * @param period Period, adds the period status and intensity to its rightful column
-     * @param pain Pain, adds pain types to their rightful column
+     *
+     * @param period      Period, adds the period status and intensity to its rightful column
+     * @param pain        Pain, adds pain types to their rightful column
      * @param appointment int, adds appointment status to its rightful column
-     * @param meds String, adds medication types to their rightful column
-     * @param date String, adds the selected date to its rightful column
-     * @param note String, adds user notes to their rightful column
-     * @param userID String, adds user ID to its rightful column
+     * @param meds        String, adds medication types to their rightful column
+     * @param date        String, adds the selected date to its rightful column
+     * @param note        String, adds user notes to their rightful column
+     * @param userID      String, adds user ID to its rightful column
      */
-    public void addEverything(Period period, String pain, int appointment, String meds, String date, String note, String userID){
+    public void addEverything(Period period, String pain, int appointment, String meds, String date, String note, String userID) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
@@ -77,7 +82,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_PAIN, pain);
         cv.put(COLUMN_ACTIVE_PERIOD, period.isPeriodActive()); //kuukautiset
         cv.put(COLUMN_PERIOD_INTENSITY, period.getPeriodIntensity()); //intensiteetti
-        cv.put(COLUMN_ENDO_APPOINTMENT,appointment); //lääkärikäynti
+        cv.put(COLUMN_ENDO_APPOINTMENT, appointment); //lääkärikäynti
         cv.put(COLUMN_ENDO_MEDS, meds); // Medication
         cv.put(COLUMN_ID, date);
         cv.put(COLUMN_NOTES, note);
@@ -87,15 +92,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     /**
      * Updates data for the selected date to the database
-     * @param period adds the period status and intensity to its rightful column
-     * @param pain adds pain types to their rightful column
+     *
+     * @param period      adds the period status and intensity to its rightful column
+     * @param pain        adds pain types to their rightful column
      * @param appointment adds appointment status to its rightful column
-     * @param meds adds medication types to their rightful column
-     * @param date adds the selected date to its rightful column
-     * @param note adds user notes to their rightful column
-     * @param userID adds user ID to its rightful column
+     * @param meds        adds medication types to their rightful column
+     * @param date        adds the selected date to its rightful column
+     * @param note        adds user notes to their rightful column
+     * @param userID      adds user ID to its rightful column
      */
-    public void updateData(Period period, String pain, int appointment, String meds, String date, String note, String userID){
+    public void updateData(Period period, String pain, int appointment, String meds, String date, String note, String userID) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
@@ -103,7 +109,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_PAIN, pain);
         cv.put(COLUMN_ACTIVE_PERIOD, period.isPeriodActive()); //kuukautiset
         cv.put(COLUMN_PERIOD_INTENSITY, period.getPeriodIntensity()); //intensiteetti
-        cv.put(COLUMN_ENDO_APPOINTMENT,appointment); //lääkärikäynti
+        cv.put(COLUMN_ENDO_APPOINTMENT, appointment); //lääkärikäynti
         cv.put(COLUMN_ENDO_MEDS, meds); // Medication
         cv.put(COLUMN_ID, date);
         cv.put(COLUMN_NOTES, note);
@@ -111,48 +117,4 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.replace(ENDO_TABLE, null, cv);
 
     }
-
-    // Code for future development, not to be added to the final evaluation
-    /*public boolean addEntryDetails(String notes){
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-
-        cv.put(COLUMN_NOTES, notes); // muistiinpanot
-
-        long insert = db.insert(ENDO_TABLE, null, cv);
-        if (insert == -1) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    public boolean addPain(Pain pain){
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-
-        cv.put(COLUMN_PAIN, pain.getPainType()); // kipu
-
-        long insert = db.insert(ENDO_TABLE, null, cv);
-        if (insert == -1) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    public boolean addMeds(Meds meds){
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-
-        cv.put(COLUMN_ENDO_MEDS, meds.getMedType()); // kipu
-
-        long insert = db.insert(ENDO_TABLE, null, cv);
-        if (insert == -1) {
-            return false;
-        } else {
-            return true;
-        }
-    }*/
-
 }

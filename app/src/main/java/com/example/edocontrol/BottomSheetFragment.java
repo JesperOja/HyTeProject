@@ -22,7 +22,6 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
     }
 
     /**
-     *
      * @param savedInstanceState
      */
     @Override
@@ -32,6 +31,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
 
     /**
      * Creating BottomSheet at the start of MainActivity
+     *
      * @param inflater
      * @param container
      * @param savedInstanceState

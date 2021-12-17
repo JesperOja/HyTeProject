@@ -1,14 +1,16 @@
 package com.example.edocontrol;
+
 /**
  * Class to define the type of pain.
  *
- * @author      Jenni Tynkkynen
+ * @author Jenni Tynkkynen
  */
 public class Pain extends InfoActivity {
     private int painType;
 
     /**
      * Class constructor for the pain type
+     *
      * @param painType, int, defines a pain type
      */
 
@@ -18,6 +20,7 @@ public class Pain extends InfoActivity {
 
     /**
      * Getter for pain type
+     *
      * @return returns a pain type as an integer
      */
     public int getPainType() {

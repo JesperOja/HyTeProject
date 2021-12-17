@@ -26,6 +26,7 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 /**
  * This activity helps to add new user to the
  * FireBase database and login into the application
+ *
  * @author Anatolii Subbotin
  * @version 1.0 build 12.2021
  */
@@ -40,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      * Setting the LoginActivity to the Screen view and starts the programme
+     *
      * @param savedInstanceState saving the instance state into Bundle
      */
     @Override
@@ -86,10 +88,10 @@ public class LoginActivity extends AppCompatActivity {
         dialog.setMessage("Insert login information");
 
         LayoutInflater inflater = LayoutInflater.from(this);
-        View sign_in_win = inflater.inflate(R.layout.authorization_window,null);
+        View sign_in_win = inflater.inflate(R.layout.authorization_window, null);
         dialog.setView(sign_in_win);
 
-        final MaterialEditText email =  sign_in_win.findViewById(R.id.emailField);
+        final MaterialEditText email = sign_in_win.findViewById(R.id.emailField);
         final MaterialEditText pass = sign_in_win.findViewById(R.id.passField);
 
         dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -112,16 +114,16 @@ public class LoginActivity extends AppCompatActivity {
              */
             @Override
             public void onClick(DialogInterface dialogInterface, int which) {
-                if(TextUtils.isEmpty(email.getText().toString())){
+                if (TextUtils.isEmpty(email.getText().toString())) {
                     Snackbar.make(root, "Enter email", Snackbar.LENGTH_LONG).show();
                     return;
                 }
-                if(pass.getText().toString().length() < 5){
+                if (pass.getText().toString().length() < 5) {
                     Snackbar.make(root, "Password is to short", Snackbar.LENGTH_LONG).show();
                     return;
                 }
 
-                auth.signInWithEmailAndPassword(email.getText().toString(),pass.getText().toString()).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                auth.signInWithEmailAndPassword(email.getText().toString(), pass.getText().toString()).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     /**
                      * If user inserts login information correctly, starts MainActivity and set the Email variable
                      * @param authResult gets a succeeded task from FireBase
@@ -130,7 +132,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onSuccess(AuthResult authResult) {
                         EMAIL = email.getText().toString();
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                        FirebaseDatabase.getInstance().getReference().push().setValue(email.getText().toString(),FirebaseAuth.getInstance().getCurrentUser().getUid());
+                        FirebaseDatabase.getInstance().getReference().push().setValue(email.getText().toString(), FirebaseAuth.getInstance().getCurrentUser().getUid());
                         finish();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
@@ -161,10 +163,10 @@ public class LoginActivity extends AppCompatActivity {
         dialog.setMessage("Insert registration information");
 
         LayoutInflater inflater = LayoutInflater.from(this);
-        View reg_win = inflater.inflate(R.layout.register_window,null);
+        View reg_win = inflater.inflate(R.layout.register_window, null);
         dialog.setView(reg_win);
 
-        final MaterialEditText email =  reg_win.findViewById(R.id.emailField);
+        final MaterialEditText email = reg_win.findViewById(R.id.emailField);
         final MaterialEditText pass = reg_win.findViewById(R.id.passField);
         final MaterialEditText name = reg_win.findViewById(R.id.nameField);
         final MaterialEditText phone = reg_win.findViewById(R.id.phoneField);
@@ -190,19 +192,19 @@ public class LoginActivity extends AppCompatActivity {
              */
             @Override
             public void onClick(DialogInterface dialogInterface, int which) {
-                if(TextUtils.isEmpty(email.getText().toString())){
+                if (TextUtils.isEmpty(email.getText().toString())) {
                     Snackbar.make(root, "Enter email", Snackbar.LENGTH_LONG).show();
                     return;
                 }
-                if(TextUtils.isEmpty(name.getText().toString())){
+                if (TextUtils.isEmpty(name.getText().toString())) {
                     Snackbar.make(root, "Enter name", Snackbar.LENGTH_LONG).show();
                     return;
                 }
-                if(TextUtils.isEmpty(phone.getText().toString())){
+                if (TextUtils.isEmpty(phone.getText().toString())) {
                     Snackbar.make(root, "Enter phone number", Snackbar.LENGTH_LONG).show();
                     return;
                 }
-                if(pass.getText().toString().length() < 5){
+                if (pass.getText().toString().length() < 5) {
                     Snackbar.make(root, "Password is to short", Snackbar.LENGTH_LONG).show();
                     return;
                 }
@@ -215,7 +217,7 @@ public class LoginActivity extends AppCompatActivity {
                      */
                     @Override
                     public void onSuccess(AuthResult authResult) {
-                        user.setUser(pass.getText().toString(),phone.getText().toString(),email.getText().toString(),name.getText().toString(),users.child(FirebaseAuth.getInstance().getCurrentUser().getUid()));
+                        user.setUser(pass.getText().toString(), phone.getText().toString(), email.getText().toString(), name.getText().toString(), users.child(FirebaseAuth.getInstance().getCurrentUser().getUid()));
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     /**

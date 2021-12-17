@@ -1,8 +1,9 @@
 package com.example.edocontrol;
+
 /**
  * Class to define bleeding status and intensity.
  *
- * @author      Jenni Tynkkynen
+ * @author Jenni Tynkkynen
  */
 public class Period extends InfoActivity {
     private boolean periodActive;
@@ -18,7 +19,8 @@ public class Period extends InfoActivity {
 
     /**
      * Constructor for the class with parameters
-     * @param periodActive boolean, defines if bleeding is active
+     *
+     * @param periodActive    boolean, defines if bleeding is active
      * @param periodIntensity int, defines the bleeding intensity
      */
     public Period(boolean periodActive, int periodIntensity) {
@@ -28,10 +30,11 @@ public class Period extends InfoActivity {
 
     /**
      * Getter that tells if bleeding is active
+     *
      * @return returns an integer as a period status
      */
     public int isPeriodActive() {
-        if(periodActive)
+        if (periodActive)
             return 1;
         else
             return 0;
@@ -39,6 +42,7 @@ public class Period extends InfoActivity {
 
     /**
      * Getter for bleeding intensity
+     *
      * @return returns an integer value for bleeding intensity
      */
     public int getPeriodIntensity() {

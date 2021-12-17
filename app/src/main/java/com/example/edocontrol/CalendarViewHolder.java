@@ -24,9 +24,9 @@ public class CalendarViewHolder extends RecyclerView.ViewHolder implements View.
     /**
      * CalendarViewHolder constructor
      *
-     * @param itemView View
+     * @param itemView       View
      * @param onItemListener onItemListener - Using CalendarAdapter's itemListener
-     * @param daysOfMonth   ArrayList - Dates of the month in single array
+     * @param daysOfMonth    ArrayList - Dates of the month in single array
      */
     public CalendarViewHolder(@NonNull View itemView, CalendarAdapter.OnItemListener onItemListener, ArrayList<LocalDate> daysOfMonth) {
         super(itemView);

@@ -20,12 +20,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Class to define and create an activity where the user can save their input data to a database
- *
+ * <p>
  * Extends to AppCompatActivity
  *
- * @author      Jenni Tynkkynen
+ * @author Jenni Tynkkynen
  */
-public class InfoActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher{
+public class InfoActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher {
     private RadioGroup groupPeriodIntensity;
     private RadioGroup groupPeriod;
     private RadioButton buttonPeriodIntensity1;
@@ -65,6 +65,7 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
 
     /**
      * Called when the activity is first created
+     *
      * @param savedInstanceState Bundle, saves the instanced state to a bundle
      */
     @Override
@@ -75,7 +76,7 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
 
         user = Singleton.getInstance();
         Bundle b = getIntent().getExtras();
-        clickedDate = b.getString(MainActivity.EXTRA_DATE,"0");
+        clickedDate = b.getString(MainActivity.EXTRA_DATE, "0");
 
 
         endoDB = new DatabaseHelper(InfoActivity.this);
@@ -163,13 +164,12 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
 
         // Activating period intensity
-        if (buttonPeriodYes.isChecked()){
+        if (buttonPeriodYes.isChecked()) {
             buttonPeriodIntensity1.setEnabled(true);
             buttonPeriodIntensity2.setEnabled(true);
             buttonPeriodIntensity3.setEnabled(true);
             buttonPeriodIntensity4.setEnabled(true);
-        }
-        else {
+        } else {
             buttonPeriodIntensity1.setSelected(false);
             buttonPeriodIntensity2.setSelected(false);
             buttonPeriodIntensity3.setSelected(false);
@@ -180,7 +180,7 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
             buttonPeriodIntensity4.setEnabled(false);
         }
 
-        if (buttonPeriodNo.isChecked()){
+        if (buttonPeriodNo.isChecked()) {
             buttonPeriodIntensity1.setSelected(false);
             buttonPeriodIntensity2.setSelected(false);
             buttonPeriodIntensity3.setSelected(false);
@@ -188,68 +188,65 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         // Saving selected data
-        if (saveButton.isPressed()){
+        if (saveButton.isPressed()) {
 
             // Period and intensity
-            if (buttonPeriodYes.isChecked()){
-                if (buttonPeriodIntensity1.isChecked()){
+            if (buttonPeriodYes.isChecked()) {
+                if (buttonPeriodIntensity1.isChecked()) {
                     period = new Period(true, 1);
-                }
-                else if (buttonPeriodIntensity2.isChecked()){
-                    period = new Period( true, 2);
-                }
-                else if (buttonPeriodIntensity3.isChecked()){
+                } else if (buttonPeriodIntensity2.isChecked()) {
+                    period = new Period(true, 2);
+                } else if (buttonPeriodIntensity3.isChecked()) {
                     period = new Period(true, 3);
-                }
-                else if (buttonPeriodIntensity4.isChecked()){
+                } else if (buttonPeriodIntensity4.isChecked()) {
                     period = new Period(true, 4);
-                }else{
-                    period = new Period(true,0);
+                } else {
+                    period = new Period(true, 0);
                 }
-            }else if(buttonPeriodNo.isChecked()){
+            } else if (buttonPeriodNo.isChecked()) {
                 period = new Period();
-            }else{
+            } else {
                 period = new Period();
             }
 
             // Appointment
-            if (appontmentButton.isChecked()){
+            if (appontmentButton.isChecked()) {
                 appointment = new Appointment(true);
-            }else{
+            } else {
                 appointment = new Appointment(false);
             }
 
             // Notes
-            if (!editNotes.toString().isEmpty()){
+            if (!editNotes.toString().isEmpty()) {
                 notes = editNotes.getText().toString();
             }
 
             // Pain
-            if (painBox1.isChecked()){
+            if (painBox1.isChecked()) {
                 pain = new Pain(1); // 1 = Lower abdomen pain
                 allPains += "," + pain.getPainType();
             }
-            if (painBox2.isChecked()){
+            if (painBox2.isChecked()) {
                 pain = new Pain(2); // 2 = Back pain
                 allPains += "," + pain.getPainType();
             }
-            if (painBox3.isChecked()){
+            if (painBox3.isChecked()) {
                 pain = new Pain(3); // 3 = Shoulder pain
                 allPains += "," + pain.getPainType();
             }
-            if (painBox4.isChecked()){
+            if (painBox4.isChecked()) {
                 pain = new Pain(4); // 4 = Chest pain
                 allPains += "," + pain.getPainType();
             }
-            if (painBox5.isChecked()){
+            if (painBox5.isChecked()) {
                 pain = new Pain(5); // 5 = Headache
                 allPains += "," + pain.getPainType();
             }
-            if (painBox6.isChecked()){
+            if (painBox6.isChecked()) {
                 pain = new Pain(6); // 6 = Pain when urinating
                 allPains += "," + pain.getPainType();
             }
-            if (painBox7.isChecked()){
+            if (painBox7.isChecked()) {
                 pain = new Pain(7); // 7 = Pain during bowel movement
                 allPains += "," + pain.getPainType();
             }
@@ -259,22 +256,22 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
             }
 
             // Meds
-            if (medsBox1.isChecked()){
+            if (medsBox1.isChecked()) {
                 meds = new Meds(1); // 1 = Hormonal contraception
-                allUsedMeds += "," +meds.getMedType();
+                allUsedMeds += "," + meds.getMedType();
             }
-            if (medsBox2.isChecked()){
+            if (medsBox2.isChecked()) {
                 meds = new Meds(2); // 2 = Pain medication
-                allUsedMeds += "," +meds.getMedType();
+                allUsedMeds += "," + meds.getMedType();
             }
-            if (medsBox3.isChecked()){
+            if (medsBox3.isChecked()) {
                 meds = new Meds(3); // 3 = Herbal remedies
-                allUsedMeds += "," +meds.getMedType();
+                allUsedMeds += "," + meds.getMedType();
             }
 
             String userID = LoginActivity.EMAIL;
-            endoDB.addEverything(period,allPains,appointment.isAppointment(),allUsedMeds,clickedDate,notes,userID);
-            endoDB.updateData(period,allPains,appointment.isAppointment(),allUsedMeds,clickedDate,notes,userID);
+            endoDB.addEverything(period, allPains, appointment.isAppointment(), allUsedMeds, clickedDate, notes, userID);
+            endoDB.updateData(period, allPains, appointment.isAppointment(), allUsedMeds, clickedDate, notes, userID);
             // Shows on data save
             @SuppressLint("WrongConstant")
             Toast toast = Toast.makeText(this, "Details saved!", 2);
@@ -283,12 +280,12 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         // Back button
-        if (backButton.isPressed()){
+        if (backButton.isPressed()) {
             startActivity(new Intent(InfoActivity.this, MainActivity.class));
         }
 
         // Clear button
-        if (clearButton.isPressed()){
+        if (clearButton.isPressed()) {
             clearOptions();
         }
 
@@ -297,7 +294,7 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * Method to clear all selected values from the activity
      */
-    public void clearOptions () {
+    public void clearOptions() {
 
         if (medsBox1.isChecked()) {
             medsBox1.toggle();
@@ -354,10 +351,11 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
 
     /**
      * Handler for text changes
-     * @param s CharSequence
-     * @param start int
+     *
+     * @param s      CharSequence
+     * @param start  int
      * @param before int
-     * @param count count
+     * @param count  count
      */
     @Override
     public void beforeTextChanged(CharSequence s, int start, int before, int count) {
@@ -365,10 +363,11 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
 
     /**
      * Handler for text changes
-     * @param s CharSequence
-     * @param start int
+     *
+     * @param s      CharSequence
+     * @param start  int
      * @param before int
-     * @param count count
+     * @param count  count
      */
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -376,6 +375,7 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
 
     /**
      * Handler for text changes
+     *
      * @param editable Editable
      */
     @Override

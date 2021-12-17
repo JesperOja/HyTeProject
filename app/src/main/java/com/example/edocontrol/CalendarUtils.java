@@ -16,8 +16,9 @@ public class CalendarUtils {
 
     /**
      * Method to create ArrayList of dates
-     * @param date  LocalDate
-     * @return  ArrayList - for dates of the month
+     *
+     * @param date LocalDate
+     * @return ArrayList - for dates of the month
      */
     public static ArrayList<LocalDate> daysInMonthArray(LocalDate date) {
         ArrayList<LocalDate> daysInMonthArray = new ArrayList<>();
@@ -40,8 +41,9 @@ public class CalendarUtils {
 
     /**
      * Formatting Date info
+     *
      * @param date LocalDate
-     * @return  LocalDate - Formatted date
+     * @return LocalDate - Formatted date
      */
     public static String monthYearFromDate(LocalDate date) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yyyy");
