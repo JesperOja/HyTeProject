@@ -55,7 +55,6 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     public static SQLiteDatabase db;
     private FirebaseAuth auth;
 
-    //onCreate will
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -152,8 +151,6 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     public void onItemClick(int position, LocalDate date) {
 
         addButton.setText("ADD INFO");
-        addNotesToDate = date.toString();
-        CalendarUtils.selectedDate = date;
         meds.setVisibility(View.INVISIBLE);
         pain.setVisibility(View.INVISIBLE);
         intensity.setVisibility(View.INVISIBLE);
@@ -164,9 +161,11 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         String queryString = "SELECT * FROM " + DatabaseHelper.ENDO_TABLE;
         Cursor cursor = db.rawQuery(queryString, null);
 
-        if (date.toString().isEmpty()) {
+        if (date==null) {
             // Do not do anything if pushed calendar where there isn't day
         } else {
+            CalendarUtils.selectedDate = date;
+            addNotesToDate = date.toString();
             setMonthView();
             if (sheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
                 sheetBehavior.setHalfExpandedRatio((float) 0.15);

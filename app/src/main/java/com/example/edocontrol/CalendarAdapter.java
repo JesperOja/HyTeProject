@@ -21,7 +21,7 @@ import java.util.ArrayList;
  */
 public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
 
-    private final ArrayList<LocalDate> daysOfMonth;
+    private ArrayList<LocalDate> daysOfMonth;
     private final OnItemListener onItemListener;
     private String userID;
 
@@ -86,8 +86,11 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
                     if (intensityLvl == 0 && periodYes == 0 && appointmentYes == 0 && painLvl == null && pills == null && notesWritten.equals("") && day.equals(addToCalendar.toString())) {
                         holder.dayOfMonth.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                     } else {
-                        if (day != null && day.equals(addToCalendar.toString()) && userID.equals(LoginActivity.EMAIL)) {
-                            holder.dayOfMonth.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.calpointsmall);
+                        if (day != null && day.equals(addToCalendar.toString())) {
+                            if(userID != null) {
+                                if (userID.equals(LoginActivity.EMAIL))
+                                    holder.dayOfMonth.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.calpointsmall);
+                            }
                         }
                     }
                 } while (cursor.moveToNext());
